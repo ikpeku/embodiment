@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.i_am_danielikpe.embodiment"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon1.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "612e546b-8d42-49f0-9998-8449e242c273"
+      }
     }
   }
 }

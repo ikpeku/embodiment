@@ -1,13 +1,14 @@
-import { Pressable, ScrollView, StyleSheet, View, } from 'react-native'
-import { Text, Checkbox, Divider, Card } from 'react-native-paper';
+import {FC} from "react"
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Text, Divider, Card } from 'react-native-paper';
 import { Octicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Button } from '../../../static';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import { CustomButton } from "../../../components";
+import { SubscribeScreenProps } from "../../../types";
 
 
-
-const Render = ({ title }) => (
+const Render:FC<{title:string}> = ({ title }) => (
     <View style={{ width: "100%", flexDirection: "row", gap: 15 }}>
         <Octicons name="check" size={24} color="#0665CB" />
         <Text variant="bodyLarge">{title}</Text>
@@ -18,11 +19,11 @@ const Render = ({ title }) => (
 const Subscribe = () => {
     const [annual, setAnnual] = useState("annual")
 
-    const router = useRouter()
+    const navigation = useNavigation<SubscribeScreenProps>()
 
 
     const onSubsquire = () => {
-        router.push("./Done")
+        navigation.navigate("ConfirmSubscription")
     }
 
     return (
@@ -45,8 +46,8 @@ const Subscribe = () => {
 
                 <Card style={{ backgroundColor: "#fff", }}>
                     <View style={{ alignItems: "center", padding: 20 }}>
-                        <Text variant="titleLarge" style={{ fontFamily: "Avenir" }}>Individual</Text>
-                        <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "Avenir" }} variant="titleLarge">
+                        <Text variant="titleLarge" style={{ fontFamily: "avenir" }}>Individual</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "avenir" }} variant="titleLarge">
                             {annual === "annual" ? "$120" : "$10"}
                             <Text style={{}} variant="titleLarge">
                                 {annual === "annual" ? "/y" : "/m"}
@@ -63,15 +64,15 @@ const Subscribe = () => {
                     </View>
 
                     <View style={{ width: "75%", alignSelf: "center", paddingVertical: 20 }}>
-                        <Button title="Subscribe" onPress={onSubsquire} />
+                        <CustomButton title="Subscribe" onPress={onSubsquire} />
                     </View>
 
                 </Card>
 
                 <Card style={{ backgroundColor: "#fff", }}>
                     <View style={{ alignItems: "center", padding: 20 }}>
-                        <Text variant="titleLarge" style={{ fontFamily: "Avenir" }}>Family</Text>
-                        <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "Avenir" }} variant="titleLarge">
+                        <Text variant="titleLarge" style={{ fontFamily: "avenir" }}>Family</Text>
+                        <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "avenir" }} variant="titleLarge">
                             {annual === "annual" ? "$180" : "$15"}
                             <Text style={{}} variant="titleLarge">
                                 {annual === "annual" ? "/y" : "/m"}
@@ -88,7 +89,7 @@ const Subscribe = () => {
                     </View>
 
                     <View style={{ width: "75%", alignSelf: "center", paddingVertical: 20 }}>
-                        <Button title="Subscribe" onPress={onSubsquire} />
+                        <CustomButton title="Subscribe" onPress={onSubsquire} />
                     </View>
 
                 </Card>

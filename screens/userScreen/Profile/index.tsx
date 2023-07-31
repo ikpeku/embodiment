@@ -6,6 +6,8 @@ import { Exit } from '../../../assets';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { AccountScreenProps} from '../../../types';
+import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { UserState, logoutMutation } from '../../../redux/features/useSlice';
 
 
 interface IItem {
@@ -19,12 +21,15 @@ interface IItem {
 
 
 const UserProfile = () => {
-    const [loading, setLoadig] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch()
 
     const navigation = useNavigation<AccountScreenProps>()
 
+    const {user} = useAppSelector(UserState)
+    const {firstName, lastName, status} = user
 
-
+  
     const [isSwitchOn, setIsSwitchOn] = useState(false);
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
@@ -50,10 +55,9 @@ const UserProfile = () => {
 
     const HandleSignout = async () => {
         if (loading) return
-        setLoadig(true)
-
-       
-        setLoadig(false)
+        setLoading(true)
+        dispatch(logoutMutation())
+        setLoading(false)
     }
 
 
@@ -67,9 +71,10 @@ const UserProfile = () => {
 
                 <Avatar.Image size={40}
                     source={{ uri: "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960" }} />
-                <Text variant='titleMedium' style={{flex: 0.8}}>sam edet</Text>
-                <Avatar.Image size={24} source={require('../../../assets/profileIcon.png')}
-                    style={{ backgroundColor: "#fff", marginLeft: "auto" }} />
+                <Text variant='titleMedium' style={{flex: 0.8}}>{`${firstName} ${lastName}  `}</Text>
+                {status !== "unverified" && <Avatar.Image size={24} source={require('../../../assets/profileIcon.png')}
+                    style={{ backgroundColor: "#fff", marginLeft: "auto" }}
+                     />}
             </View>
 
             {/* Account */}
@@ -105,7 +110,7 @@ const UserProfile = () => {
                 leftIcon={<Feather name="arrow-up-circle" size={24} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}
               
-                onPress={() => {}}
+                onPress={() => navigation.navigate("Subscribe")}
             />
 
             {/* Notification */}

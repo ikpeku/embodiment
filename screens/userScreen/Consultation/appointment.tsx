@@ -1,44 +1,40 @@
 import { useState, useEffect } from 'react'
 import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native'
-import { useRouter, useSearchParams } from 'expo-router'
-import CardTag from '../../../components/CardTag'
 import { Ionicons } from '@expo/vector-icons';
 import { Card, Text, Modal, Portal, Provider } from 'react-native-paper';
-import Button from '../../../static/Button';
-import { Doctors } from '../../../components/data';
+import Doctors from "../../../dummy/doctors.json"
+import { CardTag, CustomButton } from '../../../components';
+import { useNavigation } from '@react-navigation/native';
 
-const Appointment = () => {
+const Consultationappointment = () => {
     const [visible, setVisible] = useState(false);
     const [star, setStar] = useState(0);
-    const [data, setData] = useState({})
+    const [data, setData] = useState<typeof Doctors>()
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
+    const navigation = useNavigation()
 
-    const { id } = useSearchParams()
 
-    const router = useRouter()
-
-    // console.log(Doctors.find(value => value.id === +id))
 
     useEffect(() => {
-        setData(Doctors.find(value => value.id === +id))
+        // setData(Doctors.find(value => value.id === 1))
 
     }, [])
 
 
-    // console.log(data)
+  
 
-    const [selecteddate, setSelectedDate] = useState("")
+    const [selecteddate, setSelectedDate] = useState(undefined)
     const [selectedtime, setSelectedTime] = useState("")
 
     const HandleAppointment = () => {
-        if (selecteddate === "" || selectedtime === "") {
+        if (selecteddate === undefined || selectedtime === "") {
             Alert.alert("Date/Time Error", "Select Date and Time of Appointment")
             return
         }
 
-        router.push("./checkout")
+       navigation.navigate("Consultationcheckout")
     }
 
     return (
@@ -47,7 +43,7 @@ const Appointment = () => {
 
             <Portal>
                 <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={{ backgroundColor: 'white', padding: 20, width: "90%", alignSelf: "center", borderRadius: 8 }}>
-                    <Text variant='titleLarge' style={{ fontWeight: "bold", fontFamily: 'Avenir' }}>Rate this doctor</Text>
+                    <Text variant='titleLarge' style={{ fontWeight: "bold", fontFamily: 'avenir' }}>Rate this doctor</Text>
                     <Text variant='bodyLarge'>Tell others what you think</Text>
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingVertical: 20 }}>
@@ -57,7 +53,7 @@ const Appointment = () => {
                         <Ionicons name="md-star" size={24} color={star === 4 || star === 5 ? "#0665CB" : "#D1D1D1"} onPress={() => setStar(4)} />
                         <Ionicons name="md-star" size={24} color={star === 5 ? "#0665CB" : "#D1D1D1"} onPress={() => setStar(5)} />
                     </View>
-                    <Button title="Done" onPress={() => setVisible(false)} />
+                    <CustomButton title="Done" onPress={() => setVisible(false)} />
 
                 </Modal>
 
@@ -67,15 +63,15 @@ const Appointment = () => {
 
             <View>
                 <CardTag
-                    title={data?.Name}
-                    subTitle={data?.expert}
-                    url={data?.img}
+                    title={"John Doe"}
+                    subTitle={"ENDOMINII"}
+                    url={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"}
 
                 />
 
                 <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15, backgroundColor: "#fff" }}>
                     <Ionicons name="md-star" size={24} color="#FFCE31" />
-                    <Text variant='bodySmall'>{data?.rate}</Text>
+                    <Text variant='bodySmall'>{4}</Text>
                     <Text onPress={showModal} variant='bodyMedium' style={{ backgroundColor: "#0665CB", color: "#fff", borderRadius: 4, paddingHorizontal: 5 }}>Rate this doctor</Text>
                 </View>
             </View>
@@ -103,8 +99,8 @@ const Appointment = () => {
             <View>
                 <Card style={{ backgroundColor: "#fff" }} mode='contained' >
                     <Card.Content>
-                        <Text variant='headlineMedium' style={{ fontFamily: 'Avenir', }} >About</Text>
-                        <Text variant='bodyLarge'>{data?.about}</Text>
+                        <Text variant='headlineMedium' style={{ fontFamily: 'avenir', }} >About</Text>
+                        <Text variant='bodyLarge'>{"Lorem llllllllllllllllllllllllllllllll"}</Text>
                     </Card.Content>
                 </Card>
             </View>
@@ -119,7 +115,7 @@ const Appointment = () => {
                             <View style={{ flexDirection: "row", paddingVertical: 5, columnGap: 10, flexWrap: "wrap", rowGap: 11, marginTop: 10, }}>
                                 {
                                     [{ day: "M", date: "19" }, { day: "W", date: "22" }, { day: "F", date: "12" }, { day: "S", date: "8" }, { day: "T", date: "4" },].map((day, index) => (
-                                        <Pressable onPress={() => setSelectedDate(index)} key={index} style={[styles.title, { padding: 10, borderRadius: 8, borderColor: "rgba(0,0,0,0.3)", borderWidth: 1, width: 70, alignItems: "center" }, selecteddate === index ? { color: "#fff", backgroundColor: "#0665CB", } : { color: "#000", backgroundColor: "#fff" }]}>
+                                        <Pressable onPress={() => setSelectedDate(index)} key={index} style={[styles.title, { padding: 10, borderRadius: 8, borderColor: "rgba(0,0,0,0.3)", borderWidth: 1, width: 70, alignItems: "center" }, selecteddate === index ? { backgroundColor: "#0665CB", } : {  backgroundColor: "#fff" }]}>
                                             <Text style={[styles.title, selecteddate === index ? { color: "#fff" } : { color: "#000" }]}>{day.day}</Text>
                                             <Text style={[styles.title, selecteddate === index ? { color: "#fff" } : { color: "#000" }]}>{day.date}</Text>
                                         </Pressable>
@@ -160,7 +156,7 @@ const Appointment = () => {
 
 
             <View style={{ marginTop: 30, marginBottom: 20 }}>
-                <Button title="Continue" onPress={HandleAppointment} />
+                <CustomButton title="Continue" onPress={HandleAppointment} />
             </View>
         </ScrollView>
 
@@ -168,7 +164,7 @@ const Appointment = () => {
     )
 }
 
-export default Appointment
+export default Consultationappointment;
 
 const styles = StyleSheet.create({
     root: {
@@ -178,7 +174,7 @@ const styles = StyleSheet.create({
         rowGap: 20
     },
     title: {
-        fontFamily: 'Avenir',
+        // fontFamily: 'avenir',
 
     },
 })

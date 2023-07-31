@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Keyboard, Image } from 'react-native'
-import { Text, Searchbar } from 'react-native-paper';
-import CardTag from '../../../components/CardTag';
+import { Text, TextInput } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Doctors } from '../../../components/data';
+import Doctors from "../../../dummy/doctors.json"
+import { useNavigation } from '@react-navigation/native';
+import { CardTag } from '../../../components';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 
 
 export default function Consultation() {
-    const router = useRouter()
+    const navigation = useNavigation()
     const [searchQuery, setSearchQuery] = useState('');
 
     const [data, setData] = useState(Doctors)
@@ -31,21 +32,26 @@ export default function Consultation() {
         <SafeAreaView style={styles.root} >
 
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                <Image source={require('../../../assets/logo.png')} style={{}} />
-                <View style={{ borderRadius: 8, borderWidth: 1, borderColor: "gainsboro", flex: 1 }}>
-                    <Searchbar
-                        placeholder="Search for a doctor"
-                        onChangeText={(event) => setSearchQuery(event)}
-                        value={searchQuery}
-                        style={{ width: "100%", backgroundColor: "#fff" }}
-                    />
-                </View>
+                <Image source={require('../../../assets/logo.png')} style={{ width: 40, aspectRatio: 1 }} resizeMode='contain' />
+                <TextInput
+                    placeholder="Search for illness"
+                    outlineStyle={{ borderColor: "gainsboro", borderWidth: StyleSheet.hairlineWidth }}
+                    contentStyle={{ paddingHorizontal: 10 }}
+
+                    onChangeText={(event) => setSearchQuery(event)}
+                    value={searchQuery} mode='outlined' style={{ height: 35, flexGrow: 1, }}
+                    right={<TextInput.Icon icon={(properties) => <EvilIcons name="search" {...properties} />
+                    } />}
+                />
             </View>
+
+
 
             <Text variant='titleMedium'
                 onPress={Keyboard.dismiss}
-                style={{ textAlign: "center", fontWeight: "bold", fontFamily: 'Avenir', paddingHorizontal: 5, paddingVertical: 10 }}
-            >Book an appointment with a doctor</Text>
+                style={{ textAlign: "center", fontWeight: "bold", fontFamily: 'avenir', paddingHorizontal: 5, paddingVertical: 10 }}
+            >Book an appointment with a doctor
+            </Text>
 
 
             <FlatList
@@ -53,7 +59,7 @@ export default function Consultation() {
                 renderItem={({ item }) => <CardTag
                     mode='elevated'
                     // elevation={1}
-                    onPress={() => router.push({ pathname: "./Consultation/appointment", params: { id: item.id } })}
+                    onPress={() => navigation.navigate("Consultationappointment", { id: item.id })}
                     title={item.Name}
                     subTitle={item.expert}
                     url={item.img}

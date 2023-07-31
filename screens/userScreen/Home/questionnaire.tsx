@@ -52,13 +52,12 @@ const Questionnaire = () => {
     const [progress, setProgress] = useState(0.1)
     const navigation = useNavigation<QuestionnaireScreenProps>()
     const {id} = useRoute<QuestionnairelRouteProp>().params
-    console.log(id)
-
+   
 
     // const currentUser = DATA.filter(user => user.id === id)
-    // console.log(currentUser[0]?.questionnaire[9])
 
-    // console.log(id)
+
+    
 
     return (
         <View style={styles.root} >

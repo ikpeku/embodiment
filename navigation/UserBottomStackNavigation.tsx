@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, EvilIcons} from '@expo/vector-icons';
 
 import Svg, { Path } from "react-native-svg"
-import { Notification, Orders, UserHome, UserProfile } from '../screens';
+import { Consultation, Notification, Orders, UserHome, UserProfile } from '../screens';
 import { UserRootBottomStackParamList } from '../types';
 
 
@@ -26,8 +26,15 @@ export default function UserScreenLayout() {
 
 
     return (<Tabs.Navigator screenOptions={{ headerShown: false, tabBarLabelStyle: { fontSize: 11, }, }}>
-        <Tabs.Screen name="Home" component={UserHome} options={{ tabBarIcon: ({ size, color }) => <HomeLog size={20} color={color} /> }} />
-        <Tabs.Screen name="Consultation" component={UserHome} options={{ tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="plus-outline" size={25} color={color} /> }} />
+        <Tabs.Screen name="Home" component={UserHome} options={{ 
+            tabBarIcon: ({ size, color }) => <HomeLog size={20} color={color} /> ,
+            tabBarHideOnKeyboard: true
+            }} />
+        <Tabs.Screen name="Consultation" component={Consultation} options={{
+             tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="plus-outline" size={25} color={color} />,
+             tabBarHideOnKeyboard: true
+             
+             }} />
         
         <Tabs.Group screenOptions={{
 headerShown: true,
@@ -41,20 +48,12 @@ headerTitleStyle: {
         }}>
         <Tabs.Screen name="Orders" component={Orders} options={{
             
-            tabBarIcon: ({ size, color }) => <SimpleLineIcons name="bell" size={20} color={color} />
+            tabBarIcon: ({ size, color }) => <EvilIcons name="clock" size={size} color={color} />
         }} />
 
         
         <Tabs.Screen name="Notifications" component={Notification} options={{
             headerShown: true,
-          
-            // headerTintColor: "#0665CB",
-            // headerTitleAlign: "center",
-            // headerTitleStyle: {
-            //     fontFamily: 'avenir',
-            //     fontWeight: "900",
-            //     fontSize: 20,
-            // },
             tabBarIcon: ({ size, color }) => <SimpleLineIcons name="bell" size={20} color={color} />
         }} />
         <Tabs.Screen name="Profile" component={UserProfile} options={{ tabBarIcon: ({ size, color }) => <MaterialIcons name="person-outline" size={25} color={color} /> }} />

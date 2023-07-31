@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
-import { StyleSheet, View, ScrollView, Image , StatusBar} from 'react-native'
-// import { DATA } from '../../../components/data'
+import { StyleSheet, View, ScrollView, Image } from 'react-native'
 import { Card, Text, Avatar } from 'react-native-paper'
 import { Ionicons } from '@expo/vector-icons';
 import { CustomButton } from '../../../components';
@@ -19,7 +18,6 @@ interface ITreatmentCard {
 
 
 const UserHealthDetail = () => {
-    // const { id } = useSearchParams()
     const navigation = useNavigation<UserHealthDetailScreenProps>()
     const router = useRoute<UserHealthDetailRouteProp>()
     const {id} = router.params
@@ -49,14 +47,10 @@ const UserHealthDetail = () => {
         </Card>
     )
 
-    // console.log(currentUser)
-
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20, backgroundColor: "#fff"}} >
-           {/* <StatusBar barStyle={"default"} /> */}
             {currentUser[0]?.photo  && <Image  style={styles.banner} source={{uri: currentUser[0]?.photo}} />}
-            {/* {currentUser[0]?.photos === "" && <Image style={{ width: "100%" }} source={require("../../../assets/drugs.png")} resizeMode='cover' />} */}
             <Ionicons style={styles.icon} name="chevron-back" size={30} color="white" onPress={() => navigation.goBack()} />
 
 

@@ -3,8 +3,10 @@ import { Text, View, Image, FlatList, StyleSheet, useWindowDimensions, Platform,
 import { useRef, useState } from "react";
 import { Checkbox } from "react-native-paper";
 import { CustomButton } from "../../components";
-import { useNavigation } from "@react-navigation/native";
-import { OnboardingScreenProps } from "../../types";
+// import { useNavigation } from "@react-navigation/native";
+// import { OnboardingScreenProps } from "../../types";
+import { useAppDispatch } from "../../redux/hooks";
+import { returningUser } from "../../redux/features/useSlice";
 
 export default function OnboardingScreen() {
   const [terms, setTerms] = useState(false)
@@ -12,7 +14,7 @@ export default function OnboardingScreen() {
 
   const { width } = useWindowDimensions()
 
-const navigation = useNavigation<OnboardingScreenProps>()
+// const navigation = useNavigation<OnboardingScreenProps>()
 
   const Item = [
     {
@@ -34,10 +36,14 @@ const navigation = useNavigation<OnboardingScreenProps>()
   }
 
 
+const dispatch = useAppDispatch()
 
   const handleSubmit = () => {
+
     if (!terms) return
-    navigation.replace("Authenticateuser")
+    dispatch(returningUser())
+   
+    // navigation.replace("Authenticateuser")
 
   }
 

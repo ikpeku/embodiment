@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, Alert } from 'react-native'
 import { useForm } from "react-hook-form";
 import { Snackbar } from 'react-native-paper';
 import { CustomButton, CustomInput } from '../../components';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { verifyEmail } from '../../services';
+import { useAppDispatch } from '../../redux/hooks';
+import { verifyOTP } from '../../redux/features/useSlice';
 
 interface IConfirmUser {
    code: string
@@ -13,15 +16,22 @@ const ConfirmUser = () => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation()
+    const route = useRoute().params
+
+    const dispatch = useAppDispatch()
 
     const { handleSubmit, control } = useForm<IConfirmUser>();
-
 
     const onSubmit = async ({code}: IConfirmUser) => {
         if (loading) return
         setLoading(true)
         try {
-            navigation.goBack()
+            const response = await verifyEmail({userId: route?.id, verificationCode: code})
+            if (response.status === "success") {
+                dispatch(verifyOTP({isLogin: true}))
+            }
+
+           
         } catch (error) {
             // Alert.alert("Error", error.message)
 
@@ -33,6 +43,7 @@ const ConfirmUser = () => {
     const HandleResend = async () => {
         try {
             // await Auth.resendSignUp(user)
+
             setVisible(true)
         } catch (error) {
             // Alert.alert("Error", error.message)

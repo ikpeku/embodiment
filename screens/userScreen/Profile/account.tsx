@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
+import { StyleSheet, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { useForm } from "react-hook-form";
-// import { Button, Input } from '../../static';
 import { List, RadioButton } from 'react-native-paper';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { CustomButton, CustomInput } from '../../../components';
 import ProfileAvatar from '../../../components/Avatar';
+import { useAppSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/features/useSlice';
 
 
 interface IForm {
@@ -21,16 +22,20 @@ interface IForm {
 
 export default function Editprofile() {
 
+    const {user} = useAppSelector(UserState)
+
+    const {firstName, lastName, email, phoneNumber, } = user
+
 
     const [sex, setSex] = useState("male")
     const [DOB, setDOB] = useState()
 
     const { handleSubmit, control } = useForm<IForm>({
         defaultValues: {
-            FirstName: "",
-            LastName: "",
-            Email: "",
-            PhoneNumber: "",
+            FirstName: firstName,
+            LastName: lastName,
+            Email: email,
+            PhoneNumber: phoneNumber,
             Address: "",
             Sex: "",
             Alergies: "",

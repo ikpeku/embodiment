@@ -8,7 +8,7 @@ export type RootStackParamList = {
     User: undefined;
     Doctor: undefined;
     Admin: undefined;
-    ConfirmUser: undefined;
+    ConfirmUser: { id: string };
     ForgotPassword: { email: string };
     ConfirmForgotPassword: { email: string };
     UserHealthDetail: { id: number }
@@ -18,6 +18,12 @@ export type RootStackParamList = {
     Password: undefined;
     HelpandSupport: undefined;
     Support: undefined;
+    Subscribe: undefined;
+    ConfirmSubscription: undefined;
+
+    // consultation screen
+    Consultationappointment: { id: string }
+    Consultationcheckout: undefined
 };
 
 
@@ -30,6 +36,7 @@ export type ConfirmAppointmentScreenProps = NativeStackNavigationProp<RootStackP
 export type QuestionnaireScreenProps = NativeStackNavigationProp<RootStackParamList, "Questionnaire">
 export type AccountScreenProps = NativeStackNavigationProp<RootStackParamList, "Account">
 export type SupportScreenProps = NativeStackNavigationProp<RootStackParamList, "Support">
+export type SubscribeScreenProps = NativeStackNavigationProp<RootStackParamList, "Subscribe">
 
 
 export type ForgotPasswordRouteProp = RouteProp<RootStackParamList, "ForgotPassword">

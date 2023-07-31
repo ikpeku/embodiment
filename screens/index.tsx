@@ -24,6 +24,15 @@ export {default as UserProfile} from "./userScreen/Profile/index"
 export {default as Editprofile} from "./userScreen/Profile/account"
 export {default as Changepassword } from "./userScreen/Profile/password"
 export {default as HelpandSupport } from "./userScreen/Profile/help"
-export {default as Support } from "./userScreen/Profile/Support"
+export {default as Support } from "./userScreen/Profile/support"
+export {default as Subscribe } from "./userScreen/Profile/Subscribe"
+export {default as ConfirmSubscription } from "./userScreen/Profile/ConfirmSubscription"
+
+
+// Consultation Screen
+export {default as Consultation } from "./userScreen/Consultation/index"
+export {default as Consultationappointment } from "./userScreen/Consultation/appointment"
+export {default as Consultationcheckout } from "./userScreen/Consultation/Consultationcheckout"
+
 
 

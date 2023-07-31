@@ -1,17 +1,20 @@
 import { StyleSheet, View } from 'react-native'
 import React from 'react'
-import { CardTag } from '../../../components'
+import { CardTag, CustomButton } from '../../../components'
 import { Card, Text } from 'react-native-paper'
-import { Button } from '../../../static'
+
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router'
+import { useNavigation } from '@react-navigation/native';
 
 
-const Checkout = () => {
-    const router = useRouter()
+
+const Consultationcheckout = () => {
+    const navigation = useNavigation()
+
 
     const handleCheckout = () => {
-        router.push("./confirmAppointment")
+        // router.push("./confirmAppointment")
+        // navigation.navigate("Consultationcheckout")
     }
 
 
@@ -25,7 +28,7 @@ const Checkout = () => {
                     url={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"}
 
                 />
-                <View style={{ marginLeft: "20%", backgroundColor: "#fff" }}>
+                <View style={{ marginLeft: "20%", backgroundColor: "#fff", flexDirection: "row", alignItems: "center", gap: 10 }}>
                     <Ionicons name="md-star" size={24} color="#FFCE31" />
                     <Text variant='bodySmall'>4.5</Text>
                 </View>
@@ -36,7 +39,7 @@ const Checkout = () => {
             <View>
                 <Card style={{ backgroundColor: "#fff" }} mode='contained' >
                     <Card.Content>
-                        <Text variant='headlineMedium' style={{ fontFamily: 'Avenir', }} >Details</Text>
+                        <Text variant='titleLarge' style={{ fontFamily: 'avenir', }} >Details</Text>
                         <View style={styles.detail}>
                             <Text variant='bodyLarge'>Date</Text>
                             <Text variant='bodyLarge'>16-6-2034</Text>
@@ -56,13 +59,13 @@ const Checkout = () => {
             </View>
 
             <View style={{ width: "100%", marginTop: 30, }}>
-                <Button title="Pay" onPress={handleCheckout} />
+                <CustomButton title="Pay" onPress={handleCheckout} />
             </View>
         </View>
     )
 }
 
-export default Checkout
+export default Consultationcheckout
 
 const styles = StyleSheet.create({
     container: {

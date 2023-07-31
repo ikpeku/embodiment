@@ -70,8 +70,8 @@ const Item = ({ data}: IItem) => {
         <View>
             <Paper_Text style={[styles.title, {fontWeight: "400", opacity: 0.4, paddingVertical: 20, textAlign: "center"}]}>{data.date}</Paper_Text>
        {
-        data.titles.map(title => (
-            <Card mode='contained' style={styles.item}  >
+        data.titles.map((title, index) => (
+            <Card key={index} mode='contained' style={styles.item}  >
             <Card.Content>
                 <Paper_Text style={styles.title}>{title}</Paper_Text>
             </Card.Content>
