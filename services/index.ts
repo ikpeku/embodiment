@@ -1,55 +1,87 @@
 
-
-
-import { useQuery } from '@tanstack/react-query'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query'
 
-const baseURL = "https://embodi-be.vercel.app"
 
-// 
+export const baseUrl = "https://embodie.vercel.app/api";
+// http://localhost:3000/api/user/changePassword
+// http://localhost:3000/api/doctor/removedoctor/:userId
 
-export const loginUser = async (user: { email: string; password: string }) => {
-    const response = await axios.post("https://embodi-be.vercel.app/api/auth/login", user);
-    return response.data
-};
 
-// {
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     password: string;
-//   }
-export const registerUser = async (newUser: {
-    firstName: string,
-    lastName: string,
-    phoneNumber: string,
+export interface IDoctor {
+    id: string
+}
+export interface IAddDoctor {
+
     email: string,
-    password: string
+    adminUserId: string
+
 }
 
-) => {
-    // const response = await axios.post(`${baseURL}/api/auth/register`, newUser);
-    const response = await axios.post("https://embodi-be.vercel.app/api/auth/register", newUser);
-    return response.data;
-};
 
 
 
-export const verifyEmail = async (token: { userId: string, verificationCode: string }) => {
-    const response = await axios.post("https://embodi-be.vercel.app/api/auth/verifyotp", token);
-    return response.data;
-};
+export const diseaseApi = createApi({
+    reducerPath: 'vendorApi',
+    baseQuery: fetchBaseQuery({ baseUrl }),
+    tagTypes: ["users"],
+    endpoints: (builder) => ({
+
+        getAllVendors: builder.query({
+            query: () => "/api/disease/categories",
+        }),
+    }),
+
+})
+
+
+export const { useGetAllVendorsQuery,
+
+} = diseaseApi
+
+
+
+// REACT QEARY
 
 
 
 
 
-// const fetchU = async (postId) => {
-//     const { data } = await axios.get(`${endpoint}=${postId}`);
-//     return data;
-// };
 
-// const usePost = (postId) => useQuery([ 'posts', postId ], () => fetchPost(postId));
+// query endpoint
+const endPoint = async (url: string) => {
+    const response = await axios.get(`${baseUrl}/${url}`)
+    return response.data
+}
+
+
+// get all users
+export const useGetAllUsers = () => {
+    return useQuery({ queryKey: ['users'], queryFn: () => endPoint("user/alluserson") })
+}
+// get single user
+export const useUser = (id: string) => {
+    return useQuery({ queryKey: ['user', id], queryFn: () => endPoint(`user/user/${id}`) })
+}
+
+// get all doctors
+export const useGetAllDoctors = () => {
+    return useQuery({ queryKey: ['doctors'], queryFn: () => endPoint("doctor/doctors") })
+}
+
+// get single doctor
+export const useDoctor = (id: string) => {
+    return useQuery({ queryKey: ['doctor', id], queryFn: () => endPoint(`doctor/view/${id}`) })
+}
+
+
+
+
+
+
+
+
 
 
 

@@ -20,7 +20,8 @@
     },
     "preview2": {
       "android": {
-        "gradleCommand": ":app:assembleRelease"
+        // "gradleCommand": ":app:assembleRelease",
+        "gradleCommand": ":app:assembleDebug"
       }
     },
     "preview3": {

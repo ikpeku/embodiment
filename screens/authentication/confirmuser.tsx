@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { Snackbar } from 'react-native-paper';
 import { CustomButton, CustomInput } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { verifyEmail } from '../../services';
+// import { verifyEmail } from '../../services';
 import { useAppDispatch } from '../../redux/hooks';
 import { verifyOTP } from '../../redux/features/useSlice';
+import { ConfirmUserRouteProp } from '../../types';
+import { baseUrl } from '../../services';
 
 interface IConfirmUser {
    code: string
@@ -16,7 +18,8 @@ const ConfirmUser = () => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation()
-    const route = useRoute().params
+    const route = useRoute<ConfirmUserRouteProp>().params
+    const {id} = route
 
     const dispatch = useAppDispatch()
 
@@ -26,14 +29,27 @@ const ConfirmUser = () => {
         if (loading) return
         setLoading(true)
         try {
-            const response = await verifyEmail({userId: route?.id, verificationCode: code})
-            if (response.status === "success") {
+
+            const token = {userId: id, verificationCode: code}
+            // console.log(token)
+
+            const response = await fetch(`${baseUrl}/auth/verifyotp/`, {
+            method: "POST", 
+            body: JSON.stringify(token)  
+            })
+
+            const result = await response.json()
+
+            // console.log("result" , result)
+            if (result.status === "success") {
                 dispatch(verifyOTP({isLogin: true}))
+            }else {
+                throw new Error(result.message)
             }
 
            
-        } catch (error) {
-            // Alert.alert("Error", error.message)
+        } catch (error: any) {
+            Alert.alert("Error", error.message)
 
         } finally {
             setLoading(false)

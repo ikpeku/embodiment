@@ -10,11 +10,15 @@ import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
 
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
 import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
 
+let persistor = persistStore(store);
 const queryClient = new QueryClient()
 
 
@@ -39,17 +43,21 @@ export default function App() {
 
   return (
    
-       <QueryClientProvider client={queryClient}>
+       
     <SafeAreaProvider>
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <PaperProvider>
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <QueryClientProvider client={queryClient}>
+
         <Root />
+      </QueryClientProvider>
       </View>
       </PaperProvider>
+      </PersistGate>
       </Provider>
     </SafeAreaProvider>
-    </QueryClientProvider>
    
 
   );

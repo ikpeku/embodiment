@@ -4,11 +4,11 @@ import type { RootState } from '../store'
 
 export interface UserState {
 
-    // token: string,
+    token: string,
     isFirst: boolean,
     isLogin: boolean,
     user: {
-        id: string,
+        _id: string,
         firstName: string,
         lastName: string,
         email: string,
@@ -18,6 +18,7 @@ export interface UserState {
         allergies: string[],
         createdAt: string,
         updatedAt: string,
+        role: string[]
     },
 
 
@@ -47,6 +48,7 @@ export const userSlice = createSlice({
         loginUserMutation: (state, action: PayloadAction<UserState>) => {
             state.isLogin = action.payload.isLogin,
                 state.user = action.payload.user
+            state.token = action.payload.token
 
         },
     },

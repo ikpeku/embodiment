@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
-    Text, View, ScrollView, StyleSheet, Alert, Image,
+    Text, View, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, Alert, Image,
     Pressable
 } from "react-native";
+// import { usePathname, useRouter, Stack, Link } from "expo-router";
 
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
@@ -13,7 +14,6 @@ import { AuthenticateuserScreenProps } from "../../types";
 // import { loginUser, registerUser } from "../../services";
 import { useAppDispatch } from "../../redux/hooks";
 import { loginUserMutation } from "../../redux/features/useSlice";
-import axios from "axios";
 import { baseUrl } from "../../services";
 
 export interface ISign {
@@ -25,7 +25,7 @@ export interface ISign {
 }
 
 
-export default function AuthUser() {
+export default function SignupUser() {
 
 
     const [loading, setLoading] = useState(false)
@@ -36,28 +36,43 @@ export default function AuthUser() {
     const dispatch = useAppDispatch()
 
 
-    const { handleSubmit, control, watch } = useForm<ISign>();
+    const { handleSubmit, control, watch } = useForm<ISign>(
+    );
 
-    const onLoginSubmit = async ({ Email_Address, Password }: ISign) => {
-        if (loading) return ;
+
+
+    const onSignupSubmit = async ({ Email_Address, Password, Phone_Number, FirstName, LastName }: ISign) => {
+        if (loading) return
         setLoading(true);
-
+       
+          
                 try {
-                    
+                    // const response = await registerUser({
+                    //     email: Email_Address,
+                    //     firstName: FirstName,
+                    //     lastName: LastName,
+                    //     password: Password,
+                    //     phoneNumber: Phone_Number
+                    // })
 
+                    // if (response.status === "success") {
+                    //     const { user } = response
+                    //     dispatch(loginUserMutation({ isLogin: false, user , isFirst: false}))
+
+                    //     navigation.navigate("ConfirmUser", {id: response.user._id})
+                    // }
+                   
                     const data = {
                         email: Email_Address,
+                        firstName: FirstName,
+                        lastName: LastName,
                         password: Password,
+                        phoneNumber: Phone_Number
                     }
-                    // const response = await axios.post(`${baseUrl}/auth/login`, data)
-
-                    // console.log("result: ", response.data)
-
-                    // https://embodie.vercel.app/api/auth/login
 
                      const res =  JSON.stringify(data)
 
-                    const response = await fetch(`${baseUrl}/auth/login`, {
+                    const response = await fetch(`${baseUrl}/auth/register`, {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
@@ -65,31 +80,45 @@ export default function AuthUser() {
                         body: res
                       })
 
-                      const result = await response.json()
-                  
-                      if (result.status === "success") {
-                        const { user, token } = result
-                    dispatch(loginUserMutation({ isLogin: true, user , isFirst: false, token}))
 
-                      } else {
+                      const result = await response.json()
+                    //   console.log("result: ",result)
+
+                      if (result.status === "success") {
+                        const { user , token} = result
+                            dispatch(loginUserMutation({ isLogin: false, user , isFirst: false, token}))
+                            navigation.navigate("ConfirmUser", {id: result.user._id})
+
+                      } else if(result.message == "An error occurred while signing up.") {
+
+                        const response = await fetch(`${baseUrl}/auth/requestotp`, {
+                        method: "POST",
+                        body: JSON.stringify({email: data.email})
+                      })
+
+
+                      const result = await response.json()
+
+                    //   console.log("result: ",result)
+                    Alert.alert("confirm", result.message)
+
+
+                      } else{
                         throw new Error(result.message)
                       }
 
                 } catch (error: any) {
-                  
                     Alert.alert("ERROR", error.message)
-
+                    // console.log("err: ",error)
                 } finally {
                     setLoading(false)
                 }
+
+      
     }
 
-
     const signwithgoogle = () => {}
-
     const email = watch("Email_Address")
-
-
 
     return (
         <View style={{ flex: 1 }}>
@@ -98,7 +127,17 @@ export default function AuthUser() {
 
                 <View style={{ marginTop: 10 }}>
 
-                
+                            <Text style={styles.label}>First Name </Text>
+                            <CustomInput control={control} placeholder="Enter First Name" name="FirstName"
+                             rules={{ required: "First Name is required" }}
+                              />
+
+                            <Text style={styles.label}>Last Name </Text>
+                            <CustomInput control={control} placeholder="Enter Last Name" name="LastName"
+                             rules={{ required: "Last Name is required" }}
+                             />
+                    
+
                     <Text style={styles.label}>Email Address</Text>
                     <CustomInput control={control} placeholder="Enter Email" name="Email_Address" rules={{
                         required: "This field is required.", pattern: {
@@ -107,11 +146,14 @@ export default function AuthUser() {
                         }
                     }} />
 
-
+                            <Text style={styles.label}>Phone Number</Text>
+                            <CustomInput control={control} placeholder="Enter Mobile Number" name="Phone_Number" rules={{ required: "This field is required" }} />
+                    
                     <Text style={styles.label}>Password</Text>
                     <CustomInput control={control} placeholder="Enter Password" name="Password"
                         rules={{ required: "This field is required", minLength: { value: 8, message: "password should be atleast 7 characters." } }} passord={true}
                     />
+
                     <Text style={[styles.cta, { textAlign: "left", color: "#0665CB", paddingVertical: 10 }]}
                         onPress={() => navigation.navigate("ForgotPassword", { email })}
                     >Forget Password</Text>
@@ -121,17 +163,16 @@ export default function AuthUser() {
 
                 {/*  Sinup btn*/}
                 <View style={{ width: "80%", alignSelf: "center", marginVertical: 30 }}>
-                    <CustomButton onPress={handleSubmit(onLoginSubmit)}
-                        title="Log In"
+                    
+                   <CustomButton onPress={handleSubmit(onSignupSubmit)}
+                        title="Sign up"
                     />
-                  
                 </View>
-
 
                 <View style={styles.ctaContainer}>
                     <Text style={styles.cta}>Don’t have an account</Text>
-                    <Pressable onPress={() => navigation.replace("Signup")}>
-                        <Text style={styles.ctaBtn}>Sign Up</Text>
+                    <Pressable onPress={() => navigation.replace("Authenticateuser") }>
+                        <Text style={styles.ctaBtn}>Sign In</Text>
                     </Pressable>
                 </View>
 
@@ -144,7 +185,7 @@ export default function AuthUser() {
 
                 {/* Google btn */}
                 <CustomButton
-                    title={"Log In with Google"}
+                    title="Sign up with Google"
 
                     icon={<Image source={require('../../assets/google.png')} style={{ width: 18, height: 18 }} />}
                     type="secondary"

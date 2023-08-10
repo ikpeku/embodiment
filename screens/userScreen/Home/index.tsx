@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { EvilIcons } from '@expo/vector-icons';
 import { UserHealthDetailScreenProps } from '../../../types';
+import { useGetAllVendorsQuery } from '../../../services';
 
 
 interface IrenderItem {
@@ -20,23 +21,37 @@ interface IrenderItem {
 
 const UserHome = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [data, setData] = useState(DATA)
+    // const [data, setData] = useState(DATA)
 
     // const router = useRouter()
     const navigation = useNavigation< UserHealthDetailScreenProps>()
 
 
+    const {data} = useGetAllVendorsQuery(undefined)
 
-    useEffect(() => {
 
-        if (!searchQuery) {
-            setData(DATA)
-        } else {
-            setData(DATA.filter(item => item.title.includes(searchQuery)))
-        }
+    // console.log(data)
 
-    }, [searchQuery])
 
+
+useEffect(() => {
+    (async() => {
+        const res = await fetch("https://embodi-be.vercel.app/api/disease/categories")
+
+        const result = await res.json()
+    })()
+},[])
+
+
+    // useEffect(() => {
+
+    //     // if (!searchQuery) {
+    //     //     setData(DATA)
+    //     // } else {
+    //     //     setData(DATA.filter(item => item.title.includes(searchQuery)))
+    //     // }
+
+    // }, [searchQuery])
 
 
     const renderItem = ({ item }:IrenderItem) => (

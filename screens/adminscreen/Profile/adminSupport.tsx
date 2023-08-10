@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-export default function Support() {
+export default function AdminSupport() {
   return (
     <View>
       {/* <Text>Support</Text> */}
