@@ -3,16 +3,11 @@ import {
     View,
     FlatList,
     StyleSheet,
-    // Text,
     TouchableOpacity,
     Pressable,
 } from 'react-native';
-import { Card, Text as Text, Searchbar } from 'react-native-paper';
-// import { AntDesign, FontAwesome5, MaterialCommunityIcons, Feather, FontAwesome } from '@expo/vector-icons';
+import { Text, Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-
-
 import { Users } from '../../../assets';
 import ProfileAvatar from '../../../components/Avatar';
 import DoctorCard from '../../../components/Doctorcard';
@@ -70,9 +65,8 @@ setUsers(data?.data)
 
     const Item = ({ item }:IItem) => {
         return (
-            // Adminusers
+        
                <Pressable onPress={() => navigation.navigate("AdminUserprofile", {id: item._id})} style={{borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro"}}>
-                {/* <Card.Content> */}
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
                         <Text variant='titleMedium' style={[styles.title, { color: item?.firstName && item?.lastName ? "#000" : "red" }]}>{ item?.firstName && item?.lastName ? `${item?.firstName} ${item?.lastName}` : "unregister doctor" }</Text>
                         < TouchableOpacity onPress={() => navigation.navigate("AdminUserprofile", {id: item._id})}>
@@ -115,9 +109,9 @@ setUsers(data?.data)
                 </View>
             </View>
 
-            <View style={{ width: "100%"}}>
+            <View style={{ width: "100%", flex: 1}}>
             <FlatList
-                data={users}
+                data={users?.slice()?.reverse()}
                 renderItem={({ item }) => <Item  item={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}

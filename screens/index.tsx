@@ -55,14 +55,13 @@ export { default as AdminChangepassword } from "./adminscreen/Profile/adminpassw
 export { default as AdminSupport } from "./adminscreen/Profile/adminSupport"
 
 
-
-
 // Doctor screen
 export { default as DoctorHome } from "./doctorscreen/Home/doctorhome"
 export { default as DoctorAppointments } from "./doctorscreen/Home/appointments"
 export { default as Doctorearnings } from "./doctorscreen/Home/doctorearnings"
 export { default as DoctorSchedule } from "./doctorscreen/Schedule/doctorSchedule"
-
-
-
+export { default as CreateDoctorSchedule } from "./doctorscreen/Schedule/createschedule"
+export { default as  DoctorNotification } from "./doctorscreen/Notification/doctornotification"
+export { default as  Doctorviewuser } from "./doctorscreen/Notification/doctorviewuser"
+export { default as  BankDetails } from "./doctorscreen/Profile/bankdetails"
 

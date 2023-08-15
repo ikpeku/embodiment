@@ -76,6 +76,38 @@ export const useDoctor = (id: string) => {
 }
 
 
+// GET ALL THE BOOKED APPOINTMEN FOR ALL THE DOCTOR
+export const useAdmingetBookAppiontement = () => {
+    return useQuery({ queryKey: ['allAppointment'], queryFn: () => endPoint(`appointment/bookedAppointment`) })
+}
+
+// ALL BOOKED APPOINTMENT WITH INDIVIDUAL DOCTOR
+export const useDoctorAppiontment = (id: string) => {
+    return useQuery({ queryKey: ['individualAppointment', id], queryFn: () => endPoint(`appointment/bookedAppointment/${id}/view`) })
+}
+
+
+// GET ALL COMPLTED APPOINTMENT
+// http://localhost:3001/api/appointment/getAllTheAppointment
+export const useGetCompletedAppointment = () => {
+    return useQuery({ queryKey: ['allcompletedappointment'], queryFn: () => endPoint(`appointment/getAllTheAppointment`) })
+}
+
+
+// GET COMPLTED APPOINTMENT FOR INDIVIDUAL DOCTOR
+export const useGetCompletedIndividualAppointment = (id: string) => {
+    return useQuery({ queryKey: ['individualcompletedappointment', id], queryFn: () => endPoint(`appointment/getAppointmentById/${id}`) })
+}
+
+// GET All APPOINTMENTs completed and uncompleted
+export const useGetAllAppointments = () => {
+    return useQuery({ queryKey: ['allappointments'], queryFn: () => endPoint(`appointment/viewAll`) })
+}
+
+
+
+
+
 
 
 

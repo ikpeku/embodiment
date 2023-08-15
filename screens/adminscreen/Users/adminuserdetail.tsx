@@ -26,7 +26,6 @@ export default function AdminUserprofile() {
 
     const { data, isLoading } = useUser(id)
 
-console.log(data)
     const User = ({ title, subtitle }: IUser) => {
         return (
             <View style={styles.card}>

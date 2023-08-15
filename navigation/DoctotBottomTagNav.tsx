@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import {  SimpleLineIcons, MaterialIcons } from '@expo/vector-icons';
 
-import { Consultation, DoctorHome, DoctorSchedule, Notification, UserProfile } from '../screens';
+import { DoctorHome, DoctorNotification, DoctorSchedule, UserProfile } from '../screens';
 import { DoctorRootBottomStackParamList} from '../types';
 import { Appointment , HomeLog} from '../assets';
 
@@ -37,7 +37,7 @@ export default function DoctorScreenLayout() {
         }}>
            
 
-            <Tabs.Screen name="Notifications" component={Notification} options={{
+            <Tabs.Screen name="Notifications" component={ DoctorNotification} options={{
                 headerShown: true,
                 tabBarIcon: ({ size, color }) => <SimpleLineIcons name="bell" size={20} color={color} />
             }} />

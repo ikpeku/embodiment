@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import {
     View,
-    FlatList,
     StyleSheet,
     Pressable,
 } from 'react-native';
-import { Card, Text as Text, Searchbar} from 'react-native-paper';
+import { Text, Searchbar} from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -15,150 +14,9 @@ import ProfileAvatar from '../../../components/Avatar';
 import DoctorCard from '../../../components/Doctorcard';
 import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
-
-
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: "Wade Warren",
-        email: 'wadwarren@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        name: "Guy Hawkins",
-        email: 'hawkins56@gmail.com',
-        phone: "(603) 555-0123"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2',
-        name: "Edward Cuff",
-        email: 'cuffwardd@gmail.comm',
-        phone: "(684) 555-0102"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-
-
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba111',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63222',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72333',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2444',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632555',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722666',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    }, {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba777',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63888',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72999',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2000',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63211111',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d7222222222',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-];
-
-const Item = () => {
-
-
-    return (
-        <Card mode='contained' style={styles.item} >
-            <Card.Content>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Text variant='titleMedium' style={[styles.title, { color: "#000" , opacity: 0.8}]}>Jane Adanna booked an appointment</Text>
-                </View>
-
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>09:00 am</Text>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>March 10, 2034</Text>
-                </View>
-            </Card.Content>
-
-
-        </Card>
-    )
-};
-
-
-const Empty = () => {
-    return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>No Notification</Text>
-
-        </View>
-    )
-}
+import CompletedAdminAppointment from './completed';
+import UnCompletedAdminAppointment from './uncompleted';
+import { useGetAllAppointments } from '../../../services';
 
 
 
@@ -167,6 +25,7 @@ export default function Appointments() {
     const [searchQuery, setSearchQuery] = useState('');
     const [completed, setCompleted] = useState(true)
     const {user} = useAppSelector(UserState)
+    const {data: appointment = []} = useGetAllAppointments()
 
 
     return (
@@ -181,7 +40,7 @@ export default function Appointments() {
             </View>
 
             <View style={{ width: "100%", flexDirection: "row" }}>
-                <DoctorCard title={"Appointments"} subTitle={0} rightIcon={<Appointment color="#fff" size={20} />} />
+                <DoctorCard title={"Appointments"} subTitle={appointment ? appointment?.data?.length : 0} rightIcon={<Appointment color="#fff" size={20} />} />
             </View>
 
             <View style={{ width: "100%" }}>
@@ -207,7 +66,11 @@ export default function Appointments() {
             </View>
 
 
-          <View style={{width: "100%"}}>
+            {completed && <CompletedAdminAppointment />}
+           {!completed && <UnCompletedAdminAppointment />
+}
+
+          {/* <View style={{width: "100%"}}>
           <FlatList
                 data={DATA}
                 renderItem={({ item }) => <Item  />}
@@ -215,7 +78,7 @@ export default function Appointments() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ rowGap: 10 }}
             />
-          </View>
+          </View> */}
 
         </SafeAreaView>
     )
@@ -231,15 +94,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         paddingVertical: 20,
         gap: 20,
-    },
-    item: {
-        backgroundColor: '#fff',
-        borderWidth: 0.4,
-        borderColor: "rgba(0,0,0,0.1)",
-    },
-    title: {
-        fontFamily: 'avenir',
-    },
-
+    }
 });
 

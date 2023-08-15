@@ -49,12 +49,7 @@ export default function AuthUser() {
                         email: Email_Address,
                         password: Password,
                     }
-                    // const response = await axios.post(`${baseUrl}/auth/login`, data)
-
-                    // console.log("result: ", response.data)
-
-                    // https://embodie.vercel.app/api/auth/login
-
+                    
                      const res =  JSON.stringify(data)
 
                     const response = await fetch(`${baseUrl}/auth/login`, {
@@ -66,7 +61,7 @@ export default function AuthUser() {
                       })
 
                       const result = await response.json()
-                  
+
                       if (result.status === "success") {
                         const { user, token } = result
                     dispatch(loginUserMutation({ isLogin: true, user , isFirst: false, token}))
@@ -156,7 +151,7 @@ export default function AuthUser() {
             </ScrollView>
             {loading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.greenA700} />
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                 </View>
             )}
 

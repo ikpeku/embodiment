@@ -29,9 +29,7 @@ const AdminProfiles = () => {
     const {user} = useAppSelector(UserState)
     const {firstName, lastName, status} = user
 
-    console.log(user._id)
 
-  
     const [isSwitchOn, setIsSwitchOn] = useState(false);
 
     const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);

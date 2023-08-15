@@ -41,6 +41,9 @@ export type RootStackParamList = {
     // Doctors screens
     DoctorAppointments: undefined
     Doctorearnings: undefined
+    CreateDoctorSchedule: undefined
+    Doctorviewuser: { id: string }
+    BankDetails: undefined
 };
 
 
@@ -56,6 +59,8 @@ export type SupportScreenProps = NativeStackNavigationProp<RootStackParamList, "
 export type SubscribeScreenProps = NativeStackNavigationProp<RootStackParamList, "Subscribe">
 
 export type DoctorAppointmentsScreenProps = NativeStackNavigationProp<RootStackParamList, "DoctorAppointments">
+export type CreateDoctorScheduleScreenProps = NativeStackNavigationProp<RootStackParamList, "CreateDoctorSchedule">
+export type DoctorviewuserScreenProps = NativeStackNavigationProp<RootStackParamList, "Doctorviewuser">
 
 
 // auth screen

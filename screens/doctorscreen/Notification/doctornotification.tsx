@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import {
     SafeAreaView,
     View,
@@ -6,6 +7,7 @@ import {
     Text,
 } from 'react-native';
 import { Card, Text as Paper_Text } from 'react-native-paper';
+import { DoctorviewuserScreenProps } from '../../../types';
 
 
 const DATA = [
@@ -14,7 +16,7 @@ const DATA = [
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
         date: "Jul 23, 2023",
         titles: [
-            'You have scheduled an appointment with Dr. Jacob Jones.' ,
+            'You have scheduled an appointment with Dr. Jacob Jones.',
             'You have scheduled an appointment with Dr. Jacob Jones.',
             'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
         ]
@@ -51,48 +53,63 @@ const DATA = [
             'Remember you have an appointment with Dr. Jacob Jones tommorow.',
             'You have scheduled an appointment with Dr. Jacob Jones.',
             'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    ]
+        ]
     },
 
 ];
 
 interface IItem {
-     data: {
+    data: {
         id: string
         date: string,
         titles: string[]
-     }
+    }
 }
 
-const Item = ({ data}: IItem) => {
-
-    return (
-        <View>
-            <Paper_Text style={[styles.title, {fontWeight: "400", opacity: 0.4, paddingVertical: 20, textAlign: "center"}]}>{data.date}</Paper_Text>
-       {
-        data.titles.map((title, index) => (
-            <Card key={index} mode='contained' style={styles.item}  >
-            <Card.Content>
-                <Paper_Text style={styles.title}>{title}</Paper_Text>
-            </Card.Content>
-        </Card>
-        ))
-       }
-
-        </View>
-    )
-};
 
 const Empty = () => {
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>No Order</Text>
+            <Text>No Notification</Text>
         </View>
     )
 }
 
 
-export default function Orders() {
+export default function DoctorNotification() {
+
+
+    const navigation = useNavigation<DoctorviewuserScreenProps>()
+
+
+    const Item = ({ data }: IItem) => {
+
+        return (
+            <View>
+                <Paper_Text style={[styles.title, { fontWeight: "400", fontSize: 14, color: "#0665CB", paddingVertical: 10, textAlign: "center" }]}>{data.date}</Paper_Text>
+                {
+                    data.titles.map((title, index) => (
+                        <Card key={index} mode='contained' style={styles.item}  >
+                            <Card.Content style={{ gap: 10 }}>
+                                <Paper_Text style={[styles.title, { opacity: 0.7 }]}>{title}</Paper_Text>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>09:00 am</Text>
+                                    <Text onPress={() => navigation.navigate("Doctorviewuser", {id: data.id})} style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text>
+                                </View>
+                            </Card.Content>
+                        </Card>
+                    ))
+                }
+    
+            </View>
+        )
+    };
+    
+
+
+
+
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
@@ -101,7 +118,7 @@ export default function Orders() {
                 keyExtractor={item => item.id}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{padding: 10}}
+                contentContainerStyle={{ padding: 10 }}
             />
         </SafeAreaView>
     )
@@ -113,14 +130,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         width: "100%",
-        // paddingHorizontal: 10,
-        
     },
     item: {
         backgroundColor: '#fff',
         margin: 5
-        // backgroundColor: "#fff",
-
     },
     title: {
         fontFamily: 'avenir',

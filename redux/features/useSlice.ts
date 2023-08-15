@@ -18,7 +18,8 @@ export interface UserState {
         allergies: string[],
         createdAt: string,
         updatedAt: string,
-        role: string[]
+        role: string[],
+        doctorId: string
     },
 
 

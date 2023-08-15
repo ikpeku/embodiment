@@ -21,7 +21,7 @@ import ProfileAvatar from '../../../components/Avatar';
 import DoctorCard from '../../../components/Doctorcard';
 import { useNavigation } from '@react-navigation/native';
 import { AdminHomeScreenProp } from '../../../types';
-import { useGetAllDoctors, useGetAllUsers } from '../../../services';
+import { useGetAllAppointments, useGetAllDoctors, useGetAllUsers } from '../../../services';
 import { useAppSelector } from '../../../redux/hooks';
 import { UserState } from '../../../redux/features/useSlice';
 // import { Avatar, DoctorCard, UseDrawer } from '../../../components';
@@ -144,7 +144,7 @@ const Item = ({ item }:IItem) => {
 const Empty = () => {
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>No Notification</Text>
+            <Text>No Activity</Text>
 
         </View>
     )
@@ -160,6 +160,8 @@ export default function AdminHome() {
     const {data: doctors = []} = useGetAllDoctors()
 
     const {data: users = []} = useGetAllUsers()
+    const {data: appointment = []} = useGetAllAppointments()
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -179,7 +181,7 @@ export default function AdminHome() {
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
                 <DoctorCard title={"Questionnaires"} onCardPress={() => navigation.navigate("Questionnaires")} subTitle={0} rightIcon={<Questionnaire color="white" size={20} />} />
-                <DoctorCard title={"Appointments"} onCardPress={() => navigation.navigate("Appointments")} subTitle={0} rightIcon={<Appointment color="white" size={20} />} />
+                <DoctorCard title={"Appointments"} onCardPress={() => navigation.navigate("Appointments")} subTitle={appointment ? appointment?.data?.length : 0} rightIcon={<Appointment color="white" size={20} />} />
             </View>
 
             <View style={{ width: "100%" }}>

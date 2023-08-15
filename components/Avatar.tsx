@@ -13,7 +13,7 @@ const ProfileAvatar = ({ text, photoUrl, type = "Center" }:IProfileAvatar) => (
 
         <Avatar.Image size={type === "Center" ? 70 : 40} source={{ uri: photoUrl }} />
         {text && 
-        <Text variant={"bodyLarge"} style={{ paddingVertical: 10 }}> Hi, {" "}
+        <Text variant={"bodyLarge"} style={{ paddingVertical: 10 }}>{type === "Start" ? " Hi," : ""} {" "}
         <Text variant={type === "Center" ? 'bodySmall' : "titleLarge"} style={{ paddingVertical: 10 }}>{text}</Text>
         </Text>
         }

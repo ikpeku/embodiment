@@ -194,13 +194,12 @@ export default function Admindoctor() {
             <View style={{ width: "100%" , flex: 2}}>
 
                 <FlatList
-                    data={doctors}
+                    data={doctors?.slice().reverse()}
                     renderItem={({ item }) => <Item item={item} />}
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<Empty />}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{}}
-                    inverted
                 />
             </View>
 

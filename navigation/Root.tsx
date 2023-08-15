@@ -2,7 +2,7 @@ import { View, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types";
-import { AdminChangepassword, AdminDoctorprofile, AdminEditprofile, AdminSupport, AdminUserprofile, Admindoctorsuccess, AuthUser, Changepassword, ConfirmAppointment, ConfirmForgotPassword, ConfirmSubscription, ConfirmUser, Confirmremoveuser, Consultationappointment, Consultationcheckout, DoctorAppointments, Doctorearnings, Editprofile, ForgotPassword, HelpandSupport, OnboardingScreen, Questionnaire, Signup, Subscribe, Support, UserHealthDetail } from "../screens";
+import { AdminChangepassword, AdminDoctorprofile, AdminEditprofile, AdminSupport, AdminUserprofile, Admindoctorsuccess, AuthUser, BankDetails, Changepassword, ConfirmAppointment, ConfirmForgotPassword, ConfirmSubscription, ConfirmUser, Confirmremoveuser, Consultationappointment, Consultationcheckout, CreateDoctorSchedule, DoctorAppointments, Doctorearnings, Doctorviewuser, Editprofile, ForgotPassword, HelpandSupport, OnboardingScreen, Questionnaire, Signup, Subscribe, Support, UserHealthDetail } from "../screens";
 import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
@@ -93,12 +93,13 @@ const Root = () => {
                                     {/* user profile */}
                                     <Stack.Group
                                         screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
-                                        <Stack.Screen name="Account" component={Editprofile}/>
+                                        {/* <Stack.Screen name="Account" component={Editprofile}/>
                                         <Stack.Screen name="Password" component={Changepassword}/>
                                         <Stack.Screen name="HelpandSupport" component={HelpandSupport}
                                                       options={{title: "Help & Support"}}/>
                                         <Stack.Screen name="Support" component={Support}
-                                                      options={{title: "Ongoing support"}}/>
+                                                      options={{title: "Ongoing support"}}/> */}
+
                                         <Stack.Screen name="Subscribe" component={Subscribe}
                                                       options={{title: "Subscribe"}}/>
                                         <Stack.Screen name="ConfirmSubscription" component={ConfirmSubscription}
@@ -167,11 +168,37 @@ const Root = () => {
                                                       options={{title: "Appointments"}}/>
 <Stack.Screen name="Doctorearnings" component={Doctorearnings}
                                                       options={{title: "Earnings"}}/>
+                                                      
+<Stack.Screen name="CreateDoctorSchedule" component={CreateDoctorSchedule}
+                                                      options={{title: "Create free time"}}/>
+
+<Stack.Screen name="Doctorviewuser" component={Doctorviewuser}
+                                                      options={{title: "User profile"}}/>
+
 
 
 
 
                                 </Stack.Group>}
+
+
+
+                                <Stack.Group
+                                        screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
+                                        <Stack.Screen name="Account" component={Editprofile}/>
+                                        <Stack.Screen name="Password" component={Changepassword}/>
+                                        <Stack.Screen name="HelpandSupport" component={HelpandSupport}
+                                                      options={{title: "Help & Support"}}/>
+                                        <Stack.Screen name="Support" component={Support}
+                                                      options={{title: "Ongoing support"}}/>
+                                                      
+                                        <Stack.Screen name="BankDetails" component={BankDetails}
+                                                                    options={{title: "Bank Details"}}/>
+                                        {/* 
+                                        <Stack.Screen name="ConfirmSubscription" component={ConfirmSubscription}
+                                                      options={{headerShown: false}}/> */}
+
+                                    </Stack.Group>
                             </>
                         }
 

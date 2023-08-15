@@ -6,15 +6,29 @@ import {
 import { Card, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { CreateDoctorScheduleScreenProps } from '../../../types';
+import { useAppSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/features/useSlice';
+import { useDoctorAppiontment } from '../../../services';
+import dayjs from 'dayjs'
+
+interface IItem {
+    data: {
+        date: string,
+        startTime: string
+    }
+
+}
 
 
-const Item = () => {
+const Item = ({data}:IItem) => {
 
     return (
         <Card mode='contained' style={styles.item} >
             <Card.Content>
                 <View style={styles.titleContainer}>
-                    <Text variant='titleMedium' style={[styles.title, { color: "#0665CB", }]}>March 12, 2023</Text>
+                    <Text variant='titleMedium' style={[styles.title, { color: "#0665CB", }]}>{dayjs(data?.date).format('MMMM M, YYYY')}</Text>
                     <View style={{ width: 60, padding: 5 }}>
                         <Text variant='titleMedium' style={[styles.title, styles.btn]}>Edit</Text>
                     </View>
@@ -37,25 +51,33 @@ const Empty = () => {
         <View style={{ alignItems: "center", justifyContent: "center", aspectRatio: 1, width: "100%" }}>
             <Entypo name="add-to-list" size={200} color="gainsboro" />
 
-            <Text variant='headlineLarge' style={{ color: "gainsboro", textAlign: "center" }} >No Appointment</Text>
+            <Text variant='headlineLarge' style={{ color: "gainsboro", textAlign: "center" }} >No Schedule</Text>
         </View>
     )
 }
 
 
 export default function DoctorSchedule() {
- 
+
+    const navigation = useNavigation<CreateDoctorScheduleScreenProps>()
+
+    const { user} = useAppSelector(UserState)
+
+    const {data} = useDoctorAppiontment(user?.doctorId)
+
+
+// console.log(data?.data)
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ width: "50%", marginLeft: "auto" }}>
-                <Text style={[styles.btn, {paddingVertical: 8}]}>+ Create free time</Text>
+                <Text onPress={() => navigation.navigate("CreateDoctorSchedule")} style={[styles.btn, {paddingVertical: 8}]}>+ Create free time</Text>
             </View>
 
             <FlatList
-                data={Array(5)}
-                renderItem={({ item }) => <Item />}
-                // keyExtractor={item => item.id}
+                data={data?.data}
+                renderItem={({ item }) => <Item data={item} />}
+                keyExtractor={item => item?.appointmentId}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ gap: 10 }}

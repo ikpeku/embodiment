@@ -2,10 +2,9 @@ import {
     View,
     FlatList,
     StyleSheet,
-    Text,
 } from 'react-native';
-import { Card, Text as Paper_Text } from 'react-native-paper';
-import {  MaterialCommunityIcons } from '@expo/vector-icons';
+import { Card, Text } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DoctorCard from '../../../components/Doctorcard';
 import ProfileAvatar from '../../../components/Avatar';
@@ -14,103 +13,17 @@ import { useAppSelector } from '../../../redux/hooks';
 import { Appointment } from '../../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { DoctorAppointmentsScreenProps } from '../../../types';
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-
-
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba111',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63222',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72333',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2444',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632555',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722666',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    }, {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba777',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63888',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72999',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2000',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63211111',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d7222222222',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-];
+import { useDoctorAppiontment, useGetCompletedIndividualAppointment } from '../../../services';
+import dayjs from 'dayjs'
 
 
 interface IItem {
-    data: typeof DATA[0]
+    data: {
+        createdAt: string,
+        patient: {
+            name: string
+        }
+    }
 }
 
 const Item = ({ data }: IItem) => {
@@ -118,13 +31,18 @@ const Item = ({ data }: IItem) => {
     return (
         <Card mode='contained' style={styles.item} >
             <Card.Content>
-                <Paper_Text variant='bodyMedium' style={styles.title}>{data.title}</Paper_Text>
-                <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Paper_Text style={[styles.title, { color: "#0665CB" }]}>09:00 am</Paper_Text>
-                    <Paper_Text style={[styles.title, { color: "#0665CB" }]}>March 12, 2023</Paper_Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
+                    <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
+                        <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{`${data?.patient?.name} `}</Text>
+                        booked an appointment
+                    </Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
+                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('hh:mm a')}</Text>
+                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM M, YYYY')}</Text>
                 </View>
             </Card.Content>
-
         </Card>
     )
 };
@@ -132,7 +50,7 @@ const Item = ({ data }: IItem) => {
 const Empty = () => {
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>No Notification</Text>
+            <Text>No Appointment</Text>
         </View>
     )
 }
@@ -141,7 +59,12 @@ const Empty = () => {
 export default function DoctorHome() {
     const navigation = useNavigation<DoctorAppointmentsScreenProps>()
 
-    const { user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
+
+    const { data } = useDoctorAppiontment(user?.doctorId)
+    const {data: completedAppiontment} = useGetCompletedIndividualAppointment(user.doctorId)
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -154,23 +77,27 @@ export default function DoctorHome() {
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={132} rightIcon={<Appointment color={"white"} size={20} />} />
+                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data ? data?.data?.length + completedAppiontment?.data?.length : 0} rightIcon={<Appointment color={"white"} size={20} />} />
                 <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings"} subTitle={1980} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
             </View>
 
             <View style={{ width: "100%" }}>
-                <Paper_Text variant='titleLarge'>Recent appointments</Paper_Text>
+                <Text variant='titleLarge'>Recent appointments</Text>
             </View>
 
 
-            <FlatList
-                data={DATA}
-                renderItem={({ item }) => <Item data={item} />}
-                keyExtractor={item => item.id}
-                ListEmptyComponent={<Empty />}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{gap: 10}}
-            />
+
+            <View style={{ width: "100%", flex: 1 }}>
+                <FlatList
+                    data={data?.data}
+                    renderItem={({ item }) => <Item data={item} />}
+                    ListEmptyComponent={<Empty />}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ rowGap: 10 }}
+                />
+            </View>
+
+
         </SafeAreaView>
     )
 }
