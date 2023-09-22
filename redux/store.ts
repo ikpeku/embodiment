@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useSlice from './features/useSlice'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { diseaseApi } from '../services';
+
 
 import {
     // persistStore,
@@ -25,7 +25,7 @@ const persistConfig = {
 // adding our rootReducer
 const rootReducer = combineReducers({
     user: useSlice,
-    [diseaseApi.reducerPath]: diseaseApi.reducer,
+    // [diseaseApi.reducerPath]: diseaseApi.reducer,
 });
 
 // persisting our rootReducer
@@ -41,7 +41,7 @@ export const store = configureStore({
                     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
                 },
             }
-        ).concat(diseaseApi.middleware),
+        ).concat(),
 });
 
 

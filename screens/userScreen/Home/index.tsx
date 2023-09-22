@@ -1,47 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, Image } from 'react-native';
-import { Card, Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Card, MD2Colors, Text, TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DATA from "../../../dummy/data.json"
 import { useNavigation } from '@react-navigation/native';
 
 import { EvilIcons } from '@expo/vector-icons';
 import { UserHealthDetailScreenProps } from '../../../types';
-import { useGetAllVendorsQuery } from '../../../services';
+import { useGetAllDisease } from '../../../services';
+import { QueryClient } from '@tanstack/react-query';
+
 
 
 interface IrenderItem {
     item: {
-        catergory: string,
-        status: string,
+        category: string,
+        popular: boolean,
         title: string,
-        id: number
+        _id: string
     }
 }
 
 const UserHome = () => {
+
+    const queryClient = new QueryClient()
     const [searchQuery, setSearchQuery] = useState('');
     // const [data, setData] = useState(DATA)
 
     // const router = useRouter()
     const navigation = useNavigation< UserHealthDetailScreenProps>()
 
-
-    const {data} = useGetAllVendorsQuery(undefined)
-
-
-    // console.log(data)
+    const {data, isLoading, isSuccess} = useGetAllDisease()
 
 
-
-useEffect(() => {
-    (async() => {
-        const res = await fetch("https://embodi-be.vercel.app/api/disease/categories")
-
-        const result = await res.json()
-    })()
-},[])
-
+    if(isSuccess) {
+     queryClient.invalidateQueries({ queryKey: ['userNotification'] })
+     queryClient.invalidateQueries({ queryKey: ['getDoctorVerifyDoctors'] })
+    }
 
     // useEffect(() => {
 
@@ -54,12 +49,13 @@ useEffect(() => {
     // }, [searchQuery])
 
 
+
     const renderItem = ({ item }:IrenderItem) => (
         // router.push(`./Home/${item.id}`)
-        <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", {id: item.id})}>
+        <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", {id: item._id})}>
             <Card.Content style={{ gap: 10 }} >
-                <Text variant='bodyMedium' style={{ backgroundColor: "#E5F6FD", paddingHorizontal: 3, borderRadius: 50, width: 100 }} >{item.catergory}</Text>
-                {item.status && <Text variant='bodyMedium' style={{ backgroundColor: "#7EA5CE", paddingHorizontal: 3, borderRadius: 50, width: 70 }}>Popular</Text>}
+                <Text variant='bodyMedium' style={{ backgroundColor: "#E5F6FD", paddingHorizontal: 3, borderRadius: 50, width: 100 }} >{item.category}</Text>
+                {item.popular && <Text variant='bodyMedium' style={{ backgroundColor: "#7EA5CE", paddingHorizontal: 3, borderRadius: 50, width: 70 }}>Popular</Text>}
                 <Text variant='bodyMedium' style={{ backgroundColor: "#fff", paddingHorizontal: 3, borderRadius: 50, width: "100%" }}>{item.title}</Text>
 
             </Card.Content>
@@ -86,7 +82,7 @@ useEffect(() => {
             </View>
 
             <FlatList
-                data={data}
+                data={data?.data}
                 renderItem={renderItem}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}
@@ -94,6 +90,12 @@ useEffect(() => {
                 contentContainerStyle={{paddingVertical: 10}}
 
             />
+
+{isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
         </SafeAreaView>
 
     );

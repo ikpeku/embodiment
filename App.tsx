@@ -32,8 +32,10 @@ export default function App() {
   });
 
   const onLayoutRootView = useCallback(async () => {
+    await queryClient.invalidateQueries({ queryKey: ['alldisease'] })
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
+      
     }
   }, [fontsLoaded]);
 

@@ -24,116 +24,40 @@ import { AdminHomeScreenProp } from '../../../types';
 import { useGetAllAppointments, useGetAllDoctors, useGetAllUsers } from '../../../services';
 import { useAppSelector } from '../../../redux/hooks';
 import { UserState } from '../../../redux/features/useSlice';
+import { useGetAdminNotification, useGetAdminnQuestionnaire } from '../../../services/doctorApi';
+import dayjs from 'dayjs';
 // import { Avatar, DoctorCard, UseDrawer } from '../../../components';
 
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-
-
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba111',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63222',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72333',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2444',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632555',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722666',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    }, {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba777',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63888',
-        date: new Date(),
-        title: 'Treatment for your birth control has been sent to your emailTreatment for your birth control has been sent to your email',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72999',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2000',
-        date: new Date(),
-        title: 'Treatment for your Depression has been sent to your email',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63211111',
-        date: new Date(),
-        title: 'You have scheduled an appointment with Dr. Jacob Jones.',
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d7222222222',
-        date: new Date(),
-        title: 'Remember you have an appointment with Dr. Jacob Jones tommorow.',
-    },
-];
-
 interface IItem {
-    item: typeof DATA[0]
+    item: {
+        message: string,
+        timestamp: string
+        notificationType: "appointment" | "questionnaire",
+        senderName: string,
+        diseaseTitle: string
+    }
 }
 
 const Item = ({ item }:IItem) => {
 
     return (
         <Card mode='contained' style={styles.item} >
-            <Card.Content>
-                <Paper_Text style={[styles.title, {fontSize: 15}]}>{item.title}</Paper_Text>
+            <Card.Content style={{width: "100%"}}>
+                {item.notificationType === "appointment" ? 
+                <Paper_Text style={[styles.title, {fontSize: 15}]}>{item.message}</Paper_Text>
+            :
+            <Paper_Text style={[styles.title, {fontSize: 15}]}>{item.diseaseTitle}</Paper_Text>
+            }
                 <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Paper_Text style={[styles.title, { color: "#0665CB" , opacity: 0.7}]}>09:00 am</Paper_Text>
-                    <Paper_Text style={[styles.title, { color: "#0665CB" , opacity: 0.7}]}>March 12, 2023</Paper_Text>
+                {item.notificationType === "appointment" ? 
+                <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(item.timestamp).format('hh:mm a')}</Text>
+                :
+                <Text style={{ color: "#000", opacity: 0.8 }}> From 
+                   <Text style={{ color: "#000", fontWeight: "bold" }}> {item.senderName}</Text>
+                </Text>
+        }
+                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(item.timestamp).format('MMMM D, YYYY')}</Text>
                 </View>
             </Card.Content>
 
@@ -160,7 +84,16 @@ export default function AdminHome() {
     const {data: doctors = []} = useGetAllDoctors()
 
     const {data: users = []} = useGetAllUsers()
-    const {data: appointment = []} = useGetAllAppointments()
+    const {data: questionnaire, isLoading} = useGetAdminnQuestionnaire()
+
+
+    const {data: appointment = []} = useGetAllAppointments(user._id)
+
+
+    const {data: activities} = useGetAdminNotification(user._id)
+
+    // console.log("acti:", activities?.notifications)
+    // console.log("appiot:", appointment)
 
 
     return (
@@ -169,19 +102,20 @@ export default function AdminHome() {
 
             <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user?.firstName}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard title={"Users"} onCardPress={() => navigation.navigate("Adminusers")} subTitle={users ? users?.data?.length : 0} rightIcon={<Users color="white" size={20} />} />
-                <DoctorCard title={"Doctors"} onCardPress={() => navigation.navigate("Admindoctor")} subTitle={doctors ? doctors?.data?.length : 0} rightIcon={<FontAwesome name="stethoscope" size={24} color="white" />} />
+                <DoctorCard title={"Users"} onCardPress={() => navigation.navigate("Adminusers")} subTitle={users?.data ? users?.data?.length : 0} rightIcon={<Users color="white" size={20} />} />
+                <DoctorCard title={"Doctors"} onCardPress={() => navigation.navigate("Admindoctor")} subTitle={doctors?.data ? doctors?.data?.length : 0} rightIcon={<FontAwesome name="stethoscope" size={24} color="white" />} />
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard title={"Questionnaires"} onCardPress={() => navigation.navigate("Questionnaires")} subTitle={0} rightIcon={<Questionnaire color="white" size={20} />} />
-                <DoctorCard title={"Appointments"} onCardPress={() => navigation.navigate("Appointments")} subTitle={appointment ? appointment?.data?.length : 0} rightIcon={<Appointment color="white" size={20} />} />
+                <DoctorCard title={"Questionnaires"} onCardPress={() => navigation.navigate("Questionnaires")} subTitle={questionnaire?.questionnaireTotalCount ? questionnaire?.questionnaireTotalCount : 0} rightIcon={<Questionnaire color="white" size={20} />} />
+                <DoctorCard title={"Appointments"} onCardPress={() => navigation.navigate("Appointments")} subTitle={appointment?.data?.completedSchedules ? appointment?.data?.completedSchedules.length : 0} rightIcon={<Appointment color="white" size={20} />} />
             </View>
 
             <View style={{ width: "100%" }}>
@@ -189,13 +123,17 @@ export default function AdminHome() {
             </View>
 
 
+            <View style={{width: "100%", flex: 1}}>
             <FlatList
-                data={DATA}
+                data={activities?.notifications ? activities?.notifications.slice().reverse() : []}
                 renderItem={({ item }) => <Item  item={item} />}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}
+                contentContainerStyle={{gap: 10}}
                 showsVerticalScrollIndicator={false}
             />
+            </View>
+
         </SafeAreaView>
     )
 }
@@ -214,11 +152,8 @@ const styles = StyleSheet.create({
     },
     item: {
         backgroundColor: '#fff',
-        margin: 5,
         borderWidth: 0.4,
         borderColor: "rgba(0,0,0,0.1)",
-
-
     },
     title: {
         fontFamily: 'avenir',

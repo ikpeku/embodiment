@@ -25,7 +25,7 @@ export default function Appointments() {
     const [searchQuery, setSearchQuery] = useState('');
     const [completed, setCompleted] = useState(true)
     const {user} = useAppSelector(UserState)
-    const {data: appointment = []} = useGetAllAppointments()
+    const {data: appointment = []} = useGetAllAppointments(user._id)
 
 
     return (
@@ -33,6 +33,7 @@ export default function Appointments() {
            
             <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user.firstName}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
@@ -40,10 +41,12 @@ export default function Appointments() {
             </View>
 
             <View style={{ width: "100%", flexDirection: "row" }}>
-                <DoctorCard title={"Appointments"} subTitle={appointment ? appointment?.data?.length : 0} rightIcon={<Appointment color="#fff" size={20} />} />
+                <DoctorCard title={"Appointments"} subTitle={appointment?.data?.completedSchedules ? appointment?.data?.completedSchedules.length : 0} rightIcon={<Appointment color="#fff" size={20} />} />
             </View>
 
-            <View style={{ width: "100%" }}>
+           { appointment?.data?.completedSchedules.length + appointment?.data?.bookedSchedules.length > 0 && 
+            <>
+           <View style={{ width: "100%" }}>
 
                 <View style={{ borderRadius: 8, borderWidth: 1, borderColor: "gainsboro" }}>
                     <Searchbar
@@ -64,22 +67,14 @@ export default function Appointments() {
                     <Text variant='titleMedium' style={{color: !completed ? "#000" : "#fff", textAlign: "center"}}>Completed</Text>
                 </Pressable>
             </View>
+           </>
+
+}
 
 
             {completed && <CompletedAdminAppointment />}
            {!completed && <UnCompletedAdminAppointment />
 }
-
-          {/* <View style={{width: "100%"}}>
-          <FlatList
-                data={DATA}
-                renderItem={({ item }) => <Item  />}
-                ListEmptyComponent={<Empty />}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ rowGap: 10 }}
-            />
-          </View> */}
-
         </SafeAreaView>
     )
 }

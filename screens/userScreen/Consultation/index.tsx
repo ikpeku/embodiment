@@ -1,32 +1,39 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Keyboard, Image } from 'react-native'
-import { Text, TextInput } from 'react-native-paper';
+import { ActivityIndicator, MD2Colors, Text, TextInput } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Doctors from "../../../dummy/doctors.json"
+// import Doctors from "../../../dummy/doctors.json"
 import { useNavigation } from '@react-navigation/native';
 import { CardTag } from '../../../components';
 import { EvilIcons } from '@expo/vector-icons';
+import {useGetVerifyAllDoctors} from "../../../services/doctorApi";
+import {ConsultationappointmentScreenProps} from "../../../types";
+
 
 
 
 
 export default function Consultation() {
-    const navigation = useNavigation()
+    const navigation = useNavigation<ConsultationappointmentScreenProps>()
     const [searchQuery, setSearchQuery] = useState('');
 
-    const [data, setData] = useState(Doctors)
+    const { data = [], isLoading } = useGetVerifyAllDoctors()
+
+    // const [data, setData] = useState(Doctors)
 
 
-    useEffect(() => {
+    // useEffect(() => {
+    //
+    //     if (!searchQuery) {
+    //         setData(Doctors)
+    //     } else {
+    //         setData(Doctors.filter(item => item.Name.toLowerCase().includes(searchQuery.toLowerCase()) || item.expert.toLowerCase().includes(searchQuery.toLowerCase())))
+    //     }
+    //
+    // }, [searchQuery])
 
-        if (!searchQuery) {
-            setData(Doctors)
-        } else {
-            setData(Doctors.filter(item => item.Name.toLowerCase().includes(searchQuery.toLowerCase()) || item.expert.toLowerCase().includes(searchQuery.toLowerCase())))
-        }
-
-    }, [searchQuery])
+    // console.log("allDoctors: ",data)
 
     return (
         <SafeAreaView style={styles.root} >
@@ -59,9 +66,9 @@ export default function Consultation() {
                 renderItem={({ item }) => <CardTag
                     mode='elevated'
                     // elevation={1}
-                    onPress={() => navigation.navigate("Consultationappointment", { id: item.id })}
-                    title={item.Name}
-                    subTitle={item.expert}
+                    onPress={() => navigation.navigate("Consultationappointment", { id: item._id })}
+                    title={`Dr. ${item.firstName} ${item.lastName}`}
+                    subTitle={item.specialty}
                     url={item.img}
                     rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" style={{ opacity: 0.5 }} />}
                 />}
@@ -70,6 +77,12 @@ export default function Consultation() {
                 contentContainerStyle={{ gap: 10 }}
             />
 
+
+{isLoading && (
+        <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+            <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+        </View>
+    )}
 
         </SafeAreaView >
     )

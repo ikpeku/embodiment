@@ -28,6 +28,7 @@ export { default as HelpandSupport } from "./userScreen/Profile/help"
 export { default as Support } from "./userScreen/Profile/support"
 export { default as Subscribe } from "./userScreen/Profile/Subscribe"
 export { default as ConfirmSubscription } from "./userScreen/Profile/ConfirmSubscription"
+export { default as ConfirmappiontmentBook } from "./userScreen/Consultation/confirmAppointment"
 
 
 // Consultation Screen
@@ -48,11 +49,13 @@ export { default as Admindoctor } from "./adminscreen/Doctors/admindoctors"
 export { default as Admindoctorsuccess } from "./adminscreen/Doctors/admindoctorsuccess"
 export { default as AdminDoctorprofile } from "./adminscreen/Doctors/admindoctordetail"
 export { default as Questionnaires } from "./adminscreen/Questionnaire/questionaire"
+export { default as Questionandanswer } from "./adminscreen/Questionnaire/questionandanswer"
 export { default as Appointments } from "./adminscreen/Appointment/appointment"
 export { default as AdminProfile } from "./adminscreen/Profile/adminprofile"
 export { default as AdminEditprofile } from "./adminscreen/Profile/editprofile"
 export { default as AdminChangepassword } from "./adminscreen/Profile/adminpassword"
 export { default as AdminSupport } from "./adminscreen/Profile/adminSupport"
+
 
 
 // Doctor screen

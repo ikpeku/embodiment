@@ -1,12 +1,31 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+// import axios from 'axios';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import Request from './Request';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query'
+import { request } from './authenApi';
+import { UserState } from '../redux/features/useSlice';
+import { useAppSelector } from '../redux/hooks';
 
 
-export const baseUrl = "https://embodie.vercel.app/api";
-// http://localhost:3000/api/user/changePassword
-// http://localhost:3000/api/doctor/removedoctor/:userId
+// export const baseURL = "https://embodie.vercel.app/api";
+export const baseURL = "https://embodi-be.vercel.app/api";
+
+
+// axios.defaults.withCredentials = true;
+
+// const client = axios.create({ baseURL })
+
+
+// const request = async ({ ...options }) => {
+//     client.defaults.headers.common.Authorization = `Bearer token`
+//     const onSuccess = (response: any) => response
+//     const onError = (error: any) => error
+
+//     return await client(options).then(onSuccess).catch(onError)
+// }
+
 
 
 export interface IDoctor {
@@ -22,23 +41,7 @@ export interface IAddDoctor {
 
 
 
-export const diseaseApi = createApi({
-    reducerPath: 'vendorApi',
-    baseQuery: fetchBaseQuery({ baseUrl }),
-    tagTypes: ["users"],
-    endpoints: (builder) => ({
 
-        getAllVendors: builder.query({
-            query: () => "/api/disease/categories",
-        }),
-    }),
-
-})
-
-
-export const { useGetAllVendorsQuery,
-
-} = diseaseApi
 
 
 
@@ -51,7 +54,8 @@ export const { useGetAllVendorsQuery,
 
 // query endpoint
 const endPoint = async (url: string) => {
-    const response = await axios.get(`${baseUrl}/${url}`)
+    const response = await Request({ url: `/${url}` })
+    // await axios.get(`${baseUrl}/${url}`)
     return response.data
 }
 
@@ -70,9 +74,10 @@ export const useGetAllDoctors = () => {
     return useQuery({ queryKey: ['doctors'], queryFn: () => endPoint("doctor/doctors") })
 }
 
+
 // get single doctor
 export const useDoctor = (id: string) => {
-    return useQuery({ queryKey: ['doctor', id], queryFn: () => endPoint(`doctor/view/${id}`) })
+    return useQuery({ queryKey: ['doctorbyid', id], queryFn: () => endPoint(`doctor/viewone/${id}`) })
 }
 
 
@@ -99,17 +104,143 @@ export const useGetCompletedIndividualAppointment = (id: string) => {
     return useQuery({ queryKey: ['individualcompletedappointment', id], queryFn: () => endPoint(`appointment/getAppointmentById/${id}`) })
 }
 
+// https://embodi-be.vercel.app/api/appointment/view-all/64f21548ef6142816e848fe7
+
+// // GET All APPOINTMENTs completed and uncompleted
+// export const useGetAllAppointments = () => {
+//     return useQuery({ queryKey: ['allappointments'], queryFn: () => endPoint(`appointment/viewAll`) })
+// }
 // GET All APPOINTMENTs completed and uncompleted
-export const useGetAllAppointments = () => {
-    return useQuery({ queryKey: ['allappointments'], queryFn: () => endPoint(`appointment/viewAll`) })
+export const useGetAllAppointments = (adminId: string) => {
+    return useQuery({ queryKey: ['adminviewallappointments'], queryFn: () => endPoint(`appointment/view-all/${adminId}`) })
+}
+
+
+// GET All APPOINTMENTs completed and uncompleted
+export const useGetAllDisease = () => {
+    return useQuery({ queryKey: ['alldisease'], queryFn: () => endPoint(`disease/viewAll`) })
+}
+
+// GET All APPOINTMENTs completed and uncompleted
+export const useGetSingleDisease = (id: string) => {
+    return useQuery({ queryKey: ['singledisease'], queryFn: () => endPoint(`disease/${id}`) })
 }
 
 
 
+// Create Appointment
+
+interface IcreateAppointmentApi {
+    doctorId: string,
+    date: string,
+    startTime: string,
+    endTime: string
+}
+
+
+export const createApointmentApi = ({ doctorId, date, startTime, endTime }: IcreateAppointmentApi) => {
+    return axios.post(`${baseURL}/appointment/create/${doctorId}`,
+        {
+            doctorId,
+            appointments: [
+                {
+                    date,
+                    schedule: [
+                        {
+                            startTime,
+                            endTime
+                        }
+                    ]
+                }
+            ]
+        }
+
+    )
+}
 
 
 
+interface IBookAppointmentApi {
+    doctorId: string,
+    appointmentId: string,
+    startTime: string,
+    userID: string,
+    // token: string
+}
 
+
+
+export const BookAppointment = ({ appointmentId, startTime, doctorId, userID }: IBookAppointmentApi) => {
+    return axios.post(`${baseURL}/appointment/book/${doctorId}/${userID}`,
+
+        {
+            appointmentId,
+            startTime
+            //   "patientId": "64f24a0a1265728bb140a638"
+        }
+    )
+}
+
+
+interface IRateDoctor {
+    doctorId: string,
+    starRating: number,
+    userID: string,
+}
+
+
+
+export const RateDoctor = ({ starRating, doctorId, userID }: IRateDoctor) => {
+    return axios.patch(`${baseURL}/doctor/${doctorId}/rate/${userID}`,
+
+        {
+            starRating
+        }
+    )
+}
+
+type IQuetionandAnswer = {
+    question: string,
+    answer: string | number
+}
+
+interface ISubmitQuetionnaire {
+    userId: string;
+    diseaseId: string;
+    questionsAndAnswers: IQuetionandAnswer[]
+}
+
+
+type MarkQuestionnaireAsComplete = {
+    diseaseId: string
+    userId: string
+}
+type IMarkAppointmentAsComplete = {
+    doctorId: string
+    appointmentId: string
+    scheduleId: string
+}
+
+
+
+export const SubmitQuetionnaire = ({ diseaseId, userId, questionsAndAnswers }: ISubmitQuetionnaire) => {
+    return axios.post(`${baseURL}/questionnaire/add/${userId}/${diseaseId}`,
+        {
+            questionsAndAnswers
+        }
+    )
+}
+
+
+// http://localhost:3000/api/appointment/completed/64efdd43878f77fd479f93f8/650488b951f562cb7b44e83b/650488b951f562cb7b44e83c
+
+export const MarkAppointmentAsComplete = ({ appointmentId, doctorId, scheduleId }: IMarkAppointmentAsComplete) => {
+    return axios.patch(`${baseURL}/appointment/completed/${doctorId}/${appointmentId}/${scheduleId}`)
+}
+
+export const MarkQuestionnaireAsComplete = ({ diseaseId, userId }: MarkQuestionnaireAsComplete) => {
+    return axios.patch(`${baseURL}/questionnaire/completed/${userId}/${diseaseId}`)
+}
 
 
 

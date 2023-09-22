@@ -2,7 +2,7 @@ import { View, Image } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from "../types";
-import { AdminChangepassword, AdminDoctorprofile, AdminEditprofile, AdminSupport, AdminUserprofile, Admindoctorsuccess, AuthUser, BankDetails, Changepassword, ConfirmAppointment, ConfirmForgotPassword, ConfirmSubscription, ConfirmUser, Confirmremoveuser, Consultationappointment, Consultationcheckout, CreateDoctorSchedule, DoctorAppointments, Doctorearnings, Doctorviewuser, Editprofile, ForgotPassword, HelpandSupport, OnboardingScreen, Questionnaire, Signup, Subscribe, Support, UserHealthDetail } from "../screens";
+import { AdminChangepassword, AdminDoctorprofile, AdminEditprofile, AdminSupport, AdminUserprofile, Admindoctorsuccess, AuthUser, BankDetails, Changepassword, ConfirmAppointment, ConfirmForgotPassword, ConfirmSubscription, ConfirmUser, ConfirmappiontmentBook, Confirmremoveuser, Consultationappointment, Consultationcheckout, CreateDoctorSchedule, DoctorAppointments, Doctorearnings, Doctorviewuser, Editprofile, ForgotPassword, HelpandSupport, OnboardingScreen, Questionandanswer, Questionnaire, Signup, Subscribe, Support, UserHealthDetail } from "../screens";
 import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
@@ -21,7 +21,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const Root = () => {
     const insets = useSafeAreaInsets();
 
-    const { isLogin, isFirst, user} = useAppSelector(UserState)
+    const { isLogin, isFirst, user } = useAppSelector(UserState)
 
     const Header = () => (
         <View style={{
@@ -72,27 +72,27 @@ const Root = () => {
 
                             <>
                                 {/* user home */}
-                                {user.role[0] === "isUser" && <Stack.Group>
+                                {user.role === "isUser" && <Stack.Group>
 
                                     <Stack.Group>
                                         <Stack.Screen name="User" component={UserScreenLayout}
-                                                      options={{headerShown: false}}/>
+                                            options={{ headerShown: false }} />
                                         <Stack.Screen name="UserHealthDetail" component={UserHealthDetail}
-                                                      options={{headerShown: false}}/>
+                                            options={{ headerShown: false }} />
                                         <Stack.Screen name="Questionnaire" component={Questionnaire}
-                                                      options={{
-                                                          title: "AI Questionnaire",
-                                                          headerTitleAlign: "center",
-                                                          headerTintColor: "#0665CB",
-                                                      }}
+                                            options={{
+                                                title: "AI Questionnaire",
+                                                headerTitleAlign: "center",
+                                                headerTintColor: "#0665CB",
+                                            }}
                                         />
                                         <Stack.Screen name="ConfirmAppointment" component={ConfirmAppointment}
-                                                      options={{headerShown: false}}/>
+                                            options={{ headerShown: false }} />
                                     </Stack.Group>
 
                                     {/* user profile */}
                                     <Stack.Group
-                                        screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
+                                        screenOptions={{ headerTitleAlign: "center", headerTintColor: "#0665CB", }}>
                                         {/* <Stack.Screen name="Account" component={Editprofile}/>
                                         <Stack.Screen name="Password" component={Changepassword}/>
                                         <Stack.Screen name="HelpandSupport" component={HelpandSupport}
@@ -101,19 +101,21 @@ const Root = () => {
                                                       options={{title: "Ongoing support"}}/> */}
 
                                         <Stack.Screen name="Subscribe" component={Subscribe}
-                                                      options={{title: "Subscribe"}}/>
+                                            options={{ title: "Subscribe" }} />
                                         <Stack.Screen name="ConfirmSubscription" component={ConfirmSubscription}
-                                                      options={{headerShown: false}}/>
+                                            options={{ headerShown: false }} />
 
                                     </Stack.Group>
 
                                     {/* user consultation */}
                                     <Stack.Group
-                                        screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
+                                        screenOptions={{ headerTitleAlign: "center", headerTintColor: "#0665CB", }}>
                                         <Stack.Screen name="Consultationappointment" component={Consultationappointment}
-                                                      options={{title: "Book Appointment"}}/>
+                                            options={{ title: "Book Appointment" }} />
                                         <Stack.Screen name="Consultationcheckout" component={Consultationcheckout}
-                                                      options={{title: "Checkout"}}/>
+                                            options={{ title: "Checkout" }} />
+                                        <Stack.Screen name="ConfirmappiontmentBook" component={ConfirmappiontmentBook}
+                                            options={{ title: "Checkout" , headerShown: false}} />
 
                                     </Stack.Group>
 
@@ -124,56 +126,58 @@ const Root = () => {
 
 
                                 {/*Admin screen start*/}
-                                {user.role[0] === "isAdmin" && <Stack.Group>
+                                {user.role === "isAdmin" && <Stack.Group>
                                     <Stack.Screen name="Admin" component={AdminScreenLayout}
-                                                  options={{headerShown: false}}
+                                        options={{ headerShown: false }}
                                     />
                                     <Stack.Screen name="Confirmremoveuser" component={Confirmremoveuser}
-                                                  options={{headerShown: false}}/>
+                                        options={{ headerShown: false }} />
 
                                     <Stack.Screen name="Admindoctorsuccess" component={Admindoctorsuccess}
-                                                  options={{headerShown: false}}/>
+                                        options={{ headerShown: false }} />
 
 
                                     <Stack.Group
-                                        screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
+                                        screenOptions={{ headerTitleAlign: "center", headerTintColor: "#0665CB", }}>
                                         <Stack.Screen name="AdminUserprofile" component={AdminUserprofile}
-                                                      options={{title: "User profile"}}/>
+                                            options={{ title: "User profile" }} />
+
+                                        <Stack.Screen name="AdminQuestionandanswer" component={Questionandanswer}
+                                            options={{ title: "Questionnnaire" }} />
 
                                         <Stack.Screen name="AdminDoctorprofile" component={AdminDoctorprofile}
-                                                      options={{title: "Doctor profile"}}/>
+                                            options={{ title: "Doctor profile" }} />
 
                                         <Stack.Screen name="AdminEditprofile" component={AdminEditprofile}
-                                                      options={{title: "Account"}}/>
+                                            options={{ title: "Account" }} />
 
                                         <Stack.Screen name="AdminChangepassword" component={AdminChangepassword}
-                                                      options={{title: "Password"}}/>
+                                            options={{ title: "Password" }} />
 
                                         <Stack.Screen name="AdminSupport" component={AdminSupport}
-                                                      options={{title: "Support"}}/>
+                                            options={{ title: "Support" }} />
 
                                     </Stack.Group>
                                 </Stack.Group>}
 
 
                                 {/* DoctorScreenLayout */}
-                                {user.role[0] === "isDoctor" && <Stack.Group
-                                screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}
+                                {user.role === "isDoctor" && <Stack.Group
+                                    screenOptions={{ headerTitleAlign: "center", headerTintColor: "#0665CB", }}
                                 >
-                                <Stack.Screen name="Doctor" component={DoctorScreenLayout}
-                                                  options={{headerShown: false}}
+                                    <Stack.Screen name="Doctor" component={DoctorScreenLayout}
+                                        options={{ headerShown: false }}
                                     />
 
-<Stack.Screen name="DoctorAppointments" component={DoctorAppointments}
-                                                      options={{title: "Appointments"}}/>
-<Stack.Screen name="Doctorearnings" component={Doctorearnings}
-                                                      options={{title: "Earnings"}}/>
-                                                      
-<Stack.Screen name="CreateDoctorSchedule" component={CreateDoctorSchedule}
-                                                      options={{title: "Create free time"}}/>
+                                    <Stack.Screen name="DoctorAppointments" component={DoctorAppointments}
+                                        options={{ title: "Appointments" }} />
+                                    <Stack.Screen name="Doctorearnings" component={Doctorearnings}
+                                        options={{ title: "Earnings" }} />
 
-<Stack.Screen name="Doctorviewuser" component={Doctorviewuser}
-                                                      options={{title: "User profile"}}/>
+                                    <Stack.Screen name="CreateDoctorSchedule" component={CreateDoctorSchedule}
+                                        options={{ title: "Create free time" }} />
+
+                                   
 
 
 
@@ -181,24 +185,25 @@ const Root = () => {
 
                                 </Stack.Group>}
 
-
+ <Stack.Screen name="Doctorviewuser" component={Doctorviewuser}
+                                        options={{ title: "User profile" ,headerTitleAlign: "center", headerTintColor: "#0665CB", }} />
 
                                 <Stack.Group
-                                        screenOptions={{headerTitleAlign: "center", headerTintColor: "#0665CB",}}>
-                                        <Stack.Screen name="Account" component={Editprofile}/>
-                                        <Stack.Screen name="Password" component={Changepassword}/>
-                                        <Stack.Screen name="HelpandSupport" component={HelpandSupport}
-                                                      options={{title: "Help & Support"}}/>
-                                        <Stack.Screen name="Support" component={Support}
-                                                      options={{title: "Ongoing support"}}/>
-                                                      
-                                        <Stack.Screen name="BankDetails" component={BankDetails}
-                                                                    options={{title: "Bank Details"}}/>
-                                        {/* 
+                                    screenOptions={{ headerTitleAlign: "center", headerTintColor: "#0665CB", }}>
+                                    <Stack.Screen name="Account" component={Editprofile} />
+                                    <Stack.Screen name="Password" component={Changepassword} />
+                                    <Stack.Screen name="HelpandSupport" component={HelpandSupport}
+                                        options={{ title: "Help & Support" }} />
+                                    <Stack.Screen name="Support" component={Support}
+                                        options={{ title: "Ongoing support" }} />
+
+                                    <Stack.Screen name="BankDetails" component={BankDetails}
+                                        options={{ title: "Bank Details" }} />
+                                    {/* 
                                         <Stack.Screen name="ConfirmSubscription" component={ConfirmSubscription}
                                                       options={{headerShown: false}}/> */}
 
-                                    </Stack.Group>
+                                </Stack.Group>
                             </>
                         }
 

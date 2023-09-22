@@ -4,7 +4,7 @@ import { CustomButton } from '../../../components'
 import { ActivityIndicator, Modal, Portal, Text } from 'react-native-paper';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AdminUserprofileRouteProp } from "../../../types";
-import { baseUrl, useUser } from "../../../services";
+import { baseURL, useUser } from "../../../services";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios';
 
@@ -43,7 +43,7 @@ export default function AdminUserprofile() {
 
     const handleRemoveUser = useMutation({
         mutationFn: async () => {
-          return await axios.delete(`${baseUrl}/user/delete/${id}`)
+          return await axios.delete(`${baseURL}/user/delete/${id}`)
         },
         onSuccess: async() => {
             await queryClient.invalidateQueries({ queryKey: ['users'] })

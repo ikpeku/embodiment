@@ -14,7 +14,9 @@ import { AuthenticateuserScreenProps } from "../../types";
 // import { loginUser, registerUser } from "../../services";
 import { useAppDispatch } from "../../redux/hooks";
 import { loginUserMutation } from "../../redux/features/useSlice";
-import { baseUrl } from "../../services";
+import { baseURL } from "../../services";
+import { signup, useSignup } from "../../services/authenApi";
+import axios from "axios";
 
 export interface ISign {
     FirstName: string,
@@ -40,10 +42,62 @@ export default function SignupUser() {
     );
 
 
+    // const {mutate, data, error, isLoading} = useSignup()
+
+    // console.log("response: ",data.data)
+
+
 
     const onSignupSubmit = async ({ Email_Address, Password, Phone_Number, FirstName, LastName }: ISign) => {
         if (loading) return
         setLoading(true);
+        // const data = {
+        //             email: Email_Address,
+        //             firstName: FirstName,
+        //             lastName: LastName,
+        //             password: Password,
+        //             phoneNumber: Phone_Number
+        //         }
+
+        //     mutate(data)
+
+    //            try {
+    //             // const res = await signup(data)
+    //             // console.log(res)
+
+    //             const res =  JSON.stringify(data)
+    //             console.log(res)
+
+    //                 const response = await fetch(`${baseURL}/auth/register`, {
+    //                     method: "POST",
+    //                     headers: {
+    //                         'Accept': 'application/json',
+	// 'Content-Type': 'application/json; charset=utf-8',
+    
+    //                     //   "Content-Type": "application/json",
+    //                     //   'Access-Control-Allow-Origin': '*',
+    //                     //   'Access-Control-Allow-Headers': '*',
+    //                     // 'Content-Type': 'multipart/form-data'
+                        
+    //                     },
+    //                     body: res
+    //                   })
+    //                   const datas = await response.json()
+    //         console.log(datas)
+
+    //            } catch (error) {
+
+    //             // if(axios.isAxiosError(error)) {
+
+    //                 console.log(error)
+    //             // }
+    //            }
+
+
+        
+
+
+        
        
           
                 try {
@@ -59,7 +113,7 @@ export default function SignupUser() {
                     //     const { user } = response
                     //     dispatch(loginUserMutation({ isLogin: false, user , isFirst: false}))
 
-                    //     navigation.navigate("ConfirmUser", {id: response.user._id})
+                        // navigation.navigate("ConfirmUser", {id: response.user._id})
                     // }
                    
                     const data = {
@@ -72,7 +126,7 @@ export default function SignupUser() {
 
                      const res =  JSON.stringify(data)
 
-                    const response = await fetch(`${baseUrl}/auth/register`, {
+                    const response = await fetch(`${baseURL}/auth/register`, {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
@@ -86,12 +140,12 @@ export default function SignupUser() {
 
                       if (result.status === "success") {
                         const { user , token} = result
-                            dispatch(loginUserMutation({ isLogin: false, user , isFirst: false, token}))
-                            navigation.navigate("ConfirmUser", {id: result.user._id})
+                            // dispatch(loginUserMutation({ isLogin: false, user , isFirst: false, token}))
+                            navigation.navigate("ConfirmUser", {id: result.user._id, email: result.user.email})
 
                       } else if(result.message == "An error occurred while signing up.") {
 
-                        const response = await fetch(`${baseUrl}/auth/requestotp`, {
+                        const response = await fetch(`${baseURL}/auth/requestotp`, {
                         method: "POST",
                         body: JSON.stringify({email: data.email})
                       })
@@ -114,11 +168,12 @@ export default function SignupUser() {
                     setLoading(false)
                 }
 
-      
+                setLoading(false)
     }
 
     const signwithgoogle = () => {}
     const email = watch("Email_Address")
+
 
     return (
         <View style={{ flex: 1 }}>
@@ -197,7 +252,7 @@ export default function SignupUser() {
             </ScrollView>
             {loading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.greenA700} />
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                 </View>
             )}
 

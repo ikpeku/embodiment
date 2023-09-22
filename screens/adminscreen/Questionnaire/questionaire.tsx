@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     View,
     FlatList,
@@ -7,8 +7,8 @@ import {
     TouchableOpacity,
     Pressable,
 } from 'react-native';
-import { Card, Text as Text, Searchbar, Button } from 'react-native-paper';
-import { AntDesign, FontAwesome5, MaterialCommunityIcons, Feather, FontAwesome } from '@expo/vector-icons';
+import { Card, Text as Text, Searchbar, Button, ActivityIndicator, MD2Colors } from 'react-native-paper';
+// import { AntDesign, FontAwesome5, MaterialCommunityIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -18,144 +18,31 @@ import ProfileAvatar from '../../../components/Avatar';
 import DoctorCard from '../../../components/Doctorcard';
 import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
+import { useGetAdminnQuestionnaire } from '../../../services/doctorApi';
+import dayjs from 'dayjs';
+import { useNavigation } from '@react-navigation/native';
+import { AdminQuestionandanswerScreenProps } from '../../../types';
 
 
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: "Wade Warren",
-        email: 'wadwarren@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        name: "Guy Hawkins",
-        email: 'hawkins56@gmail.com',
-        phone: "(603) 555-0123"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2',
-        name: "Edward Cuff",
-        email: 'cuffwardd@gmail.comm',
-        phone: "(684) 555-0102"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
 
-
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba111',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63222',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72333',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2444',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f632555',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d722666',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    }, {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba777',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63888',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72999',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba2000',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63211111',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d7222222222',
-        name: "Jeff Samson",
-        email: 'jeffamson@gmail.com',
-        phone: "08108744355"
-    },
-];
 
 interface IItem {
-    item: typeof DATA[0]
+    item: {
+        _id: string,
+        status: "completed" | "uncompleted",
+        user: {
+            firstName: string
+        },
+        diseaseId: {
+            title: string
+        },
+        createdAt: string
+
+    }
 }
 
-const Item = ({ item, }: IItem) => {
 
 
-    return (
-        <Card mode='contained' style={styles.item} >
-            <Card.Content>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Text variant='titleMedium' style={[styles.title, { color: "#000" }]}>{item.name} </Text>
-                </View>
-
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                    <Text style={[styles.title, { color: "#000", opacity: 0.7 }]}><Text>From </Text>Sam</Text>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>March 10, 2034</Text>
-                </View>
-            </Card.Content>
-
-
-        </Card>
-    )
-};
 
 
 const Empty = () => {
@@ -171,16 +58,62 @@ const Empty = () => {
 
 export default function Questionnaires() {
 
+    const navigation = useNavigation<AdminQuestionandanswerScreenProps>()
+
     const [searchQuery, setSearchQuery] = useState('');
     const [completed, setCompleted] = useState(true)
     const {user} = useAppSelector(UserState)
 
+    const {data, isLoading} = useGetAdminnQuestionnaire()
+    const [completedQuestionnaire, setCompletedQuestionnaire] = useState<IItem["item"][]>([])
+    const [unCompletedQuestionnaire, setUnCompletedQuestionnaire] = useState<IItem["item"][]>([])
 
+
+
+
+    
+
+const Item = ({ item, }: IItem) => {
+        
+
+    return (
+        <Card mode='contained' style={styles.item} onPress={() => navigation.navigate("AdminQuestionandanswer", {id: item._id})} >
+            <Card.Content>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
+                    <Text variant='titleMedium' style={[styles.title, { color: "#000" }]}>{item.diseaseId.title}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
+                    <Text style={[styles.title, { color: "#000", opacity: 0.7 }]}><Text>From </Text>{item?.user?.firstName}</Text>
+                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(item.createdAt).format('MMMM DD, YYYY')}</Text>
+                </View>
+            </Card.Content>
+
+
+        </Card>
+    )
+};
+
+
+   
+    useEffect(() => {
+        if(!data && !data?.questionnaires) return
+
+        const resCompleted = data?.questionnaires.filter((v: IItem["item"]) => v.status === "completed")
+        setCompletedQuestionnaire(resCompleted)
+
+        const resUnCompleted = data?.questionnaires.filter((v: IItem["item"]) => v.status === "uncompleted")
+        setUnCompletedQuestionnaire(resUnCompleted)
+
+    },[data?.questionnaires])
+
+ 
     return (
         <SafeAreaView style={styles.container}>
            
             <View style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user.firstName}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
@@ -188,7 +121,7 @@ export default function Questionnaires() {
             </View>
 
             <View style={{ width: "100%", flexDirection: "row" }}>
-                <DoctorCard title={"Questionnaires"} subTitle={0} rightIcon={<Questionnaire color="#fff" size={20} />} />
+                <DoctorCard title={"Questionnaires"} subTitle={data?.questionnaireTotalCount ? data?.questionnaireTotalCount : 0 } rightIcon={<Questionnaire color="#fff" size={20} />} />
             </View>
 
             <View style={{ width: "100%" }}>
@@ -213,16 +146,40 @@ export default function Questionnaires() {
                 </Pressable>
             </View>
 
-
+            {completed && 
           <View style={{width: "100%"}}>
-          <FlatList
-                data={DATA}
+
+           
+         <FlatList
+                data={completedQuestionnaire.slice().reverse()}
+                keyExtractor={item => item._id}
                 renderItem={({ item }) => <Item item={item} />}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ rowGap: 10 }}
             />
-          </View>
+          </View>}
+
+
+            {!completed && 
+          <View style={{width: "100%"}}>
+         <FlatList
+                data={unCompletedQuestionnaire.slice().reverse()}
+                keyExtractor={item => item._id}
+                renderItem={({ item }) => <Item item={item} />}
+                ListEmptyComponent={<Empty />}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ rowGap: 10 }}
+            />
+          </View>}
+
+
+
+          {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
         </SafeAreaView>
     )

@@ -3,7 +3,7 @@ import {
     FlatList,
     StyleSheet,
 } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import { ActivityIndicator, Card, MD2Colors, Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DoctorCard from '../../../components/Doctorcard';
@@ -13,39 +13,38 @@ import { useAppSelector } from '../../../redux/hooks';
 import { Appointment } from '../../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { DoctorAppointmentsScreenProps } from '../../../types';
-import { useDoctorAppiontment, useGetCompletedIndividualAppointment } from '../../../services';
+import { useDoctor, useDoctorAppiontment, useGetCompletedIndividualAppointment } from '../../../services';
 import dayjs from 'dayjs'
+import { useGetDoctorNotification } from '../../../services/doctorApi';
+import { useEffect } from 'react';
 
 
 interface IItem {
     data: {
-        createdAt: string,
-        patient: {
-            name: string
-        }
+        appointmentDate: string,
+        appointmentTime: string,
+        message: string
     }
 }
 
 const Item = ({ data }: IItem) => {
 
     return (
-        <Card mode='contained' style={styles.item} >
-            <Card.Content>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
-                        <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{`${data?.patient?.name} `}</Text>
-                        booked an appointment
-                    </Text>
-                </View>
-
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('hh:mm a')}</Text>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM M, YYYY')}</Text>
+        <Card mode='contained' style={styles.item}  >
+            <Card.Content style={{ gap: 10 }}>
+                <Text style={[styles.title, { opacity: 0.7 }]}>{data.message}</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>{data.appointmentTime}</Text>
+                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(data.appointmentDate).format('MMMM D, YYYY')}</Text>
+                    {/* <Text style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text> */}
                 </View>
             </Card.Content>
         </Card>
+
     )
 };
+
+
 
 const Empty = () => {
     return (
@@ -61,43 +60,63 @@ export default function DoctorHome() {
 
     const { user } = useAppSelector(UserState)
 
-    const { data } = useDoctorAppiontment(user?.doctorId)
-    const {data: completedAppiontment} = useGetCompletedIndividualAppointment(user.doctorId)
-
+    const { data, isLoading } = useDoctor(user._id)
+    const { data: doctorNotification, isLoading: loading } = useGetDoctorNotification(user._id)
 
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={{}}>
 
             <View style={{ width: "100%" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user?.lastName}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data ? data?.data?.length + completedAppiontment?.data?.length : 0} rightIcon={<Appointment color={"white"} size={20} />} />
-                <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings"} subTitle={1980} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
+                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data?.data?.total_number_of_appointment ? data?.data?.total_number_of_appointment : 0} rightIcon={<Appointment color={"white"} size={20} />} />
+                <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings"} subTitle={0} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
             </View>
 
-            <View style={{ width: "100%" }}>
+            
+
+            <View style={{ width: "100%" , paddingVertical: 10}}>
                 <Text variant='titleLarge'>Recent appointments</Text>
-            </View>
-
-
-
-            <View style={{ width: "100%", flex: 1 }}>
-                <FlatList
-                    data={data?.data}
-                    renderItem={({ item }) => <Item data={item} />}
-                    ListEmptyComponent={<Empty />}
+                </View>
+                </View>
+                
+           
+           {doctorNotification?.notifications && 
+           <FlatList
+                    data={[...Object.keys(doctorNotification?.notifications).slice(0,10).reverse()]}
+                    renderItem={({ item }) => {
+                   
+                        return (
+                            <View style={{ gap: 10 }}>
+                                {
+                                  doctorNotification?.notifications && 
+                                  doctorNotification?.notifications[item].map((data: any) => <Item key={data._id} data={data} />)
+                                }
+                            </View>
+                        )
+                    }}
+                    contentContainerStyle={{ width: "100%", gap: 10 }}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ rowGap: 10 }}
+                    ListEmptyComponent={<Empty />}
                 />
-            </View>
+                }
 
+{ loading || isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
+            
+           
         </SafeAreaView>
     )
 }

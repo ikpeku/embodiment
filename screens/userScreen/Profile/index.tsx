@@ -258,7 +258,7 @@ const DoctorProfile = () => {
 
                {/* Bank details */}
 
-               {user.role[0] === "isDoctor" &&   <ProfileItem
+               {user.role === "isDoctor" &&   <ProfileItem
                 title="Bank details"
                 leftIcon={<MaterialCommunityIcons name="bank" size={24} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}              
@@ -286,7 +286,7 @@ const DoctorProfile = () => {
 
              {/* Subscribe */}
 
-            {user.role[0] === "isUser" && <ProfileItem
+            {user.role === "isUser" && <ProfileItem
                 title="Subscribe"
                 leftIcon={<Feather name="arrow-up-circle" size={24} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}
@@ -318,7 +318,7 @@ const DoctorProfile = () => {
 
             {loading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.greenA700} />
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                 </View>
             )}
 

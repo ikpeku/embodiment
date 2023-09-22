@@ -96,9 +96,9 @@ export default function Orders() {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={DATA}
+                data={[]}
                 renderItem={({ item }) => <Item data={item} />}
-                keyExtractor={item => item.id}
+                // keyExtractor={item => item.id}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{padding: 10}}

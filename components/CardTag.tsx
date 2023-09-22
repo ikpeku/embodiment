@@ -22,8 +22,8 @@ const CardTag = ({ mode = "contained", rightIcon, title, subTitle, url,  onPress
                     <Avatar.Image size={40}
                         source={{ uri: url }} />
 
-                    <View>
-                        <Text variant='titleMedium' style={styles.title}>{title}</Text>
+                    <View style={{flex: 1}}>
+                        <Text variant='titleSmall' style={styles.title}>{title}</Text>
                         <Text variant='bodyMedium' style={[styles.title, styles.subTitle]}>{subTitle}</Text>
                     </View>
 
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
+        width: "90%",
+        flex: 1
     },
     title: {
         fontFamily: 'avenir',

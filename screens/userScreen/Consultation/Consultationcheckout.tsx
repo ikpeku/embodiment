@@ -1,36 +1,63 @@
-import { StyleSheet, View } from 'react-native'
+import { Alert, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { CardTag, CustomButton } from '../../../components'
-import { Card, Text } from 'react-native-paper'
+import { ActivityIndicator, Card, MD2Colors, Text } from 'react-native-paper'
 
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { ConfirmappiontmentBookScreenProps, ConsultationcheckoutRouteProp } from '../../../types';
+import { BookAppointment, useDoctor } from '../../../services';
+import dayjs from 'dayjs';
+import { useAppSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/features/useSlice';
+import { useQueryClient } from '@tanstack/react-query';
 
 
 
 const Consultationcheckout = () => {
-    const navigation = useNavigation()
+    const { user } = useAppSelector(UserState)
+    const navigation = useNavigation<ConfirmappiontmentBookScreenProps>()
+    const route = useRoute<ConsultationcheckoutRouteProp>()
+    const queryClient = useQueryClient()
+
+    const { data = [], isLoading } = useDoctor(route?.params.doctorId)
+
+  
 
 
-    const handleCheckout = () => {
-        // router.push("./confirmAppointment")
-        // navigation.navigate("Consultationcheckout")
+    const handleCheckout = async() => {
+
+    try {
+        const response = await BookAppointment({
+            appointmentId:route.params.appointmentId,
+             doctorId: route.params.doctorId,
+             startTime: route.params.startTime, 
+             userID: user._id
+            })
+            await queryClient.invalidateQueries({ queryKey: ["doctorbyid"] })
+            navigation.navigate("ConfirmappiontmentBook")
+
+            
+        
+    } catch (error:any) {
+        Alert.alert("Error", error.response.data.message)
     }
-
+    
+    }
 
 
     return (
         <View style={styles.container}>
             <View>
                 <CardTag
-                    title={"Dr. Benjamin John"}
-                    subTitle={"Dr. Benjamin John"}
+                    title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
+                    subTitle={data?.data?.specialty}
                     url={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"}
 
                 />
                 <View style={{ marginLeft: "20%", backgroundColor: "#fff", flexDirection: "row", alignItems: "center", gap: 10 }}>
                     <Ionicons name="md-star" size={24} color="#FFCE31" />
-                    <Text variant='bodySmall'>4.5</Text>
+                    <Text variant='bodySmall'>{data?.data?.averageRating?.toFixed(1)}</Text>
                 </View>
             </View>
 
@@ -42,17 +69,17 @@ const Consultationcheckout = () => {
                         <Text variant='titleLarge' style={{ fontFamily: 'avenir', }} >Details</Text>
                         <View style={styles.detail}>
                             <Text variant='bodyLarge'>Date</Text>
-                            <Text variant='bodyLarge'>16-6-2034</Text>
+                            <Text variant='bodyLarge'>{dayjs(route.params.startDate).format('D - M - YYYY')}</Text>
                         </View>
 
                         <View style={styles.detail}>
                             <Text variant='bodyLarge'>Time</Text>
-                            <Text variant='bodyLarge'>11: 00 am</Text>
+                            <Text variant='bodyLarge'>{route.params.startTime}</Text>
                         </View>
 
                         <View style={styles.detail}>
                             <Text variant='bodyLarge'>Fee</Text>
-                            <Text variant='bodyLarge'>$15</Text>
+                            <Text variant='bodyLarge'>${data?.data?.rate}</Text>
                         </View>
                     </Card.Content>
                 </Card>
@@ -61,6 +88,13 @@ const Consultationcheckout = () => {
             <View style={{ width: "100%", marginTop: 30, }}>
                 <CustomButton title="Pay" onPress={handleCheckout} />
             </View>
+
+
+            {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
         </View>
     )
 }

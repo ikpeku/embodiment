@@ -10,11 +10,11 @@ export type RootStackParamList = {
     Doctor: undefined;
     Admin: undefined;
 
-    ConfirmUser: { id: string };
+    ConfirmUser: { id: string, email: string };
     ForgotPassword: { email: string };
     ConfirmForgotPassword: { email: string };
-    UserHealthDetail: { id: number }
-    Questionnaire: { id: number }
+    UserHealthDetail: { id: string }
+    Questionnaire: { id: string }
     ConfirmAppointment: undefined,
     Account: undefined;
     Password: undefined;
@@ -25,7 +25,14 @@ export type RootStackParamList = {
 
     // consultation screen
     Consultationappointment: { id: string }
-    Consultationcheckout: undefined,
+    Consultationcheckout: {
+        appointmentId: string,
+        startTime: string,
+        // patientId: string,
+        doctorId: string,
+        routeId: string,
+        startDate: string | undefined
+    },
 
 
     // Admin Screens
@@ -36,14 +43,18 @@ export type RootStackParamList = {
     AdminEditprofile: undefined;
     AdminChangepassword: undefined;
     AdminSupport: undefined;
+    AdminQuestionandanswer: { id: string }
 
 
     // Doctors screens
     DoctorAppointments: undefined
     Doctorearnings: undefined
-    CreateDoctorSchedule: undefined
+    CreateDoctorSchedule: { index: number }
     Doctorviewuser: { id: string }
     BankDetails: undefined
+
+    // 
+    ConfirmappiontmentBook: undefined
 };
 
 
@@ -58,15 +69,29 @@ export type AccountScreenProps = NativeStackNavigationProp<RootStackParamList, "
 export type SupportScreenProps = NativeStackNavigationProp<RootStackParamList, "Support">
 export type SubscribeScreenProps = NativeStackNavigationProp<RootStackParamList, "Subscribe">
 
+
+// user Screen
+
+export type ConsultationappointmentScreenProps = NativeStackNavigationProp<RootStackParamList, "Consultationappointment">
+export type ConsultationcheckoutScreenProps = NativeStackNavigationProp<RootStackParamList, "Consultationcheckout">
+export type ConfirmappiontmentBookScreenProps = NativeStackNavigationProp<RootStackParamList, "ConfirmappiontmentBook">
+
+
+// doctor screen
 export type DoctorAppointmentsScreenProps = NativeStackNavigationProp<RootStackParamList, "DoctorAppointments">
 export type CreateDoctorScheduleScreenProps = NativeStackNavigationProp<RootStackParamList, "CreateDoctorSchedule">
 export type DoctorviewuserScreenProps = NativeStackNavigationProp<RootStackParamList, "Doctorviewuser">
+
+
+// Admin Screen
+export type AdminQuestionandanswerScreenProps = NativeStackNavigationProp<RootStackParamList, "AdminQuestionandanswer">
 
 
 // auth screen
 export type ConfirmUserRouteProp = RouteProp<RootStackParamList, "ConfirmUser">
 
 
+export type CreateDoctorScheduleRouteProp = RouteProp<RootStackParamList, "CreateDoctorSchedule">
 
 export type ForgotPasswordRouteProp = RouteProp<RootStackParamList, "ForgotPassword">
 export type ConfirmForgotPasswordRouteProp = RouteProp<RootStackParamList, "ConfirmForgotPassword">
@@ -74,10 +99,20 @@ export type UserHealthDetailRouteProp = RouteProp<RootStackParamList, "UserHealt
 export type QuestionnairelRouteProp = RouteProp<RootStackParamList, "Questionnaire">
 
 export type AdminUserprofileRouteProp = RouteProp<RootStackParamList, "AdminUserprofile">
+export type AdminQuestionandanswerRouteProp = RouteProp<RootStackParamList, "AdminQuestionandanswer">
 
 export type AdminConfirmremoveuserRouteProp = RouteProp<RootStackParamList, "Confirmremoveuser">
 export type AdmindoctorsuccessRouteProp = RouteProp<RootStackParamList, "Admindoctorsuccess">
 export type AdminDoctorprofileRouteProp = RouteProp<RootStackParamList, "AdminDoctorprofile">
+
+
+// user route
+export type ConsultationappointmentRouteProp = RouteProp<RootStackParamList, "Consultationappointment">
+export type ConsultationcheckoutRouteProp = RouteProp<RootStackParamList, "Consultationcheckout">
+
+
+// doctor
+export type DoctorviewuserRouteProps = RouteProp<RootStackParamList, "Doctorviewuser">
 
 
 
@@ -96,6 +131,7 @@ export type UserRootBottomStackParamList = {
 }
 export type UserHomeScreenProp = BottomTabNavigationProp<UserRootBottomStackParamList, "Home">
 export type UserProfileScreenProp = BottomTabNavigationProp<UserRootBottomStackParamList, "Profile">
+export type UserConsultationScreenProp = BottomTabNavigationProp<UserRootBottomStackParamList, "Consultation">
 
 
 

@@ -4,13 +4,18 @@ import {
     StyleSheet
 } from 'react-native';
 import { Card, Text as Text} from 'react-native-paper';
-import { useGetCompletedAppointment } from '../../../services';
+import { useGetAllAppointments, useGetCompletedAppointment } from '../../../services';
 import dayjs from 'dayjs'
+import { useAppSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/features/useSlice';
+import { DoctorviewuserScreenProps } from '../../../types';
+import { useNavigation } from '@react-navigation/native';
 
 interface IItem {
     data: {
         createdAt: string,
         patient:  {
+            _id: string,
             firstName: string,
             lastName: string,
         }
@@ -18,26 +23,7 @@ interface IItem {
 }
 
 
-const Item = ({data}:IItem) => {
 
-    return (
-        <Card mode='contained' style={styles.item} >
-            <Card.Content>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Text variant='titleMedium' style={[styles.title, { color: "#000" , opacity: 0.8}]}>
-                        <Text style={[styles.title, {textTransform: "capitalize", color: "#000" , opacity: 0.8}]}>{`${data?.patient?.firstName} ${data?.patient?.lastName}`} </Text>
-                        completed an appointment
-                        </Text>
-                </View>
-
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('hh:mm a')}</Text>
-                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM M, YYYY')}</Text>
-                </View>
-            </Card.Content>
-        </Card>
-    )
-};
 
 
 const Empty = () => {
@@ -51,12 +37,42 @@ const Empty = () => {
 
 
 export default function CompletedAdminAppointment() {
-    const {data} = useGetCompletedAppointment()
+
+    // const navigation = useNavigation<any>()
+    const navigation = useNavigation<DoctorviewuserScreenProps>()
+    const {user} = useAppSelector(UserState)
+    const {data: appointment = []} = useGetAllAppointments(user._id)
+
+    // console.log(appointment?.data?.completedSchedules[0].patient)
+
+
+    const Item = ({data}:IItem) => {
+
+
+
+        return (
+            <Card mode='contained' style={styles.item} onPress={() => navigation.navigate("Doctorviewuser", { id: data?.patient?._id})} >
+                <Card.Content>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
+                        <Text variant='titleMedium' style={[styles.title, { color: "#000" , opacity: 0.8}]}>
+                            <Text style={[styles.title, {textTransform: "capitalize", color: "#000" , opacity: 0.8}]}>{`${data?.patient?.firstName} ${data?.patient?.lastName}`} </Text>
+                            completed an appointment
+                            </Text>
+                    </View>
+    
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
+                        <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('hh:mm a')}</Text>
+                        <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM D, YYYY')}</Text>
+                    </View>
+                </Card.Content>
+            </Card>
+        )
+    };
 
     return (
           <View style={{width: "100%", flex: 1}}>
           <FlatList
-                data={data?.data}
+                data={appointment?.data?.completedSchedules}
                 renderItem={({ item }) => <Item  data={item} />}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}

@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, KeyboardAvoidingView, ScrollView, Platform, Alert } from 'react-native'
 import { useForm } from "react-hook-form";
 import { CustomButton, CustomInput } from '../../../components';
+import { baseURL, useDoctor } from '../../../services';
+import { useAppSelector } from '../../../redux/hooks';
+import { UserState } from '../../../redux/features/useSlice';
 
 
 interface IForm {
@@ -15,16 +18,45 @@ interface IForm {
 
 export default function BankDetails() {
     const [loading, setLoading] = useState(false)
+    const { token, user} = useAppSelector(UserState)
+    const { data } = useDoctor(user._id)
 
 
-    const { handleSubmit, control} = useForm<IForm>();
+    const { handleSubmit, control, reset} = useForm<IForm>();
 
     
 
     const onBankDetail = async ({Account_name, Account_number, Bank}:IForm) => {
         if (loading) return
         setLoading(true)
+
+        const bankForm = {
+            bankName:  Bank,
+            accountName: Account_name,
+            accountNumber: Account_number
+        }
+
         try {
+
+            const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
+                method: "PUT",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8',
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify(bankForm)
+            })
+
+            const result = await response.json()
+
+            if (result.status === "success") {
+                // dispatch(updateUser({ ...result.data }))
+                Alert.alert("Successful", "profile updated")
+
+            } else {
+                throw new Error(result.message)
+            }
             
            
         } catch (error: any) {
@@ -34,6 +66,17 @@ export default function BankDetails() {
             setLoading(false)
         }
     }
+
+
+    useEffect(() => {
+        // console.log("Bank: ", data)
+        reset({
+            Account_name: "",
+            Account_number: "",
+            Bank: ""
+        })
+    },[data])
+    
 
 
     return (

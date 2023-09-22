@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { CustomButton, CustomInput } from '../../../components';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
-import {baseUrl} from "../../../services";
-import {ActivityIndicator} from "react-native-paper";
+import {ActivityIndicator, MD2Colors} from "react-native-paper";
 import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
+import { baseURL } from '../../../services';
 
 
 interface IForm {
@@ -32,36 +32,49 @@ export default function AdminChangepassword() {
 
 
     const onSavePassword = async ({Confirm_Password, New_Password, Old_Passord}:IForm) => {
+ 
         if (loading) return
         setLoading(true)
+
         try {
-const data = {
-    currentPassword: Old_Passord,
-    newPassword: New_Password
-}
-           const res = await axios.post(`${baseUrl}/user/changePassword`, data , {
+            const data = {
+                currentPassword: Old_Passord,
+                newPassword: New_Password
+            }
+
+            const response = await fetch(`${baseURL}/user/changePassword/`, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8',
                     Authorization: `Bearer ${token}`,
-                }
+                },
+                body: JSON.stringify(data)
             })
 
-            console.log(await res.data)
+            const result = await response.json()
+            console.log(result)
+            if (result.status === "success") {
+
+                navigation.goBack()
+
+            } else {
+                throw new Error(result.message)
+            }
 
 
-            // navigation.goBack()    
-            
         } catch (error: any) {
             Alert.alert("Error", error.message)
 
         } finally {
             setLoading(false)
-        }
+        }  
     }
 
 
     return (
+        <>
+  
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false} >
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ paddingBottom: 20 }} >
 
@@ -86,6 +99,12 @@ const data = {
 
             </KeyboardAvoidingView>
         </ScrollView>
+         {loading && (
+            <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+            </View>
+        )}
+              </>
     )
 }
 

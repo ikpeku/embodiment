@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Avatar, Text } from 'react-native-paper';
 
 interface IProfileAvatar {
     text: string; 
     photoUrl: string; 
-    type: "Center" | "Start"
+    type: "Center" | "Start",
+    onPress: () => void
 }
 
-const ProfileAvatar = ({ text, photoUrl, type = "Center" }:IProfileAvatar) => (
-    <View style={styles[`avatar${type}`]}>
+const ProfileAvatar = ({onPress, text, photoUrl, type = "Center" }:IProfileAvatar) => (
+    <Pressable onPress={onPress} style={styles[`avatar${type}`]}>
 
         <Avatar.Image size={type === "Center" ? 70 : 40} source={{ uri: photoUrl }} />
         {text && 
@@ -17,7 +18,7 @@ const ProfileAvatar = ({ text, photoUrl, type = "Center" }:IProfileAvatar) => (
         <Text variant={type === "Center" ? 'bodySmall' : "titleLarge"} style={{ paddingVertical: 10 }}>{text}</Text>
         </Text>
         }
-    </View>
+    </Pressable>
 );
 export default ProfileAvatar
 

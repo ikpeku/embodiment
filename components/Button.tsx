@@ -12,7 +12,7 @@ interface IButton {
 
 const CustomButton = ({ onPress, title, type = "primary", icon }: IButton) => {
     return (
-        <Pressable onPress={onPress} style={[styles.splashBtnContainer, styles[`btn_${type}`]]}>
+        <Pressable disabled={type === "disable" ? true: false} onPress={onPress} style={[styles.splashBtnContainer, styles[`btn_${type}`]]}>
             <View style={styles.IconContainer}>
                 {icon && <View>{icon}</View>}
                 <Text style={[styles.BtnText, styles[`btnText_${type}`]]}>{title}</Text>

@@ -7,14 +7,16 @@ import {
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { CustomButton, CustomInput } from "../../components";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation} from "@react-navigation/native";
 
 import { AuthenticateuserScreenProps } from "../../types";
 // import { loginUser, registerUser } from "../../services";
 import { useAppDispatch } from "../../redux/hooks";
 import { loginUserMutation } from "../../redux/features/useSlice";
-import axios from "axios";
-import { baseUrl } from "../../services";
+import { baseURL } from "../../services";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 export interface ISign {
     FirstName: string,
@@ -29,8 +31,7 @@ export default function AuthUser() {
 
 
     const [loading, setLoading] = useState(false)
-    // const [signup, setSignup] = useState(false)
-    const [error, setError] = useState("")
+    // const [error, setError] = useState("")
     const navigation = useNavigation<AuthenticateuserScreenProps>()
 
     const dispatch = useAppDispatch()
@@ -39,51 +40,50 @@ export default function AuthUser() {
     const { handleSubmit, control, watch } = useForm<ISign>();
 
     const onLoginSubmit = async ({ Email_Address, Password }: ISign) => {
-        if (loading) return ;
+
+        if (loading) return;
         setLoading(true);
 
-                try {
-                    
+        try {
 
-                    const data = {
-                        email: Email_Address,
-                        password: Password,
-                    }
-                    
-                     const res =  JSON.stringify(data)
+            const data = {
+                email: Email_Address,
+                password: Password,
+            }
 
-                    const response = await fetch(`${baseUrl}/auth/login`, {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: res
-                      })
+            const res = JSON.stringify(data)
 
-                      const result = await response.json()
+            const response = await fetch(`${baseURL}/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: res
+            })
 
-                      if (result.status === "success") {
-                        const { user, token } = result
-                    dispatch(loginUserMutation({ isLogin: true, user , isFirst: false, token}))
+            const result = await response.json()
+            if (result.status === "success") {
+                const { user, token } = result
+                // await AsyncStorage.setItem('token', token);
+                dispatch(loginUserMutation({ isLogin: true, user, isFirst: false, token }))
 
-                      } else {
-                        throw new Error(result.message)
-                      }
+            } else {
+                throw new Error(result.message)
+            }
 
-                } catch (error: any) {
-                  
-                    Alert.alert("ERROR", error.message)
+        } catch (error: any) {
 
-                } finally {
-                    setLoading(false)
-                }
+            Alert.alert("ERROR", error.message)
+
+        } finally {
+            setLoading(false)
+        }
     }
 
 
-    const signwithgoogle = () => {}
+    const signwithgoogle = () => { }
 
     const email = watch("Email_Address")
-
 
 
     return (
@@ -93,7 +93,6 @@ export default function AuthUser() {
 
                 <View style={{ marginTop: 10 }}>
 
-                
                     <Text style={styles.label}>Email Address</Text>
                     <CustomInput control={control} placeholder="Enter Email" name="Email_Address" rules={{
                         required: "This field is required.", pattern: {
@@ -105,12 +104,11 @@ export default function AuthUser() {
 
                     <Text style={styles.label}>Password</Text>
                     <CustomInput control={control} placeholder="Enter Password" name="Password"
-                        rules={{ required: "This field is required", minLength: { value: 8, message: "password should be atleast 7 characters." } }} passord={true}
+                        rules={{ required: "This field is required", minLength: { value: 6, message: "password should be atleast 6 characters." } }} passord={true}
                     />
                     <Text style={[styles.cta, { textAlign: "left", color: "#0665CB", paddingVertical: 10 }]}
                         onPress={() => navigation.navigate("ForgotPassword", { email })}
                     >Forget Password</Text>
-
                 </View>
 
 
@@ -119,7 +117,6 @@ export default function AuthUser() {
                     <CustomButton onPress={handleSubmit(onLoginSubmit)}
                         title="Log In"
                     />
-                  
                 </View>
 
 
@@ -140,7 +137,6 @@ export default function AuthUser() {
                 {/* Google btn */}
                 <CustomButton
                     title={"Log In with Google"}
-
                     icon={<Image source={require('../../assets/google.png')} style={{ width: 18, height: 18 }} />}
                     type="secondary"
                     onPress={signwithgoogle}
@@ -156,12 +152,7 @@ export default function AuthUser() {
             )}
 
         </View>
-
     )
-
-
-
-
 }
 
 const styles = StyleSheet.create({

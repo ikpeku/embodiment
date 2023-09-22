@@ -18,7 +18,7 @@ import DoctorCard from '../../../components/Doctorcard';
 import { useNavigation } from '@react-navigation/native';
 import { AdminusersScreenNavigationProp } from '../../../types';
 import { CustomButton } from '../../../components';
-import { baseUrl, useGetAllDoctors } from '../../../services';
+import { baseURL, useGetAllDoctors } from '../../../services';
 import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
 
@@ -107,7 +107,7 @@ export default function Admindoctor() {
 
     const handleAddDoctor = useMutation({
         mutationFn: async (newPost: IAddDoctor) => {
-            return (await axios.post(`${baseUrl}/doctor/signupdoctor`, newPost)).data
+            return (await axios.post(`${baseURL}/doctor/signupdoctor`, newPost)).data
         },
         onSuccess: async () => {
             setEmail("")
@@ -164,6 +164,7 @@ export default function Admindoctor() {
 
             <View style={{ width: "100%" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user.firstName}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />

@@ -18,7 +18,7 @@ export interface UserState {
         allergies: string[],
         createdAt: string,
         updatedAt: string,
-        role: string[],
+        role: string,
         doctorId: string
     },
 
@@ -28,7 +28,9 @@ export interface UserState {
 const initialState = {
     isFirst: true,
     isLogin: false,
-    // user: {} as 
+    // user: {
+    //     role: "isUser"
+    // }
 } as UserState
 
 export const userSlice = createSlice({
@@ -46,6 +48,10 @@ export const userSlice = createSlice({
             state.isLogin = action.payload.isLogin
         },
 
+        updateUser: (state, action: PayloadAction<UserState["user"]>) => {
+            state.user = action.payload
+
+        },
         loginUserMutation: (state, action: PayloadAction<UserState>) => {
             state.isLogin = action.payload.isLogin,
                 state.user = action.payload.user
@@ -56,7 +62,7 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { loginUserMutation, logoutMutation, verifyOTP, returningUser } = userSlice.actions
+export const { loginUserMutation, logoutMutation, verifyOTP, returningUser, updateUser } = userSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const UserState = (state: RootState) => state.user

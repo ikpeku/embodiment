@@ -4,7 +4,7 @@ import { CustomButton } from '../../../components'
 import { ActivityIndicator, Modal, Portal , Text} from 'react-native-paper';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AdminDoctorprofileRouteProp, AdminusersScreenNavigationProp } from "../../../types";
-import { baseUrl, useDoctor} from "../../../services";
+import { baseURL, useDoctor} from "../../../services";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios';
 
@@ -41,7 +41,7 @@ export default function AdminDoctorprofile() {
 
 const handleRemoveDoctor = useMutation({
     mutationFn: () => {
-      return axios.put(`${baseUrl}/doctor/removedoctor/${id}`)
+      return axios.put(`${baseURL}/doctor/removedoctor/${id}`)
     },
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['doctors'] })

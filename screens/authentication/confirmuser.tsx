@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { Snackbar } from 'react-native-paper';
 import { CustomButton, CustomInput } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
-// import { verifyEmail } from '../../services';
 import { useAppDispatch } from '../../redux/hooks';
-import { verifyOTP } from '../../redux/features/useSlice';
+import { loginUserMutation } from '../../redux/features/useSlice';
 import { ConfirmUserRouteProp } from '../../types';
-import { baseUrl } from '../../services';
+import { useResendOTP} from '../../services/authenApi';
+import { baseURL } from '../../services';
+
 
 interface IConfirmUser {
    code: string
@@ -19,30 +20,36 @@ const ConfirmUser = () => {
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation()
     const route = useRoute<ConfirmUserRouteProp>().params
-    const {id} = route
 
     const dispatch = useAppDispatch()
+
+
+    const resendotp = useResendOTP()
 
     const { handleSubmit, control } = useForm<IConfirmUser>();
 
     const onSubmit = async ({code}: IConfirmUser) => {
+
+
         if (loading) return
         setLoading(true)
         try {
 
-            const token = {userId: id, verificationCode: code}
-            // console.log(token)
+            const token = {userId: route.id.trim(), verificationCode: code.trim()}
+           console.log(token)
 
-            const response = await fetch(`${baseUrl}/auth/verifyotp/`, {
+            const response = await fetch(`${baseURL}/auth/verifyotp/`, {
             method: "POST", 
             body: JSON.stringify(token)  
             })
 
             const result = await response.json()
 
-            // console.log("result" , result)
+            console.log("result" , result)
             if (result.status === "success") {
-                dispatch(verifyOTP({isLogin: true}))
+                // dispatch(verifyOTP({isLogin: true}))
+                const { user, token } = result
+                dispatch(loginUserMutation({ isLogin: true, user, isFirst: false, token }))
             }else {
                 throw new Error(result.message)
             }
@@ -56,17 +63,12 @@ const ConfirmUser = () => {
         }
     }
 
+
+
     const HandleResend = async () => {
-        try {
-            // await Auth.resendSignUp(user)
-
-            setVisible(true)
-        } catch (error) {
-            // Alert.alert("Error", error.message)
-
-        }
+        setVisible(true)
+        resendotp.mutate({email: route.email })
     }
-
 
 
     return (
@@ -91,7 +93,7 @@ const ConfirmUser = () => {
             <Snackbar
                 visible={visible}
                 onDismiss={() => setVisible(false)}
-                duration={3000}
+                duration={5000}
                 // wrapperStyle={{backgroundColor: "#0665CB"}}
                 // action={{
                 //     label: 'x',
