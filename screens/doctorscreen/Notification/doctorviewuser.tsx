@@ -2,11 +2,12 @@ import { Alert, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, Card, MD2Colors, Modal, Portal, Text } from "react-native-paper";
 import { MarkAppointmentAsComplete, useUser } from "../../../services";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { DoctorviewuserRouteProps } from "../../../types";
 import { CustomButton } from "../../../components";
 import { UserState } from "../../../redux/features/useSlice";
 import { useAppSelector } from "../../../redux/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface IItem {
@@ -15,6 +16,9 @@ interface IItem {
 }
 
 export default function Doctorviewuser() {
+
+    const navigation = useNavigation()
+    const queryClient = useQueryClient()
 
     const {user} = useAppSelector(UserState)
     const [showmodal, setShowmodal] = useState(false)
@@ -35,16 +39,22 @@ export default function Doctorviewuser() {
     const handleCompleteAppointment = async() => {
         setLoading(true)
         try {
-            const response = await MarkAppointmentAsComplete({appointmentId, doctorId: user._id, scheduleId})
+            const response = await MarkAppointmentAsComplete({appointmentId: route?.params?.appointmentId, doctorId: user._id, scheduleId: route.params.scheduleId})
             setShowmodal(false)
-
-        console.log(response.data)
-        //     Alert.alert("Done", response?.data?.message)
+      
+            Alert.alert("Done", response?.data?.message , [
+                {style: "default",
+                    onPress: () => {
+                        queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
+                        navigation.goBack()
+                    }
+                }
+            ])
 
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             setShowmodal(false)
-            console.log(error)
+            // console.log("err: ",error)
             Alert.alert("Error", "please retry sending")
         }
         setLoading(false)
@@ -74,7 +84,7 @@ export default function Doctorviewuser() {
                         </View>
 
                         <View style={{paddingTop: 30}}>
-                        {user.role === "isDoctor" && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
+                        {user.role === "isDoctor" && route.params.status === "unread" && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
                         </View>
                     </Card.Content>
                 </Card>

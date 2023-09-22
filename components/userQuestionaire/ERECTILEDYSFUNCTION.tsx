@@ -24,7 +24,7 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
     const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
     const [question4a, setQuestion4a] = useState(false)
     const [question4b, setQuestion4b] = useState(false)
-    const [question4c, setQuestion4c] = useState(false)
+    const [question4c, setQuestion4c] = useState(true)
 
     const [question5, setQuestion5] = useState<"No, it starts hard but never remains hard" | "Yes but only rarely" | "Yes always">("Yes always")
     const [question6, setQuestion6] = useState<"Rarely" | "Sometimes" | "Everytime">("Rarely")
@@ -141,6 +141,8 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
     }
+
+    
 
 
   return (
@@ -261,7 +263,7 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
                     />
                 </Pressable>
 
-                <Pressable onPress={() => setQuestion4b(v => !v)} style={[styles.box, { marginBottom: 40 }]}>
+                <Pressable onPress={() => setQuestion4b(v => !v)} style={[styles.box]}>
                     <Text variant="titleLarge">When you wake</Text>
                     <Checkbox
                         status={question4b  ? "checked" : "unchecked"}

@@ -1,6 +1,6 @@
 import { StyleSheet, View, FlatList } from "react-native";
 import { Card, Text } from 'react-native-paper';
-import { useDoctorAppiontment } from "../services";
+import { useDoctor, useDoctorAppiontment } from "../services";
 import { UserState } from "../redux/features/useSlice";
 import { useAppSelector } from "../redux/hooks";
 import dayjs from 'dayjs'
@@ -47,14 +47,14 @@ const Empty = () => {
 
 const UpcomingAppointment = () => {
 
-    const { user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
 
-    const {data} = useDoctorAppiontment(user?.doctorId)
+    const { data, isLoading } = useDoctor(user._id)
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={data?.data}
+                data={data?.data?.groupedSchedules.booked}
                 renderItem={({ item }) => <Item data={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}

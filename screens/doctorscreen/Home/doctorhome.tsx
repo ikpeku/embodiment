@@ -64,6 +64,10 @@ export default function DoctorHome() {
     const { data: doctorNotification, isLoading: loading } = useGetDoctorNotification(user._id)
 
 
+
+    // console.log("doctor: ",data.data)
+
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={{}}>
@@ -77,7 +81,7 @@ export default function DoctorHome() {
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data?.data?.total_number_of_appointment ? data?.data?.total_number_of_appointment : 0} rightIcon={<Appointment color={"white"} size={20} />} />
+                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data?.data?.total_number_of_appointment_completed ? data?.data?.total_number_of_appointment_completed : 0} rightIcon={<Appointment color={"white"} size={20} />} />
                 <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings"} subTitle={0} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
             </View>
 
