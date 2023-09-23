@@ -1,14 +1,22 @@
-import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import { Checkbox, ProgressBar, Text, TextInput } from "react-native-paper";
+import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
 import { useNavigation } from "@react-navigation/native";
 import { QuestionnaireScreenProps } from "../../types";
+import { UserState } from "../../redux/features/useSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { SubmitQuetionnaire } from "../../services";
 
-const ANXIETYANDDEPRESSION = () => {
+type IdiseaseId = { diseaseId:string}
+
+const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
+    const {user} = useAppSelector(UserState)
+
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const [progress, setProgress] = useState(0.1)
 
@@ -34,11 +42,116 @@ const ANXIETYANDDEPRESSION = () => {
     const [question17, setQuestion17] = useState("")
     const [question18, setQuestion18] = useState<"Yes" | "No">("Yes")
 
+    
 
-    const handleStepOne = () => {
+
+    const result: {
+        question: string,
+        answer: string | number
+    }[] =  [
+        {
+            question: "Have you ever been diagnosed with any of the following by a haelath professional?",
+            answer: question1
+        },
+        {
+            question: "Do you feel excessively worried or anxious about different aspects of your life, such as work, relationships, or health?",
+            answer: question2
+        },
+        {
+            question: "Do you have any issues falling asleep, staying asleep or sleeping too much?",
+            answer: question3
+        },
+        {
+            question: "Do you always feel tired or little energy?",
+            answer: question4
+        },
+        {
+            question: "Do you feel bad about yourself, that  you are not good enough and ;let yourself or or loved ones down?",
+            answer: question5
+        },
+        {
+            question: "Do you find it difficult concentrating on things such as completing a chore, reading newspaper or watching television?",
+            answer: question6
+        },
+        {
+            question: "Do you experience physical symptoms such as trembling, sweating, or a racing heartbeat when you feel anxious or worried?",
+            answer: question7
+        },
+        {
+            question: "Do you ever have thoughts about hurting yourself or that you will be better of dead?",
+            answer: question8
+        },
+        {
+            question: "If you have suicidal thoughts it is very important you call the lagos state emergency line on 112 or seek in-person care as soon as possible?",
+            answer: question9
+        },
+        {
+            question: "Do you often worry too much about different things?",
+            answer: question10
+        },
+        {
+            question: "Do you often fee you are not able to control or stop worrying?",
+            answer: question11
+        },
+        {
+            question: "Have you ever been treated of anxiety and depression?",
+            answer: question12
+        },
+        {
+            question: "How long have you been on treatment?",
+            answer: question13
+        },
+        {
+            question: "Is there any even related to your anxiety of depression?",
+            answer: question14 === "Other" ? question14a : question14
+        },
+        {
+            question: "Do you have any other medical diagnosis currently?",
+            answer: question15 === "Others" ? question15a : question15
+        },
+        {
+            question: "Are you currently on any prescription medication for anxiety and depression?",
+            answer: question16
+        },
+        {
+            question: "Please tell us the name of the medication, if ts working for you and if you will like t continue with it?",
+            answer: question17
+        },
+        {
+            question: "Do you have any drug allergies?",
+            answer: question18
+        }
+    ]
+
+
+    const handleStepOne = async() => {
 
         if (question1 === "Schizophrenia" || question1 === "Personalitity disorder( obessive compulsive disorder)" || question1 === "Mood disorder" || question1 === "Substance Abuse") {
-            navigation.navigate("ConfirmAppointment")
+           
+            setIsLoading(true)
+            try {
+                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
+    
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => navigation.goBack(),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>navigation.popToTop()},
+                  ])
+    
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                Alert.alert("Error", "please retry sending")
+            }
+            // navigation.navigate("ConfirmAppointment")
+            setIsLoading(false)
+           
+           
+           
+            // navigation.navigate("ConfirmAppointment")
         } else {
             setProgress((current) => current + 0.1)
 
@@ -46,10 +159,31 @@ const ANXIETYANDDEPRESSION = () => {
 
     }
 
-    const handleStepNine = () => {
+    const handleStepNine = async() => {
 
         if (question9 === "Stop questions") {
-            navigation.navigate("ConfirmAppointment")
+            setIsLoading(true)
+            try {
+                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,9)})
+    
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => navigation.goBack(),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>navigation.popToTop()},
+                  ])
+    
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                Alert.alert("Error", "please retry sending")
+            }
+            // navigation.navigate("ConfirmAppointment")
+            setIsLoading(false)
+
+            // navigation.navigate("ConfirmAppointment")
         } else {
             setProgress((current) => current + 0.1)
         }
@@ -65,8 +199,29 @@ const ANXIETYANDDEPRESSION = () => {
 
     }
 
-    const handleSubmit = () => {
-        navigation.navigate("ConfirmAppointment")
+
+    const handleSubmit = async() => {
+        setIsLoading(true)
+            try {
+                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+    
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => navigation.goBack(),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>navigation.popToTop()},
+                  ])
+    
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                Alert.alert("Error", "please retry sending")
+            }
+            // navigation.navigate("ConfirmAppointment")
+            setIsLoading(false)
+        // navigation.navigate("ConfirmAppointment")
     }
 
 
@@ -652,6 +807,13 @@ const ANXIETYANDDEPRESSION = () => {
                     <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
 
                 </View>}
+
+
+                {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
             </KeyboardAvoidingView>
         </ScrollView>

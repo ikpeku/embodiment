@@ -1,16 +1,24 @@
-import { View,  StyleSheet, ScrollView, KeyboardAvoidingView, Pressable } from "react-native";
+import { View,  StyleSheet, ScrollView, KeyboardAvoidingView, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
-import { Text, ProgressBar, Checkbox } from "react-native-paper";
+import { Text, ProgressBar, Checkbox, ActivityIndicator, MD2Colors } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
 import CustomButton from "../Button";
+import { SubmitQuetionnaire } from "../../services";
+import { useAppSelector } from "../../redux/hooks";
+import { UserState } from "../../redux/features/useSlice";
 
-const PREMATUREEJACULATION = () => {
+
+type IdiseaseId = { diseaseId:string}
+
+const PREMATUREEJACULATION = ({diseaseId}:IdiseaseId) => {
+    const {user} = useAppSelector(UserState)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
     const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
+    const [isLoading, setIsLoading] = useState(false)
 
     const [question1, setQuestion1] = useState<"Yes I always ejaculate too soon" | "Yes , more than half the time" | "Yes less than half the time" | "No I never ejaculate too soon">("Yes I always ejaculate too soon")
     const [question2, setQuestion2] = useState<"Ejaculation within one minute of sexual activity" |
@@ -23,13 +31,59 @@ const PREMATUREEJACULATION = () => {
     const [question3, setQuestion3] = useState<"Within 1 min" | "1-3 min" | "5-10 min" | "More than 10 min">("More than 10 min")
     const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
 
+
+const result: {
+    question: string,
+    answer: string | number
+}[] =  [
+    {
+        question: "Have you been experiencing ejaculation during sexual activity sooner than you or your partner would like?",
+        answer: question1
+    },
+    {
+        question: "Have you been experiencing any of the following symptoms?",
+        answer: question2
+    },
+    {
+        question: "Select the option that best describes the average time you spend before ejaculation?",
+        answer: question3
+    },
+    {
+        question: "Have you been experiencing any other symptoms, such as anxiety or depression?",
+        answer: question4
+    },
+  
+]
+
+
+
     
-    const handleStepFour = () => {
+    const handleStepFour = async() => {
         
         if (question4 === "Yes") {
             navigate.navigate("Consultation")
         } else {
-            navigation.navigate("ConfirmAppointment")
+
+
+            setIsLoading(true)
+        try {
+            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+
+            Alert.alert("Done", response?.data?.message, [
+                {
+                  text: 'Cancel',
+                  onPress: () => navigation.goBack(),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () => navigation.popToTop()},
+              ])
+
+        } catch (error) {
+        
+            Alert.alert("Error", "please retry sending")
+        }
+        setIsLoading(false)
+            // navigation.navigate("ConfirmAppointment")
 
         }
     }
@@ -205,6 +259,13 @@ const PREMATUREEJACULATION = () => {
 <CustomButton title={"Book Appointment"} onPress={handleStepFour} />
 
 </View>}
+
+
+{isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
 
             </KeyboardAvoidingView>

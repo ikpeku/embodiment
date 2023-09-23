@@ -1,12 +1,21 @@
 
-import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import { Checkbox, ProgressBar, Text } from "react-native-paper";
+import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text } from "react-native-paper";
 import CustomButton from "../Button";
 import { useNavigation } from "@react-navigation/native";
 import { QuestionnaireScreenProps } from "../../types";
+import { SubmitQuetionnaire } from "../../services";
+import { useAppSelector } from "../../redux/hooks";
+import { UserState } from "../../redux/features/useSlice";
 
-const MALARIA = () => {
+type IdiseaseId = { diseaseId:string}
+const MALARIA = ({diseaseId}:IdiseaseId) => {
+
+    const {user} = useAppSelector(UserState)
+
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
@@ -24,20 +33,72 @@ const MALARIA = () => {
 
 
 
-    const handleStepTwo = () => {
+    const result: {
+        question: string,
+        answer: string | number
+    }[] =  [
+        {
+            question: "Do you have a high fever?",
+            answer: question1
+        },
+        {
+            question: "Have you taken any preventive measures against malaria, such as using insecticide-treated bed nets or taking antimalarial medication?",
+            answer: question2
+        },
+        {
+            question: " Do you experience recurrent episodes of fever?",
+            answer: question3
+        },
+        {
+            question: `Are you experiencing any of the following symptoms?
+            Chills and sweating?`,
+            answer: question4
+        },
+        {
+            question: "Headache and body aches?",
+            answer: question5
+        },
+        {
+            question: "Fatigue and weakness?",
+            answer: question6
+        },
+        {
+            question: "Nausea, vomiting, or diarrhea?",
+            answer: question7
+        },
+        {
+            question: "When last did you take malaria medication",
+            answer: question8
+        },
+    ]
+    
 
-        if (question2 === "Yes") {
-            navigation.navigate("ConfirmAppointment")
-        } else {
-            setProgress((current) => current + 0.1)
 
+
+
+
+
+    const handleSubmit = async() => {
+        setIsLoading(true)
+        try {
+            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+
+            Alert.alert("Done", response?.data?.message, [
+                {
+                  text: 'Cancel',
+                  onPress: () => navigation.goBack(),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () =>navigation.popToTop()},
+              ])
+
+            // navigation.navigate("ConfirmAppointment")
+        } catch (error) {
+            // console.log(error)
+            Alert.alert("Error", "please retry sending")
         }
-
-    }
-
-    const handleSubmit = () => {
-        navigation.navigate("ConfirmAppointment")
-
+        setIsLoading(false)
+        
     }
 
     return (
@@ -268,6 +329,12 @@ const MALARIA = () => {
 
                     <CustomButton title={"Treatment plan"} onPress={handleSubmit} />
                 </View>}
+
+                {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
             </KeyboardAvoidingView>
         </ScrollView>

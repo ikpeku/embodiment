@@ -1,12 +1,21 @@
 
-import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import { Checkbox, ProgressBar, Text } from "react-native-paper";
+import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text } from "react-native-paper";
 import CustomButton from "../Button";
 import { useNavigation } from "@react-navigation/native";
 import { QuestionnaireScreenProps } from "../../types";
+import { useAppSelector } from "../../redux/hooks";
+import { UserState } from "../../redux/features/useSlice";
+import { SubmitQuetionnaire } from "../../services";
 
-const COMMONCOLD = () => {
+type IdiseaseId = { diseaseId:string}
+const COMMONCOLD = ({diseaseId}:IdiseaseId) => {
+
+    const {user} = useAppSelector(UserState)
+
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
@@ -18,10 +27,67 @@ const COMMONCOLD = () => {
     const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
 
 
-    const handleStepTwo = () => {
+
+    const result: {
+        question: string,
+        answer: string | number
+    }[] =  [
+        {
+            question: `
+            Have you been experiencing any of the following symptoms?
+Runny or stuffy nose
+Sneezing
+Sore throat
+Cough
+Headache
+Body aches
+Mild fever
+            `,
+            answer: question1
+        },
+        {
+            question: `
+            Have you been experiencing any of the following symptoms?
+Severe fever (above 38°C)
+Chest pain or tightness
+Shortness of breath
+Difficulty breathing
+Wheezing
+            `,
+            answer: question2
+        },
+        {
+            question: `
+            Have you been experiencing symptoms for less than 2 weeks?
+            `,
+            answer: question3
+        },
+    
+    ]
+
+
+    const handleStepTwo = async() => {
 
         if (question2 === "Yes") {
-            navigation.navigate("ConfirmAppointment")
+            setIsLoading(true)
+            try {
+                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
+    
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => navigation.goBack(),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>navigation.popToTop()},
+                  ])
+    
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                Alert.alert("Error", "please retry sending")
+            }
+            setIsLoading(false)
         } else {
             setProgress((current) => current + 0.1)
 
@@ -29,9 +95,29 @@ const COMMONCOLD = () => {
 
     }
 
-    const handleSubmit = () => {
-        navigation.navigate("ConfirmAppointment")
+    const handleSubmit = async() => {
 
+        setIsLoading(true)
+        try {
+            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+
+            Alert.alert("Done", response?.data?.message, [
+                {
+                  text: 'Cancel',
+                  onPress: () => navigation.goBack(),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () => navigation.popToTop()},
+              ])
+
+            // navigation.navigate("ConfirmAppointment")
+        } catch (error) {
+            // console.log(error)
+            Alert.alert("Error", "please retry sending")
+        }
+       
+        setIsLoading(false)
+       
     }
 
     return (
@@ -155,6 +241,13 @@ const COMMONCOLD = () => {
 
                     <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
                 </View>}
+
+
+                {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
             </KeyboardAvoidingView>
         </ScrollView>

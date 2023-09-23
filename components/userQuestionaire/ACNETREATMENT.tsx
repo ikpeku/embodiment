@@ -1,14 +1,21 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable, Alert } from "react-native";
 import React, { useState } from "react";
-import { Checkbox, ProgressBar, Text, TextInput } from "react-native-paper";
+import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
 import { QuestionnaireScreenProps } from "../../types";
 import { useNavigation } from "@react-navigation/native";
+import { SubmitQuetionnaire } from "../../services";
+import { UserState } from "../../redux/features/useSlice";
+import { useAppSelector } from "../../redux/hooks";
 
-const ACNETREATMENT = () => {
+
+type IdiseaseId = { diseaseId:string}
+
+const ACNETREATMENT = ({diseaseId}:IdiseaseId) => {
+    const {user} = useAppSelector(UserState)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
+    const [isLoading, setIsLoading] = useState(false)
 
     const [progress, setProgress] = useState(0.1)
 
@@ -52,8 +59,64 @@ const ACNETREATMENT = () => {
 
 
 
-    // Question 14
-    // 
+const result: {
+    question: string,
+    answer: string | number
+}[] =  [
+    {
+        question: "What gender were you assigned to at birth?",
+        answer: question1
+    },
+    {
+        question: "Do any of the following apply to you Select all that apply?",
+        answer: question2
+    },
+    {
+        question: "What best describes your skin type?",
+        answer: question3
+    },
+    {
+        question: "Would you describe your skin as sensitive?",
+        answer: question4
+    },
+    {
+        question: "After your acne heals do you experience blackheads or dark spot?",
+        answer: question5
+    },
+    {
+        question: "How long have you had acne?",
+        answer: question6
+    },
+    {
+        question: "Where are you experiencing acne?",
+        answer: question7
+    },
+    {
+        question: "How often do you experience breakouts?",
+        answer: question8
+    },
+    {
+        question: "Are you currently on any medication for acne or have you taken any one in the past?",
+        answer: question9 === "Yes" ? question9a : question9
+    },
+    {
+        question: "What do you use to care for your skin?",
+        answer: question10 === "Others" ? question10a : question10
+    },
+    {
+        question: "Have you been diagnosed with any of the following disease?",
+        answer: question11
+    },
+    {
+        question: "Are you currently on birth control?",
+        answer: question12 === "Yes" ? question12a : question12
+    },
+    {
+        question: "Do you have any drug allergies?",
+        answer: question13 === "Yes" ? question13a : question13
+    }
+]
+
 
 
 
@@ -68,16 +131,59 @@ const ACNETREATMENT = () => {
         }
     }
 
-    const handleStepTwo = () => {
+    const handleStepTwo = async() => {
 
         if (question2 === "I am pregnant") {
-            navigation.navigate("ConfirmAppointment")
+            // navigation.navigate("ConfirmAppointment")
+
+
+            setIsLoading(true)
+            try {
+                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
+    
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                      text: 'Cancel',
+                      onPress: () => navigation.goBack(),
+                      style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () =>navigation.popToTop()},
+                  ])
+    
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                Alert.alert("Error", "please retry sending")
+            }
+            // navigation.navigate("ConfirmAppointment")
+            setIsLoading(false)
+                
         } else {
             setProgress((current) => current + 0.1)
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
+        setIsLoading(true)
+        try {
+            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+
+            Alert.alert("Done", response?.data?.message, [
+                {
+                  text: 'Cancel',
+                  onPress: () => navigation.goBack(),
+                  style: 'cancel',
+                },
+                {text: 'OK', onPress: () =>navigation.popToTop()},
+              ])
+
+            // navigation.navigate("ConfirmAppointment")
+        } catch (error) {
+            // console.log(error)
+            Alert.alert("Error", "please retry sending")
+        }
+        // navigation.navigate("ConfirmAppointment")
+        setIsLoading(false)
 
     }
 
@@ -606,6 +712,13 @@ const ACNETREATMENT = () => {
                     {question14Photo !== "" && <CustomButton title={"Next"} onPress={handleSubmit} />}
 
                 </View>}
+
+                
+{isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
             </KeyboardAvoidingView>
         </ScrollView>

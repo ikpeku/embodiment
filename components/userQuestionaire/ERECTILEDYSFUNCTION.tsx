@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { View,  ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
 import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput} from "react-native-paper";
 import CustomButton from "../Button";
@@ -31,13 +31,6 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
     const [question7, setQuestion7] = useState<"Yes" | "No">("No")
     const [question7a, setQuestion7a] = useState("")
 
- 
- 
-
-    // Question 7
-    // 
-    // Yes (please specify)
-    // N0 redirect to pay for treatment plan
     
 
     const result: {
@@ -141,6 +134,29 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
     }
+
+
+
+    useEffect(() => {
+        if(question4c){
+            setQuestion4a(false)
+            setQuestion4b(false)
+            return
+        }
+
+    
+          
+    }, [question4c])
+
+    useEffect(() => {
+      
+
+        if(question4a || question4b){
+setQuestion4c(false)
+return
+        }
+          
+    }, [question4a, question4b])
 
     
 
