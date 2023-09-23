@@ -33,6 +33,23 @@ export const useGetUserNotification = (slug: string) => {
 };
 
 
+// get doctor schedule
+const getUseOrder = (slug: string) =>
+    request({ url: `/user/orders/${slug}` });
+
+
+export const useGetUserOrder = (slug: string) => {
+    return useQuery(["userOrder", slug], () => getUseOrder(slug), {
+        select(data) {
+            return data?.data?.orders
+        },
+    });
+};
+
+// ?.notifications;
+
+
+
 
 
 
