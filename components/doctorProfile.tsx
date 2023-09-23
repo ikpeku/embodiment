@@ -91,30 +91,47 @@ export default function DoctorProfile() {
         if (loading) return
         setLoading(true)
 
+        // console.log(image)
 
-        // if (user.role === "isUser") {
+
+
+        // if (user.role === "isDoctor") {
+
+        //     const doctorForm = {
+
+        //         firstName: data.FirstName,
+        //         lastName: data.LastName,
+        //         email: data.Email,
+        //         phoneNumber: data.PhoneNumber,
+        //         qualification: data.Qualifications,
+        //         specialty: data.specialty,
+        //         yearOfExperience: +data.Years_of_experience,
+        //         rate: +data.Rate,
+        //         bio: data.aboutYourself
+        //     }
+
         //     try {
-             
-        //         const response = await fetch(`${baseURL}/user/update/${user._id}/`, {
+        
+        //         const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
         //             method: "PUT",
         //             headers: {
         //                 'Accept': 'application/json',
         //                 'Content-Type': 'application/json; charset=utf-8',
         //                 Authorization: `Token ${token}`,
         //             },
-        //             body: JSON.stringify(formdata)
+        //             body: JSON.stringify(doctorForm)
         //         })
-        //         Alert.alert("Successful", "profile updated")
 
         //         const result = await response.json()
 
-        //         if (result.status === 200) {
-        //             dispatch(updateUser({ ...result.data }))
+        //         if (result.status === "success") {
+        //             // dispatch(updateUser({ ...result.data }))
         //             Alert.alert("Successful", "profile updated")
 
         //         } else {
         //             throw new Error(result.message)
         //         }
+
 
         //     } catch (error: any) {
         //         Alert.alert("Error", error.message)
@@ -123,57 +140,9 @@ export default function DoctorProfile() {
         //         setLoading(false)
         //         setEdit(false)
         //     }
-
         // }
 
-
-
-        if (user.role === "isDoctor") {
-
-            const doctorForm = {
-
-                firstName: data.FirstName,
-                lastName: data.LastName,
-                email: data.Email,
-                phoneNumber: data.PhoneNumber,
-                qualification: data.Qualifications,
-                specialty: data.specialty,
-                yearOfExperience: +data.Years_of_experience,
-                rate: +data.Rate,
-                bio: data.aboutYourself
-            }
-
-            try {
-        
-                const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
-                    method: "PUT",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json; charset=utf-8',
-                        Authorization: `Token ${token}`,
-                    },
-                    body: JSON.stringify(doctorForm)
-                })
-
-                const result = await response.json()
-
-                if (result.status === "success") {
-                    // dispatch(updateUser({ ...result.data }))
-                    Alert.alert("Successful", "profile updated")
-
-                } else {
-                    throw new Error(result.message)
-                }
-
-
-            } catch (error: any) {
-                Alert.alert("Error", error.message)
-
-            } finally {
-                setLoading(false)
-                setEdit(false)
-            }
-        }
+        setLoading(false)
     }
 
 

@@ -20,7 +20,7 @@ export default function Image_Picker() {
         if (!result.canceled) {
 
             const res = await uriToBlob(result.assets[0].uri)
-            console.log("er: ", res)
+            // console.log("er: ", res)
 
 
             setImage(res);

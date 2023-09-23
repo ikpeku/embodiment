@@ -90,51 +90,53 @@ export default function UserProfile() {
         
 
 
-        if (user.role === "isUser") {
-            try {
+        // if (user.role === "isUser") {
+        //     try {
 
-                form.append("avatar", image ? image : "")
+        //         form.append("avatar", image ? image : "")
 
-                const sendData:any = [formdata]
+        //         const sendData:any = [formdata]
 
-                for (const property in formdata) {
+        //         for (const property in formdata) {
 
-                    form.append(property, sendData[0][property]);
+        //             form.append(property, sendData[0][property]);
                     
-                  }
+        //           }
              
-                const response = await fetch(`${baseURL}/user/update/${user._id}/`, {
-                    method: "PUT",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json; charset=utf-8',
-                        Authorization: `Token ${token}`,
-                    },
-                    body: JSON.stringify(form)
-                })
-                Alert.alert("Successful", "profile updated")
+        //         const response = await fetch(`${baseURL}/user/update/${user._id}/`, {
+        //             method: "PUT",
+        //             headers: {
+        //                 'Accept': 'application/json',
+        //                 'Content-Type': 'application/json; charset=utf-8',
+        //                 Authorization: `Token ${token}`,
+        //             },
+        //             body: JSON.stringify(form)
+        //         })
+        //         Alert.alert("Successful", "profile updated")
 
-                const result = await response.json()
+        //         const result = await response.json()
 
-                console.log(result)
+        //         console.log(result)
 
-                if (result.status === 200) {
-                    dispatch(updateUser({ ...result.data }))
-                    Alert.alert("Successful", "profile updated")
+        //         if (result.status === 200) {
+        //             dispatch(updateUser({ ...result.data }))
+        //             Alert.alert("Successful", "profile updated")
 
-                } else {
-                    throw new Error(result.message)
-                }
+        //         } else {
+        //             throw new Error(result.message)
+        //         }
 
-            } catch (error: any) {
-                Alert.alert("Error", error.message)
+        //     } catch (error: any) {
+        //         Alert.alert("Error", error.message)
 
-            } finally {
-                setLoading(false)
-                setEdit(false)
-            }
+        //     } finally {
+        //         setLoading(false)
+        //         setEdit(false)
+        //     }
 
-        }
+        // }
+
+        setLoading(false)
 
     }
 
