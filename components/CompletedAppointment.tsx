@@ -5,41 +5,25 @@ import { useAppSelector } from "../redux/hooks";
 import { UserState } from "../redux/features/useSlice";
 import dayjs from 'dayjs'
 import { useGetDoctorAppointments } from "../services/doctorApi";
+import { useNavigation } from "@react-navigation/native";
+import { DoctorviewuserScreenProps } from "../types";
 
 
 interface IItem {
     data: {
         createdAt: string,
         endTime: string,
+        _id: string,
+        bookingId: string,
         patient: {
             firstName: string,
             lastName: string
+            _id: string
         }
     }
 }
 
 
-const Item = ({ data }: IItem) => {
-
-    return (
-        <Card mode='contained' style={styles.item} >
-        <Card.Content>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
-                Appointment with
-                    <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{` ${data?.patient?.firstName} ${data?.patient?.lastName} `}</Text>
-                     has ended
-                </Text>
-            </View>
-
-            <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                <Text style={[styles.title, { color: "#0665CB" }]}>{data.endTime}</Text>
-                <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM D, YYYY')}</Text>
-            </View>
-        </Card.Content>
-    </Card>
-    )
-};
 
 const Empty = () => {
     return (
@@ -50,12 +34,36 @@ const Empty = () => {
 }
 
 const CompletedAppointment = () => {
+    const navigation = useNavigation<DoctorviewuserScreenProps>()
 
     const { user} = useAppSelector(UserState)
     // const { data, isLoading } = useDoctor(user._id)
     const { data, isLoading } = useGetDoctorAppointments(user._id)
 
-    // console.log(data?.completed[0])
+    console.log(data?.completed[0])
+
+    const Item = ({ data }: IItem) => {
+
+        return (
+            <Card mode='contained' style={styles.item} onPress={() =>  navigation.navigate("Doctorviewuser", { id: data.patient._id, appointmentId: data._id, scheduleId: data.bookingId})} >
+            <Card.Content>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
+                    <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
+                    Appointment with
+                        <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{` ${data?.patient?.firstName} ${data?.patient?.lastName} `}</Text>
+                         has ended
+                    </Text>
+                </View>
+    
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
+                    <Text style={[styles.title, { color: "#0665CB" }]}>{data.endTime}</Text>
+                    <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM D, YYYY')}</Text>
+                </View>
+            </Card.Content>
+        </Card>
+        )
+    };
+    
     
     return (
         <View style={styles.container}>
