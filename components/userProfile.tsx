@@ -167,7 +167,7 @@ export default function UserProfile() {
 
 
                 <ProfileAvatar type='Center'
-                onPress={pickImage}
+                onPress={() => pickImage()}
                     text={"Upload your profile picture"}
                     photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} 
                     />

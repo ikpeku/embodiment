@@ -16,6 +16,8 @@ import { baseURL, useDoctor, useUser } from '../services';
 import CustomInput from './CustomInput';
 import { DateTime } from './DateTime';
 import CustomButton from './Button';
+import ProfileAvatar from './Avatar';
+import Image_Picker from './imagePicker';
 // import axios from 'axios';
 
 interface IForm {
@@ -34,13 +36,14 @@ interface IForm {
 
 
 export default function DoctorProfile() {
+    const {image, pickImage} = Image_Picker()
 
     const [edit, setEdit] = useState(false)
 
     const { user, token } = useAppSelector(UserState)
     const dispatch = useAppDispatch()
     
-    const { data } = useUser(user._id)
+    // const { data } = useUser(user._id)
 
     const { data: doctor } = useDoctor(user._id)
 
@@ -202,19 +205,21 @@ export default function DoctorProfile() {
             })
         }
 
-    }, [data, doctor])
+    }, [ doctor])
 
 
 
 
     return (
         <>
-            {/* <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false} > */}
+            <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false} >
 
 
-                {/* <ProfileAvatar type='Center'
+                <ProfileAvatar
+            onPress={() => pickImage()}
+                type='Center'
                     text={"Upload your profile picture"}
-                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} /> */}
+                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
 
 
 
@@ -293,7 +298,7 @@ export default function DoctorProfile() {
                 </View>
 
 
-            {/* </ScrollView> */}
+            </ScrollView>
             {loading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                     <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />

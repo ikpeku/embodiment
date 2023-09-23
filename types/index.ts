@@ -50,7 +50,7 @@ export type RootStackParamList = {
     DoctorAppointments: undefined
     Doctorearnings: undefined
     CreateDoctorSchedule: { index: number }
-    Doctorviewuser: { id: string, appointmentId: string, scheduleId: string, status: "unread" | "read" }
+    Doctorviewuser: { id: string, appointmentId: string, scheduleId: string }
     BankDetails: undefined
 
     // 

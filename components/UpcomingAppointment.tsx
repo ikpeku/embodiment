@@ -1,35 +1,38 @@
 import { StyleSheet, View, FlatList } from "react-native";
-import { Card, Text } from 'react-native-paper';
+import { ActivityIndicator, Card, MD2Colors, Text } from 'react-native-paper';
 import { useDoctor, useDoctorAppiontment } from "../services";
 import { UserState } from "../redux/features/useSlice";
 import { useAppSelector } from "../redux/hooks";
 import dayjs from 'dayjs'
+import { useGetDoctorAppointments } from "../services/doctorApi";
 
 
 interface IItem {
     data: {
         createdAt: string,
+        startTime: string,
         patient: {
-            name: string
+            firstName: string,
+            lastName: string
         }
     }
 }
 
 
 const Item = ({ data }: IItem) => {
-
+    
     return (
         <Card mode='contained' style={styles.item} >
         <Card.Content>
             <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
                 <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
-                    <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{`${data?.patient?.name} `}</Text>
+                    <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{`${data?.patient?.firstName} ${data?.patient?.lastName} `}</Text>
                     booked an appointment
                 </Text>
             </View>
 
             <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('hh:mm a')}</Text>
+                <Text style={[styles.title, { color: "#0665CB" }]}>{data?.startTime}</Text>
                 <Text style={[styles.title, { color: "#0665CB" }]}>{dayjs(data?.createdAt).format('MMMM D, YYYY')}</Text>
             </View>
         </Card.Content>
@@ -49,18 +52,27 @@ const UpcomingAppointment = () => {
 
     const { user } = useAppSelector(UserState)
 
-    const { data, isLoading } = useDoctor(user._id)
+    const { data, isLoading } = useGetDoctorAppointments(user._id)
+   
 
+    // console.log(data.data.groupedSchedules)
+    // 
     return (
         <View style={styles.container}>
             <FlatList
-                data={data?.data?.groupedSchedules.booked}
+                data={data?.upcoming}
                 renderItem={({ item }) => <Item data={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{gap: 10}}
             />
+
+{isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
         </View>
     );

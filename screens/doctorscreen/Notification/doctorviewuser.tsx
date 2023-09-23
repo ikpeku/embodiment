@@ -46,16 +46,30 @@ export default function Doctorviewuser() {
                 {style: "default",
                     onPress: () => {
                         queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
+                        queryClient.invalidateQueries({ queryKey: ['doctorbyid'] })
                         navigation.goBack()
                     }
                 }
             ])
 
             // navigation.navigate("ConfirmAppointment")
-        } catch (error) {
+        } catch (error:any) {
+            
             setShowmodal(false)
-            // console.log("err: ",error)
-            Alert.alert("Error", "please retry sending")
+            // console.log("err: ",error.response.data.message)
+            if(error?.response?.data?.message) {
+                Alert.alert("Error", error?.response?.data?.message, [
+                    {style: "default",
+                        onPress: () => {
+                            queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
+                            queryClient.invalidateQueries({ queryKey: ['doctorbyid'] })
+                            navigation.goBack()
+                        }
+                    }
+                ])
+            } else {
+                Alert.alert("Error", "Could not perform operation please try again.")
+            }
         }
         setLoading(false)
 
@@ -84,7 +98,7 @@ export default function Doctorviewuser() {
                         </View>
 
                         <View style={{paddingTop: 30}}>
-                        {user.role === "isDoctor" && route.params.status === "unread" && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
+                        {user.role === "isDoctor"  && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
                         </View>
                     </Card.Content>
                 </Card>

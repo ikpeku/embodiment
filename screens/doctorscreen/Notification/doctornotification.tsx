@@ -36,7 +36,6 @@ interface IhandleViewNotification {
     notificationId: string,
     appointmentId: string,
     scheduleId: string,
-    status: "unread" | "read"
 }
 
 
@@ -70,7 +69,7 @@ export default function DoctorNotification() {
                     <Paper_Text style={[styles.title, { opacity: 0.8 }, data.status !== "unread" ? {opacity: 0.5} : {}]}>{data.message}</Paper_Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(data.appointmentDate).format('hh:mm a')}</Text>
-                        <Text onPress={() => handleViewNotification({id: data.sender, notificationId: data._id, appointmentId: data.appointmentId, scheduleId: data.scheduleId , status: data.status})} style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text>
+                        <Text onPress={() => handleViewNotification({id: data.sender, notificationId: data._id, appointmentId: data.appointmentId, scheduleId: data.scheduleId })} style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text>
                     </View>
                 </Card.Content>
             </Card>
@@ -80,7 +79,7 @@ export default function DoctorNotification() {
 
 
 
-    const handleViewNotification = async({id, notificationId, appointmentId, scheduleId, status}:IhandleViewNotification ) => {
+    const handleViewNotification = async({id, notificationId, appointmentId, scheduleId}:IhandleViewNotification ) => {
 
         try {
             await axios.put(`${baseURL}/notification/${user._id}/${notificationId}`)
@@ -90,7 +89,7 @@ export default function DoctorNotification() {
             // Alert.alert()   
         } finally {
             queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
-            navigation.navigate("Doctorviewuser", { id, appointmentId, scheduleId, status})
+            navigation.navigate("Doctorviewuser", { id, appointmentId, scheduleId})
         }
     }
 

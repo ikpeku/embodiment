@@ -105,3 +105,22 @@ export const useGetAdminnQuestionnaire = () => {
 
 
 
+// DoctorAppointments
+const getDoctorAppointments = (slug: string) =>
+    request({ url: `/appointment/completed-upcoming/${slug}` });
+
+
+export const useGetDoctorAppointments = (slug: string) => {
+    return useQuery(["DoctorAppointments"], () => getDoctorAppointments(slug), {
+        select(data) {
+            return data?.data?.data;
+        },
+    });
+};
+//
+
+
+// http://localhost:3000/api/appointment/completed-upcoming/64efdd43878f77fd479f93f8
+
+
+

@@ -44,7 +44,7 @@ const CreateDoctorSchedule = () => {
 
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
-    const [star, setStar] = useState(0);
+    // const [star, setStar] = useState(0);
     // const [data, setData] = useState({})
 
     const [showDate, setShowDate] = useState(false);
@@ -59,7 +59,7 @@ const CreateDoctorSchedule = () => {
 
  
 
-    const { user , token} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
 
@@ -92,9 +92,9 @@ const CreateDoctorSchedule = () => {
             }
            
         if(isAxiosError(error)){
-            console.log("err: ",error)
+            // console.log("err: ",error)
         }
-        console.log("error: ",error)
+        // console.log("error: ",error)
         } finally {
             setLoading(false)
         }

@@ -45,10 +45,10 @@ export default function DoctorSchedule() {
     const { user } = useAppSelector(UserState)
     const { data = [], isLoading } = useDoctor(user._id)
 
-console.log(data?.data.availableTimeSlots)
+
 
     const Item = ({ data , index}: IItem) => {
-        console.log(data)
+   
 
         return (
             <Card mode='contained' style={styles.item} >
