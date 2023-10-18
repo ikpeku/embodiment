@@ -39,7 +39,7 @@ export default function Doctorviewuser() {
     const handleCompleteAppointment = async() => {
         setLoading(true)
         try {
-            const response = await MarkAppointmentAsComplete({appointmentId: route?.params?.appointmentId, doctorId: user._id, scheduleId: route.params.scheduleId})
+            const response = await MarkAppointmentAsComplete({scheduleId: route?.params?.scheduleId, doctorId: user._id})
             setShowmodal(false)
       
             Alert.alert("Done", response?.data?.message , [
@@ -98,7 +98,7 @@ export default function Doctorviewuser() {
                         </View>
 
                         <View style={{paddingTop: 30}}>
-                        {user.role === "isDoctor"  && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
+                        {user.role === "isDoctor" && route.params.status === "Booked"  && <CustomButton onPress={() => setShowmodal(true)} title="Mark Appointment as complete" />}
                         </View>
                     </Card.Content>
                 </Card>

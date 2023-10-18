@@ -15,11 +15,10 @@ interface IItem {
         endTime: string,
         _id: string,
         bookingId: string,
-        patient: {
-            firstName: string,
-            lastName: string
-            _id: string
-        }
+        patientFirstName: string,
+        patientLastName: string,
+        patientId: string,
+        status: "Completed" | "Booked"
     }
 }
 
@@ -37,20 +36,21 @@ const CompletedAppointment = () => {
     const navigation = useNavigation<DoctorviewuserScreenProps>()
 
     const { user} = useAppSelector(UserState)
-    // const { data, isLoading } = useDoctor(user._id)
-    const { data, isLoading } = useGetDoctorAppointments(user._id)
+    const { data, isLoading } = useDoctor(user._id)
+    // const { data, isLoading } = useGetDoctorAppointments(user._id)
 
-    console.log(data?.completed[0])
+    // console.log(data?.data.groupedSchedules.completed)
+    // console.log(data?.data.groupedSchedules.booked)
 
     const Item = ({ data }: IItem) => {
 
         return (
-            <Card mode='contained' style={styles.item} onPress={() =>  navigation.navigate("Doctorviewuser", { id: data.patient._id, appointmentId: data._id, scheduleId: data.bookingId})} >
+            <Card mode='contained' style={styles.item} onPress={() =>  navigation.navigate("Doctorviewuser", { id: data.patientId, scheduleId: data._id, status: data.status})} >
             <Card.Content>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
                     <Text variant='titleMedium' style={[styles.title, { color: "#000", opacity: 0.8 }]}>
                     Appointment with
-                        <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{` ${data?.patient?.firstName} ${data?.patient?.lastName} `}</Text>
+                        <Text style={[styles.title, { textTransform: "capitalize", color: "#000", opacity: 0.8 }]}>{` ${data?.patientFirstName} ${data?.patientLastName} `}</Text>
                          has ended
                     </Text>
                 </View>
@@ -69,7 +69,7 @@ const CompletedAppointment = () => {
         <View style={styles.container}>
 
             <FlatList
-                data={data?.completed}
+                data={data?.data?.groupedSchedules?.completed}
                 renderItem={({ item }) => <Item data={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}

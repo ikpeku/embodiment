@@ -217,7 +217,7 @@ type MarkQuestionnaireAsComplete = {
 }
 type IMarkAppointmentAsComplete = {
     doctorId: string
-    appointmentId: string
+    // appointmentId: string
     scheduleId: string
 }
 
@@ -234,15 +234,15 @@ export const SubmitQuetionnaire = ({ diseaseId, userId, questionsAndAnswers }: I
 
 // http://localhost:3000/api/appointment/completed/64efdd43878f77fd479f93f8/650488b951f562cb7b44e83b/650488b951f562cb7b44e83c
 
-export const MarkAppointmentAsComplete = ({ appointmentId, doctorId, scheduleId }: IMarkAppointmentAsComplete) => {
-    return axios.patch(`${baseURL}/appointment/completed/${doctorId}/${appointmentId}/${scheduleId}`)
+export const MarkAppointmentAsComplete = ({ doctorId, scheduleId }: IMarkAppointmentAsComplete) => {
+    return axios.patch(`${baseURL}/appointment/completed/${doctorId}/${scheduleId}`)
 }
 
 export const MarkQuestionnaireAsComplete = ({ diseaseId, userId }: MarkQuestionnaireAsComplete) => {
     return axios.patch(`${baseURL}/questionnaire/completed/${userId}/${diseaseId}`)
 }
-
-
+// appointmentId,
+// /${appointmentId}
 
 
 

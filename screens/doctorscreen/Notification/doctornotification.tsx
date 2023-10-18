@@ -89,7 +89,7 @@ export default function DoctorNotification() {
             // Alert.alert()   
         } finally {
             queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
-            navigation.navigate("Doctorviewuser", { id, appointmentId, scheduleId})
+            navigation.navigate("Doctorviewuser", { id,scheduleId, status: "Booked"})
         }
     }
 
