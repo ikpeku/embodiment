@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react'
-import { StyleSheet, View, ScrollView, Pressable, Text, Alert } from 'react-native'
+import { StyleSheet, View, ScrollView, Alert } from 'react-native'
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, List, MD2Colors, RadioButton } from 'react-native-paper';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-// import { CustomButton, CustomInput } from '../../../components';
-// import ProfileAvatar from '../../../components/Avatar';
-// import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-// import { UserState, updateUser } from '../../../redux/features/useSlice';
-// import { DateTime } from '../../../components/DateTime';
-// import { baseURL, useDoctor, useUser } from '../../../services';
-import dayjs from 'dayjs';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { UserState, updateUser } from '../redux/features/useSlice';
-import { baseURL, useDoctor, useUser } from '../services';
+import { baseURL, useDoctor } from '../services';
 import CustomInput from './CustomInput';
 import { DateTime } from './DateTime';
 import CustomButton from './Button';
 import ProfileAvatar from './Avatar';
 import Image_Picker from './imagePicker';
-// import axios from 'axios';
+
+
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db } from '../utils/firebase';
+
+import {
+    QueryClient
+  } from '@tanstack/react-query'
 
 interface IForm {
     FirstName: string,
@@ -36,14 +35,15 @@ interface IForm {
 
 
 export default function DoctorProfile() {
+    db
     const {image, pickImage} = Image_Picker()
+    const queryClient = new QueryClient()
 
     const [edit, setEdit] = useState(false)
 
     const { user, token } = useAppSelector(UserState)
     const dispatch = useAppDispatch()
     
-    // const { data } = useUser(user._id)
 
     const { data: doctor } = useDoctor(user._id)
 
@@ -53,7 +53,7 @@ export default function DoctorProfile() {
     const { firstName, lastName, email, phoneNumber, } = user
     const [loading, setLoading] = useState(false)
 
-    const [sex, setSex] = useState("male")
+    // const [sex, setSex] = useState("male")
     const [showDate, setShowDate] = useState(false);
     const [date, setDate] = useState(new Date());
 
@@ -75,90 +75,96 @@ export default function DoctorProfile() {
     });
 
     const onSavePress = async (data: IForm) => {
-
-        const formdata = {
-            firstName: data.FirstName,
-            lastName: data.LastName,
-            email: data.Email,
-            phoneNumber: data.PhoneNumber,
-            dob: date,
-            address: data.Address,
-            gender: sex,
-            allergies: [data.Alergies]
-
-        }
-
         if (loading) return
         setLoading(true)
 
-        // console.log(image)
 
+        if (user.role === "isDoctor") {
 
+            const doctorForm = {
 
-        // if (user.role === "isDoctor") {
+                firstName: data.FirstName,
+                lastName: data.LastName,
+                email: data.Email,
+                phoneNumber: data.PhoneNumber,
+                qualification: data.Qualifications,
+                specialty: data.specialty,
+                yearOfExperience: +data.Years_of_experience,
+                rate: +data.Rate,
+                bio: data.aboutYourself,
+            }
 
-        //     const doctorForm = {
+          
 
-        //         firstName: data.FirstName,
-        //         lastName: data.LastName,
-        //         email: data.Email,
-        //         phoneNumber: data.PhoneNumber,
-        //         qualification: data.Qualifications,
-        //         specialty: data.specialty,
-        //         yearOfExperience: +data.Years_of_experience,
-        //         rate: +data.Rate,
-        //         bio: data.aboutYourself
-        //     }
-
-        //     try {
+            try {
+                let avatarUrl = ""
+                if(image) {
+                       
+                    // const blobFile = await uriToBlob(image)
+    
+                    const avatar = `${data.FirstName}${data.LastName}`
+                    const reference = ref(getStorage(), avatar)
+                    await uploadBytesResumable(reference, image)
+                    const downloadURL = await getDownloadURL(reference);
+                //  console.log(downloadURL)
+                //  form.append("avatar", downloadURL)
+                avatarUrl = downloadURL
+    
+                // console.log(downloadURL)
+                }
         
-        //         const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
-        //             method: "PUT",
-        //             headers: {
-        //                 'Accept': 'application/json',
-        //                 'Content-Type': 'application/json; charset=utf-8',
-        //                 Authorization: `Token ${token}`,
-        //             },
-        //             body: JSON.stringify(doctorForm)
-        //         })
+                const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8',
+                        Authorization: `Token ${token}`,
+                    },
+                    body: JSON.stringify( {...doctorForm, avatar: avatarUrl})
+                })
 
-        //         const result = await response.json()
+                const result = await response.json()
 
-        //         if (result.status === "success") {
-        //             // dispatch(updateUser({ ...result.data }))
-        //             Alert.alert("Successful", "profile updated")
-
-        //         } else {
-        //             throw new Error(result.message)
-        //         }
+                // console.log(result)
 
 
-        //     } catch (error: any) {
-        //         Alert.alert("Error", error.message)
+                const updatedData = {
+                    _id: result?.data?.user?._id,
+                    firstName: result?.data?.user?.firstName,
+                    lastName: result?.data?.user?.lastName,
+                    email: result?.data?.user?.email,
+                    phoneNumber: result?.data?.user?.phoneNumber,
+                    // isDoctor: result?.data?.isDoctor,
+                    status: result?.data?.user?.status,
+                    allergies: result?.data?.user?.allergies,
+                    createdAt: result?.data?.user?.createdAt,
+                    updatedAt: result?.data?.user?.updatedAt,
+                    role: result?.data?.user?.role,
+                    // doctorId: result?.data?.doctorId,
+                    avatar: result?.data?.user?.avatar 
+                }
 
-        //     } finally {
-        //         setLoading(false)
-        //         setEdit(false)
-        //     }
-        // }
+                dispatch(updateUser(updatedData))
+                // 
+                await queryClient.invalidateQueries({ queryKey: ['user'] })
+                Alert.alert("Successful", "profile updated")
+
+
+            } catch (error: any) {
+                Alert.alert("Error", error.message)
+
+            } finally {
+                setLoading(false)
+                setEdit(false)
+            }
+        }
 
         setLoading(false)
     }
 
 
     useEffect(() => {
-        // if (user.role === "isUser" && data?.data) {
-        //     reset({
-        //         Address: data?.data?.address,
-        //         Email: data?.data?.email,
-        //         Alergies: data?.data?.allergies[0],
-        //         FirstName: data?.data?.firstName,
-        //         LastName: data?.data?.lastName,
-        //         PhoneNumber: data?.data?.phoneNumber
-        //     })
-        //     setDate(data?.data?.dob)
-        //     setSex(data?.data?.gender)
-        // }
+     
 
         if (user.role === "isDoctor" && doctor?.data) {
             reset({
@@ -166,18 +172,32 @@ export default function DoctorProfile() {
                 LastName: doctor?.data?.user?.lastName,
                 Email: doctor?.data?.user?.email,
                 PhoneNumber: doctor?.data?.user?.phoneNumber,
-                Qualifications: doctor?.data?.doctorInfo?.qualification,
-                specialty: doctor?.data?.doctorInfo?.specialty,
-                Years_of_experience: doctor?.data?.doctorInfo?.yearOfExperience?.toString(),
-                Rate: doctor?.data?.doctorInfo?.rate?.toString(),
-                aboutYourself: doctor?.data?.doctorInfo?.bio
+                Qualifications: doctor?.data?.qualification,
+                specialty: doctor?.data?.specialty,
+                Years_of_experience: doctor?.data?.yearOfExperience?.toString(),
+                Rate: doctor?.data?.rate?.toString(),
+                aboutYourself: doctor?.data?.bio
             })
         }
 
-    }, [ doctor])
+    }, [
+        doctor?.data?.user?.firstName,
+        doctor?.data?.user?.lastName,
+        doctor?.data?.user?.email,
+        doctor?.data?.user?.phoneNumber,
+        doctor?.data?.qualification,
+        doctor?.data?.specialty,
+        doctor?.data?.yearOfExperience,
+        doctor?.data?.rate,
+        doctor?.data?.bio
+    ])
 
+    const handleChangeAvatar = () => {
+        setEdit(true)
+        pickImage()
+    }
 
-
+    // console.log(user._id)
 
     return (
         <>
@@ -185,10 +205,10 @@ export default function DoctorProfile() {
 
 
                 <ProfileAvatar
-            onPress={() => pickImage()}
+            onPress={handleChangeAvatar}
                 type='Center'
                     text={"Upload your profile picture"}
-                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
+                    photoUrl={user.avatar} />
 
 
 
@@ -214,47 +234,7 @@ export default function DoctorProfile() {
                         <CustomInput editable={edit} control={control} multiline={true} numberOfLines={5} name="aboutYourself" placeholder="Write about yourself" rules={{ required: "required" }} />
                     </>}
 
-                {/* {user.role === "isUser" && <>
-                    <CustomInput editable={edit} control={control} name="Address" placeholder="Enter Address" label="Address" rules={{ required: "required" }} />
-
-                    <List.Accordion title="Sex Assigned at Birth" id="1" style={[styles.listcontainer, { marginBottom: 10 }]}
-                        right={props => props.isExpanded
-                            ? <MaterialIcons {...props} name="keyboard-arrow-up" size={24} color="#0665CB" />
-                            : <MaterialIcons {...props} name="keyboard-arrow-down" size={24} color="#0665CB" />}
-                    >
-                        <View style={styles.item}>
-                            <List.Item title="Male" style={{ flexGrow: 1 }} left={props =>
-                                <RadioButton
-                                    {...props}
-                                    value="female"
-                                    status={sex === "male" ? 'checked' : 'unchecked'}
-                                    onPress={() => setSex("male")}
-                                />} />
-                            <List.Item title="Female" style={{ flexGrow: 1 }} left={props =>
-                                <RadioButton
-                                    value="female"
-                                    {...props}
-                                    status={sex === "female" ? 'checked' : 'unchecked'}
-                                    onPress={() => setSex("female")}
-                                />} />
-                        </View>
-                    </List.Accordion>
-
-
-                    <Pressable style={{ borderWidth: 1, padding: 15, borderRadius: 5, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                        <Text>Date of Birth ({dayjs(date ? date : new Date() ).format('DD/MM/YYYY')})</Text>
-                        <MaterialCommunityIcons name="calendar-month" size={24} onPress={() => setShowDate(true)} color="gainsboro" />
-                    </Pressable>
-
-
-                    <View style={{ marginTop: 8 }}>
-
-                        <CustomInput editable={edit} control={control} multiline={true} numberOfLines={3} name="Alergies" placeholder="Enter Alergies" label="Alergies" rules={{ required: "required" }} />
-                    </View>
-
-                </>} */}
-
-
+        
                 <DateTime currentMode={'date'} show={showDate}
                     setShow={setShowDate}
                     date={date}

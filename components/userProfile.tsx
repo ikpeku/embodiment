@@ -14,7 +14,13 @@ import { DateTime } from './DateTime';
 import CustomButton from './Button';
 import CustomInput from './CustomInput';
 import Image_Picker from './imagePicker';
-import axios from 'axios';
+// import axios from 'axios';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { db } from '../utils/firebase';
+
+import {
+    QueryClient
+  } from '@tanstack/react-query'
 
 
 interface IForm {
@@ -33,8 +39,11 @@ interface IForm {
 
 
 export default function UserProfile() {
-    // const {image, pickImage} = Image_Picker()
+
+  db
+  const queryClient = new QueryClient()
     const {image, pickImage} = Image_Picker()
+    // const [avatar, setAvatar] = useState("")
 
     const [edit, setEdit] = useState(false)
 
@@ -70,7 +79,7 @@ export default function UserProfile() {
 
     const onSavePress = async (data: IForm) => {
 
-        const form = new FormData();
+        // const form = new FormData();
 
         const formdata = {
             firstName: data.FirstName,
@@ -90,51 +99,75 @@ export default function UserProfile() {
         
 
 
-        // if (user.role === "isUser") {
-        //     try {
+        if (user.role === "isUser") {
+            try {
 
-        //         form.append("avatar", image ? image : "")
+                let avatarUrl = ""
+                if(image) {
+                   
+                    // const blobFile = await uriToBlob(image)
 
-        //         const sendData:any = [formdata]
+                    const avatar = `${data.FirstName}${data.LastName}`
+                    const reference = ref(getStorage(), avatar)
+                    await uploadBytesResumable(reference, image)
+                    const downloadURL = await getDownloadURL(reference);
+                //  console.log(downloadURL)
+                //  form.append("avatar", downloadURL)
+                avatarUrl = downloadURL
 
-        //         for (const property in formdata) {
+                // console.log(downloadURL)
 
-        //             form.append(property, sendData[0][property]);
-                    
-        //           }
+                }
+
+              
+                const response = await fetch(`${baseURL}/user/update/${user._id}/`, {
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8',
+                        Authorization: `Token ${token}`,
+                    },
+                    body: JSON.stringify({...formdata, avatar: avatarUrl})
+                })
              
-        //         const response = await fetch(`${baseURL}/user/update/${user._id}/`, {
-        //             method: "PUT",
-        //             headers: {
-        //                 'Accept': 'application/json',
-        //                 'Content-Type': 'application/json; charset=utf-8',
-        //                 Authorization: `Token ${token}`,
-        //             },
-        //             body: JSON.stringify(form)
-        //         })
-        //         Alert.alert("Successful", "profile updated")
+                const result = await response.json()
 
-        //         const result = await response.json()
 
-        //         console.log(result)
+                const updatedData = {
+                    _id: result?.data?._id,
+                    firstName: result?.data?.firstName,
+                    lastName: result?.data?.lastName,
+                    email: result?.data?.email,
+                    phoneNumber: result?.data?.phoneNumber,
+                    // isDoctor: result?.data?.isDoctor,
+                    status: result?.data?.status,
+                    allergies: result?.data?.allergies,
+                    createdAt: result?.data?.createdAt,
+                    updatedAt: result?.data?.updatedAt,
+                    role: result?.data?.role,
+                    // doctorId: result?.data?.doctorId,
+                    avatar: result?.data?.avatar 
+                }
+                dispatch(updateUser(updatedData))
+                // 
+                await queryClient.invalidateQueries({ queryKey: ['user'] })
+                Alert.alert("Successful", "profile updated")
 
-        //         if (result.status === 200) {
-        //             dispatch(updateUser({ ...result.data }))
-        //             Alert.alert("Successful", "profile updated")
+                // if (result.success === "true") {
 
-        //         } else {
-        //             throw new Error(result.message)
-        //         }
+                // } else {
+                //     throw new Error(result.message)
+                // }
 
-        //     } catch (error: any) {
-        //         Alert.alert("Error", error.message)
+            } catch (error: any) {
+                // console.log("Error", error.message)
+                Alert.alert("Error", error.message)
 
-        //     } finally {
-        //         setLoading(false)
-        //         setEdit(false)
-        //     }
-
-        // }
+            } finally {
+                setLoading(false)
+                setEdit(false)
+            }
+        }
 
         setLoading(false)
 
@@ -153,14 +186,28 @@ export default function UserProfile() {
             })
             setDate(data?.data?.dob)
             setSex(data?.data?.gender)
+            // setAvatar(data?.data?.avatar)
         }
 
-    }, [data])
+    }, [data?.data?.address,
+         data?.data?.email,data?.data?.allergies[0], 
+         data?.data?.firstName ,  
+         data?.data?.lastName,
+         data?.data?.phoneNumber,
+         data?.data?.dob,
+         data?.data?.gender,
+        //  data?.data?.avatar
+        ])
 
 
 
-// console.log("photo: ",image)
-// console.log("photo: ",date)
+// console.log("photo: ",data?.data)
+// console.log("photo: ",avatar)
+
+const handleChangeAvatar = () => {
+    setEdit(true)
+    pickImage()
+}
 
 
     return (
@@ -169,9 +216,9 @@ export default function UserProfile() {
 
 
                 <ProfileAvatar type='Center'
-                onPress={() => pickImage()}
+                onPress={handleChangeAvatar}
                     text={"Upload your profile picture"}
-                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} 
+                    photoUrl={user.avatar} 
                     />
 
                 <CustomInput editable={edit} control={control} name="FirstName" placeholder="Enter First Name" label="First Name" rules={{ required: "required" }} />

@@ -13,13 +13,14 @@ export interface UserState {
         lastName: string,
         email: string,
         phoneNumber: string,
-        isDoctor: boolean,
+        // isDoctor: boolean,
+        avatar: string,
         status: string,
         allergies: string[],
         createdAt: string,
         updatedAt: string,
         role: string,
-        doctorId: string
+        // doctorId: string
     },
 
 

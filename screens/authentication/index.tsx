@@ -65,7 +65,28 @@ export default function AuthUser() {
             if (result.status === "success") {
                 const { user, token } = result
                 // await AsyncStorage.setItem('token', token);
-                dispatch(loginUserMutation({ isLogin: true, user, isFirst: false, token }))
+
+                const updatedData = {
+                    _id: user?._id,
+                    firstName: user?.firstName,
+                    lastName: user?.lastName,
+                    email: user?.email,
+                    phoneNumber: user?.phoneNumber,
+                    // isDoctor: user?.isDoctor,
+                    status: user?.status,
+                    allergies: user?.allergies,
+                    createdAt: user?.createdAt,
+                    updatedAt: user?.updatedAt,
+                    role: user?.role,
+                    // doctorId: user?.doctorId
+                    avatar: user?.avatar ? user?.avatar  : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
+                }
+
+                // console.log("alluser: ",user)
+                // console.log(updatedData)
+
+
+                dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
 
             } else {
                 throw new Error(result.message)

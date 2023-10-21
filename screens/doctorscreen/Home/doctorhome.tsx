@@ -13,10 +13,12 @@ import { useAppSelector } from '../../../redux/hooks';
 import { Appointment } from '../../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { DoctorAppointmentsScreenProps } from '../../../types';
-import { useDoctor, useDoctorAppiontment, useGetCompletedIndividualAppointment } from '../../../services';
+import { useDoctor,
+    //  useDoctorAppiontment, useGetCompletedIndividualAppointment 
+    } from '../../../services';
 import dayjs from 'dayjs'
 import { useGetDoctorNotification } from '../../../services/doctorApi';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 
 interface IItem {
@@ -77,7 +79,7 @@ export default function DoctorHome() {
                 onPress={() => {}}
                     type='Start'
                     text={user?.lastName}
-                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
+                    photoUrl={user.avatar} />
             </View>
 
             <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>

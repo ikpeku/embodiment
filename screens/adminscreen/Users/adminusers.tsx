@@ -89,9 +89,10 @@ setUsers(data?.data)
 
             <View style={{ width: "100%" }}>
                 <ProfileAvatar
+                onPress={() => {}}
                     type='Start'
                     text={user.firstName}
-                    photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
+                    photoUrl={user.avatar} />
             </View>
 
             <View style={{ width: "100%", flexDirection: "row" }}>

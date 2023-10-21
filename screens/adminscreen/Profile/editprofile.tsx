@@ -11,6 +11,8 @@
 // import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { baseURL, useUser } from '../../../services';
+import Image_Picker from '../../../components/imagePicker';
+import { db } from '../../../utils/firebase';
 axios.defaults.withCredentials = true;
 // import { baseUrl } from '../../../services';
     
@@ -25,6 +27,8 @@ axios.defaults.withCredentials = true;
     
     export default function AdminEditprofile() {
         // const navigation = useNavigation()
+        db
+    const {image, pickImage} = Image_Picker()
     
         const {user, token} = useAppSelector(UserState)
         const [edit, setEdit] = useState(false)
@@ -88,19 +92,22 @@ axios.defaults.withCredentials = true;
             setLoading(false)
             setEdit(false)
         }
-
-               
-
+       
             }
      
+            const handleChangeAvatar = () => {
+                setEdit(true)
+                pickImage()
+            }
 
         return (
             <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false} >
                 <KeyboardAvoidingView style={{ paddingBottom: 20 }} >
     
                    <ProfileAvatar type='Center'
+                   onPress={handleChangeAvatar}
                         text={"Upload your profile picture"}
-                        photoUrl={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"} />
+                        photoUrl={user.avatar} />
                    
                 <CustomInput editable={edit} control={control} name="FirstName" placeholder="Enter First Name" label="First Name" rules={{ required: "required" }} />
                 <CustomInput editable={edit} control={control} name="LastName" placeholder="Enter Last Name" label="Last Name"

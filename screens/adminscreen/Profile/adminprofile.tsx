@@ -70,7 +70,7 @@ const AdminProfiles = () => {
             <View style={{ flexDirection: "row", alignItems: "center", padding: 15, gap: 10, paddingBottom: 30 }}>
 
                 <Avatar.Image size={40}
-                    source={{ uri: "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960" }} />
+                    source={{ uri: user.avatar }} />
                 <Text variant='titleMedium' style={{flex: 0.8}}>{`${firstName} ${lastName}  `}</Text>
                 {status !== "unverified" && <Avatar.Image size={24} source={require('../../../assets/profileIcon.png')}
                     style={{ backgroundColor: "#fff", marginLeft: "auto" }}

@@ -36,7 +36,7 @@ const ConfirmUser = () => {
         try {
 
             const token = {userId: route.id.trim(), verificationCode: code.trim()}
-           console.log(token)
+        //    console.log(token)
 
             const response = await fetch(`${baseURL}/auth/verifyotp/`, {
             method: "POST", 
@@ -47,9 +47,28 @@ const ConfirmUser = () => {
 
             console.log("result" , result)
             if (result.status === "success") {
-                // dispatch(verifyOTP({isLogin: true}))
                 const { user, token } = result
-                dispatch(loginUserMutation({ isLogin: true, user, isFirst: false, token }))
+                // dispatch(verifyOTP({isLogin: true}))
+             
+                const updatedData = {
+                    _id: user?._id,
+                    firstName: user?.firstName,
+                    lastName: user?.lastName,
+                    email: user?.email,
+                    phoneNumber: user?.phoneNumber,
+                    // isDoctor: user?.isDoctor,
+                    status: user?.status,
+                    allergies: user?.allergies,
+                    createdAt: user?.createdAt,
+                    updatedAt: user?.updatedAt,
+                    role: user?.role,
+                    // doctorId: user?.doctorId
+                    avatar: user?.avatar ? user?.avatar  : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
+                }
+              
+                
+        
+                dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
             }else {
                 throw new Error(result.message)
             }
