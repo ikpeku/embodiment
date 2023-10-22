@@ -206,7 +206,7 @@ export default function SignupUser() {
                     
                     <Text style={styles.label}>Password</Text>
                     <CustomInput control={control} placeholder="Enter Password" name="Password"
-                        rules={{ required: "This field is required", minLength: { value: 8, message: "password should be atleast 7 characters." } }} passord={true}
+                        rules={{ required: "This field is required", minLength: { value: 6, message: "password should be atleast 6 characters." } }} passord={true}
                     />
 
                     <Text style={[styles.cta, { textAlign: "left", color: "#0665CB", paddingVertical: 10 }]}

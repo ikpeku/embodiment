@@ -131,36 +131,38 @@ export default function UserProfile() {
                 })
              
                 const result = await response.json()
+                // console.log(result)
 
+                if (result.status === "failed") {
+                    throw new Error(result.message)
 
-                const updatedData = {
-                    _id: result?.data?._id,
-                    firstName: result?.data?.firstName,
-                    lastName: result?.data?.lastName,
-                    email: result?.data?.email,
-                    phoneNumber: result?.data?.phoneNumber,
-                    // isDoctor: result?.data?.isDoctor,
-                    status: result?.data?.status,
-                    allergies: result?.data?.allergies,
-                    createdAt: result?.data?.createdAt,
-                    updatedAt: result?.data?.updatedAt,
-                    role: result?.data?.role,
-                    // doctorId: result?.data?.doctorId,
-                    avatar: result?.data?.avatar 
+                } else {
+                    const updatedData = {
+                        _id: result?.data?._id,
+                        firstName: result?.data?.firstName,
+                        lastName: result?.data?.lastName,
+                        email: result?.data?.email,
+                        phoneNumber: result?.data?.phoneNumber,
+                        // isDoctor: result?.data?.isDoctor,
+                        status: result?.data?.status,
+                        allergies: result?.data?.allergies,
+                        createdAt: result?.data?.createdAt,
+                        updatedAt: result?.data?.updatedAt,
+                        role: result?.data?.role,
+                        // doctorId: result?.data?.doctorId,
+                        avatar: result?.data?.avatar 
+                    }
+    
+                    // console.log(updatedData)
+                    dispatch(updateUser(updatedData))
+                    // 
+                    await queryClient.invalidateQueries({ queryKey: ['user'] })
+                    Alert.alert("Successful", "profile updated")
+                    
                 }
-                dispatch(updateUser(updatedData))
-                // 
-                await queryClient.invalidateQueries({ queryKey: ['user'] })
-                Alert.alert("Successful", "profile updated")
-
-                // if (result.success === "true") {
-
-                // } else {
-                //     throw new Error(result.message)
-                // }
 
             } catch (error: any) {
-                // console.log("Error", error.message)
+                console.log("Error", error.message)
                 Alert.alert("Error", error.message)
 
             } finally {

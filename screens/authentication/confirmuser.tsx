@@ -7,8 +7,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAppDispatch } from '../../redux/hooks';
 import { loginUserMutation } from '../../redux/features/useSlice';
 import { ConfirmUserRouteProp } from '../../types';
-import { useResendOTP} from '../../services/authenApi';
+import { useResendOTP, verify} from '../../services/authenApi';
 import { baseURL } from '../../services';
+import axios from 'axios';
 
 
 interface IConfirmUser {
@@ -29,24 +30,25 @@ const ConfirmUser = () => {
     const { handleSubmit, control } = useForm<IConfirmUser>();
 
     const onSubmit = async ({code}: IConfirmUser) => {
+        // console.log("code: ",code)
 
 
         if (loading) return
         setLoading(true)
+        const token = {userId: route.id.trim(), verificationCode: code.trim()}
+
+        // try {
+        //    const res = await verify(token)
+        //    console.log("res: ",res.request)
+        // } catch (error) {
+        //     console.log("err: ",error.request)
+        // }
+
         try {
-
-            const token = {userId: route.id.trim(), verificationCode: code.trim()}
-        //    console.log(token)
-
-            const response = await fetch(`${baseURL}/auth/verifyotp/`, {
-            method: "POST", 
-            body: JSON.stringify(token)  
-            })
-
-            const result = await response.json()
-
-            console.log("result" , result)
-            if (result.status === "success") {
+           const res = await axios.post(`${baseURL}/auth/verifyotp`, token)
+        //    console.log("res: ",res.data)
+           const result = res.data
+                 if (result.status === "success") {
                 const { user, token } = result
                 // dispatch(verifyOTP({isLogin: true}))
              
@@ -69,17 +71,62 @@ const ConfirmUser = () => {
                 
         
                 dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
-            }else {
-                throw new Error(result.message)
             }
+        } catch (error:any) {
+            // console.log("err: ",error.response.data.message)
+            Alert.alert("Error", error.response.data.message)
+        }
+
+
+
+        // try {
+            
+        //     const token = {userId: route.id, verificationCode: code}
+        //    console.log(token)
+        // //    https://embodi-be.vercel.app/api/auth/verifyotp
+        //     // const response = await fetch(`${baseURL}/auth/verifyotp`, {
+        //     const response = await fetch("https://embodi-be.vercel.app/api/auth/verifyotp", {
+        //     method: "POST", 
+        //     body: JSON.stringify({...token})  
+        //     })
+
+        //     const result = await response.json()
+
+        //     console.log("result" , result)
+        //     if (result.status === "success") {
+        //         const { user, token } = result
+        //         // dispatch(verifyOTP({isLogin: true}))
+             
+        //         const updatedData = {
+        //             _id: user?._id,
+        //             firstName: user?.firstName,
+        //             lastName: user?.lastName,
+        //             email: user?.email,
+        //             phoneNumber: user?.phoneNumber,
+        //             // isDoctor: user?.isDoctor,
+        //             status: user?.status,
+        //             allergies: user?.allergies,
+        //             createdAt: user?.createdAt,
+        //             updatedAt: user?.updatedAt,
+        //             role: user?.role,
+        //             // doctorId: user?.doctorId
+        //             avatar: user?.avatar ? user?.avatar  : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
+        //         }
+              
+                
+        
+        //         dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
+        //     }else {
+        //         throw new Error(result.message)
+        //     }
 
            
-        } catch (error: any) {
-            Alert.alert("Error", error.message)
+        // } catch (error: any) {
+        //     Alert.alert("Error", error.message)
 
-        } finally {
+        // } finally {
             setLoading(false)
-        }
+        // }
     }
 
 
