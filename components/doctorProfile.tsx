@@ -125,29 +125,37 @@ export default function DoctorProfile() {
 
                 const result = await response.json()
 
-                // console.log(result)
+                // console.log("result: ",result)
 
+                if(result.status === "success"){
+                    const updatedData = {
+                        _id: result?.data?.user?._id,
+                        firstName: result?.data?.user?.firstName,
+                        lastName: result?.data?.user?.lastName,
+                        email: result?.data?.user?.email,
+                        phoneNumber: result?.data?.user?.phoneNumber,
+                        // isDoctor: result?.data?.isDoctor,
+                        status: result?.data?.user?.status,
+                        allergies: result?.data?.user?.allergies,
+                        createdAt: result?.data?.user?.createdAt,
+                        updatedAt: result?.data?.user?.updatedAt,
+                        role: result?.data?.user?.role,
+                        // doctorId: result?.data?.doctorId,
+                        avatar: result?.data?.user?.avatar 
+                    }
+    
+                    // console.log(updatedData)
+    
+                    dispatch(updateUser(updatedData))
+                    // 
+                    await queryClient.invalidateQueries({ queryKey: ['user'] })
+                    Alert.alert("Successful", "profile updated")
 
-                const updatedData = {
-                    _id: result?.data?.user?._id,
-                    firstName: result?.data?.user?.firstName,
-                    lastName: result?.data?.user?.lastName,
-                    email: result?.data?.user?.email,
-                    phoneNumber: result?.data?.user?.phoneNumber,
-                    // isDoctor: result?.data?.isDoctor,
-                    status: result?.data?.user?.status,
-                    allergies: result?.data?.user?.allergies,
-                    createdAt: result?.data?.user?.createdAt,
-                    updatedAt: result?.data?.user?.updatedAt,
-                    role: result?.data?.user?.role,
-                    // doctorId: result?.data?.doctorId,
-                    avatar: result?.data?.user?.avatar 
+                } else {
+                    throw new Error(result.message)
                 }
 
-                dispatch(updateUser(updatedData))
-                // 
-                await queryClient.invalidateQueries({ queryKey: ['user'] })
-                Alert.alert("Successful", "profile updated")
+
 
 
             } catch (error: any) {
