@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { CustomButton, CustomInput } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ForgotPasswordScreenProps , ForgotPasswordRouteProp} from '../../types';
+import { useRequestPasswordReset } from '../../services/authenApi';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 
 interface IForgotPassword{
     email: string,
@@ -13,11 +15,13 @@ interface IForgotPassword{
 const ForgotPassword = () => {
     
  
-    const [loading, setLoadig] = useState(false)
+    const [loading, setLoading] = useState(false)
     const navigation = useNavigation<ForgotPasswordScreenProps>()
     
     const route = useRoute<ForgotPasswordRouteProp>()
     const {email} = route?.params
+
+    const resendotp = useRequestPasswordReset()
     
     const { handleSubmit, control } = useForm<IForgotPassword>({
         defaultValues: {
@@ -28,19 +32,18 @@ const ForgotPassword = () => {
 
     const onSubmit = async ({email}: IForgotPassword) => {
         if (loading) return
-        setLoadig(true)
+        setLoading(true)
         try {
-            
+      
+            resendotp.mutate({email})
             navigation.navigate("ConfirmForgotPassword", {email })
         } catch (error: any) {
             Alert.alert("Error", error.message)
 
         } finally {
-            setLoadig(false)
+            setLoading(false)
         }
     }
-
-
 
 
     return (
@@ -58,6 +61,12 @@ const ForgotPassword = () => {
 
 
             <Text style={{ textAlign: "center", marginTop: 10, color: "#0665CB" }} onPress={() => navigation.goBack()}>Back to Log In</Text>
+
+            {loading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
         </View>
     )

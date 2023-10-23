@@ -93,6 +93,17 @@ export const resendOTP = (body: IResenOTP) => {
 }
 
 
+export const requestPasswordReset = (body: IResenOTP) => {
+    // http://127.0.0.1:300/api/
+    return request({
+        method: "post", url: "/user/requestPasswordReset", data: body, headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+        }
+    })
+}
+
+
 
 
 export const useSignup = () => {
@@ -165,6 +176,10 @@ export const useVerifyUser = () => {
 
 export const useResendOTP = () => {
     return useMutation(resendOTP)
+}
+
+export const useRequestPasswordReset = () => {
+    return useMutation(requestPasswordReset)
 }
 
 

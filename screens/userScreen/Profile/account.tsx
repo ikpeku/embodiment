@@ -7,10 +7,7 @@ import DoctorProfile from '../../../components/doctorProfile';
 
 export default function Editprofile() {
 
-
     const { user } = useAppSelector(UserState)
-
-  
 
 
     return (

@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
 import { useForm } from "react-hook-form";
-import { Snackbar } from 'react-native-paper';
+import { ActivityIndicator, MD2Colors, Snackbar } from 'react-native-paper';
 import { CustomButton, CustomInput } from '../../components';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useAppDispatch } from '../../redux/hooks';
@@ -110,6 +110,13 @@ const ConfirmUser = () => {
                 >
                 Code resend check your email.
             </Snackbar>
+
+            {loading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
+
         </View>
     )
 }

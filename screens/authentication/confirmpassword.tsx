@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { CustomButton, CustomInput } from '../../components';
 import { ConfirmForgotPasswordRouteProp, ConfirmForgotPasswordScreenProps } from '../../types';
+import axios from 'axios';
+import { baseURL } from '../../services';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 
 interface IConfirmForgetPassword {
     Email: string,
@@ -13,11 +16,11 @@ interface IConfirmForgetPassword {
 }
 
 const ConfirmForgotPassword = () => {
- 
+
     const [loading, setLoadig] = useState(false)
     const navigation = useNavigation<ConfirmForgotPasswordScreenProps>()
     const route = useRoute<ConfirmForgotPasswordRouteProp>()
-    const {email} = route?.params
+    const { email } = route?.params
 
     const { handleSubmit, control, watch } = useForm<IConfirmForgetPassword>({
         defaultValues: {
@@ -29,14 +32,25 @@ const ConfirmForgotPassword = () => {
     const password = watch("Password")
 
 
-    const onSubmit = async ({Confirm_Password, Email, Password, code}: IConfirmForgetPassword) => {
+    const onSubmit = async ({ Confirm_Password, Email, Password, code }: IConfirmForgetPassword) => {
         if (loading) return
         setLoadig(true)
         try {
-         
-            navigation.replace("Authenticateuser")
-        } catch (error:any) {
-            Alert.alert("Error", error.message)
+      
+            const response = await axios.post(`${baseURL}/user/updatePassword`, {
+                email: Email,
+                verificationCode: code,
+                newPassword: Confirm_Password
+            })
+
+            Alert.alert("Done", response.data.message, [
+                {
+                    onPress: () => navigation.replace("Authenticateuser")
+                }
+            ])
+     
+        } catch (error: any) {
+            Alert.alert("Error", error.response.data.message)
 
         } finally {
             setLoadig(false)
@@ -47,26 +61,32 @@ const ConfirmForgotPassword = () => {
 
     return (
         <View style={styles.root}>
-    
+
             <CustomInput control={control} label="Confirmation Code" placeholder="Enter your confirmation code from your email" name="code" rules={{
                 required: "This field is required."
             }} />
 
             <CustomInput control={control} label="Password" placeholder="Enter Password" name="Password"
-                rules={{ required: "This field is required", minLength: { value: 7, message: "password should be atleast 7 characters." } }} passord={true}
+                rules={{ required: "This field is required", minLength: { value: 6, message: "password should be atleast 6 characters." } }} passord={true}
             />
             <CustomInput control={control} label="Confirm Password" placeholder="Confirm Password" name="Confirm_Password"
                 rules={{
                     required: "This field is required",
                     minLength: {
-                        value: 7, message: "password should be atleast 7 characters."
+                        value: 6, message: "password should be atleast 6 characters."
                     },
-                    validate: (value:string) => value === password || "password do not match"
+                    validate: (value: string) => value === password || "password do not match"
                 }} passord={true}
             />
 
 
             <CustomButton title="Change" onPress={handleSubmit(onSubmit)} />
+
+            {loading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
         </View>
     )

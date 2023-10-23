@@ -47,7 +47,7 @@ export default function BankDetails() {
 
             const result = await response.json()
 
-            console.log(result)
+            // console.log(result)
 
             if (result.status === "success") {
                 // dispatch(updateUser({ ...result.data }))
