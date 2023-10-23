@@ -20,7 +20,7 @@ const HelpandSupport = () => {
     }
 
     const handleChat = async () => {
-        navigation.navigate("Support")
+        // navigation.navigate("Support")
     }
 
     return (

@@ -14,8 +14,6 @@ interface IForm {
 }
 
 
-
-
 export default function BankDetails() {
     const [loading, setLoading] = useState(false)
     const { token, user} = useAppSelector(UserState)
@@ -25,7 +23,6 @@ export default function BankDetails() {
     const { handleSubmit, control, reset} = useForm<IForm>();
 
     
-
     const onBankDetail = async ({Account_name, Account_number, Bank}:IForm) => {
         if (loading) return
         setLoading(true)
@@ -38,7 +35,7 @@ export default function BankDetails() {
 
         try {
 
-            const response = await fetch(`${baseURL}/doctor/update/${user._id}`, {
+            const response = await fetch(`${baseURL}/doctor/account/${user._id}`, {
                 method: "PUT",
                 headers: {
                     'Accept': 'application/json',
@@ -49,6 +46,8 @@ export default function BankDetails() {
             })
 
             const result = await response.json()
+
+            console.log(result)
 
             if (result.status === "success") {
                 // dispatch(updateUser({ ...result.data }))
@@ -69,23 +68,18 @@ export default function BankDetails() {
 
 
     useEffect(() => {
-        // console.log("Bank: ", data)
         reset({
-            Account_name: "",
-            Account_number: "",
-            Bank: ""
+            Account_name: data?.data?.accountName,
+            Account_number: data?.data?.accountNumber.toString(),
+            Bank: data?.data?.bankName
         })
-    },[data])
+    },[data?.data?.accountName, data?.data?.accountNumber, data?.data?.bankName])
     
 
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 30 }} showsVerticalScrollIndicator={false} >
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ paddingBottom: 20 }} >
-
-                {/* <View style={{ paddingVertical: 15 }}>
-                    <Text style={styles.title}>Change password</Text>
-                </View> */}
 
               
                 <CustomInput control={control} label="Bank" placeholder="Enter your bank name" name="Bank"

@@ -21,16 +21,12 @@ interface IForm {
 export default function Changepassword() {
     const [loading, setLoading] = useState(false)
 
-    const { token} = useAppSelector(UserState)
+    const { token, user} = useAppSelector(UserState)
     const navigation = useNavigation()
-
-   
 
     const { handleSubmit, control, watch } = useForm<IForm>();
 
     const New_Password = watch("New_Password")
-
-
 
     const onSavePassword = async ({ New_Password, Old_Passord }: IForm) => {
         if (loading) return
@@ -39,9 +35,12 @@ export default function Changepassword() {
         try {
             const data = {
                 currentPassword: Old_Passord,
-                newPassword: New_Password
+                newPassword: New_Password,
+                userId: user._id
             }
 
+            // console.log(data)
+           
             const response = await fetch(`${baseURL}/user/changePassword/`, {
                 method: "POST",
                 headers: {
@@ -53,9 +52,14 @@ export default function Changepassword() {
             })
 
             const result = await response.json()
+
             if (result.status === "success") {
 
-                navigation.goBack()
+                Alert.alert("Done", result.message, [
+                    {
+                        onPress: () => navigation.goBack()
+                    }
+                ])
 
             } else {
                 throw new Error(result.message)
@@ -84,7 +88,7 @@ export default function Changepassword() {
                     <CustomInput control={control} label="Old Passord" placeholder="Old Passord" name="Old_Passord" passord={true}
                         rules={{ required: "required" }} />
                     <CustomInput control={control} label="New password" placeholder="New password" name="New_Password" passord={true}
-                        rules={{ required: "required", minLength: { value: 7, message: "password should be atleast 7 characters." } }} />
+                        rules={{ required: "required", minLength: { value: 6, message: "password should be atleast 6 characters." } }} />
                     <CustomInput control={control} label="Confirm password" placeholder="Confirm password" name="Confirm_Password" passord={true}
                         rules={{ required: "required", validate: (value: string) => value === New_Password || "password do not match" }}
                     />

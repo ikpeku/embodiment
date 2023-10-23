@@ -20,6 +20,7 @@ export default function Consultation() {
 
     const { data = [], isLoading } = useGetVerifyAllDoctors()
 
+
     // const [data, setData] = useState(Doctors)
 
 
