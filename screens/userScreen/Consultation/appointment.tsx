@@ -111,6 +111,8 @@ const { user } = useAppSelector(UserState)
     }, [])
 
 
+
+
     return (
         <View style={[styles.root, { padding: 9 }]}>
                  {!isLoading && <>
@@ -138,7 +140,7 @@ const { user } = useAppSelector(UserState)
                     <CardTag
                         title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
                         subTitle={data?.data?.specialty}
-                        url={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"}
+                        url={data?.data?.user?.avatar}
                     />
 
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15, backgroundColor: "#fff" }}>

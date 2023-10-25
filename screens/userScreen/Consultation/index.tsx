@@ -34,7 +34,7 @@ export default function Consultation() {
     //
     // }, [searchQuery])
 
-    // console.log("allDoctors: ",data)
+  
 
     return (
         <SafeAreaView style={styles.root} >
@@ -70,7 +70,7 @@ export default function Consultation() {
                     onPress={() => navigation.navigate("Consultationappointment", { id: item._id })}
                     title={`Dr. ${item.firstName} ${item.lastName}`}
                     subTitle={item.specialty}
-                    url={item.img}
+                    url={item.avatar}
                     rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" style={{ opacity: 0.5 }} />}
                 />}
                 // keyExtractor={item => item.id}

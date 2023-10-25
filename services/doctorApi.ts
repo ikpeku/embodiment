@@ -43,6 +43,7 @@ interface VerifyDoctors {
     firstName: string
     lastName: string,
     specialty: string
+    avatar: string
 }
 
 const getverifyDoctors = () =>
@@ -50,7 +51,7 @@ const getverifyDoctors = () =>
 export const useGetVerifyAllDoctors = () => {
     return useQuery(["getDoctorVerifyDoctors"], getverifyDoctors, {
         select(data) {
-            return data?.data.data.filter((doctor: VerifyDoctors) => doctor.firstName && doctor.lastName && doctor.specialty);
+            return data?.data.data.filter((doctor: VerifyDoctors) => doctor.firstName && doctor.lastName && doctor.specialty && doctor.avatar);
         },
     });
 };

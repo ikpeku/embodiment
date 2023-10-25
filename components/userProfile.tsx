@@ -37,7 +37,6 @@ interface IForm {
     aboutYourself: string
 }
 
-
 export default function UserProfile() {
 
   db
