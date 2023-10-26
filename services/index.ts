@@ -74,6 +74,14 @@ export const useGetAllDoctors = () => {
     return useQuery({ queryKey: ['doctors'], queryFn: () => endPoint("doctor/doctors") })
 }
 
+/**
+ * 
+ * @returns get all doctors, admins and users
+ */
+export const useGetAllEmbodimentUsers = () => {
+    return useQuery({ queryKey: ['doctorsAdminUsers'], queryFn: () => endPoint("admin/all-users") })
+}
+
 
 // get single doctor
 export const useDoctor = (id: string) => {
