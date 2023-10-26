@@ -64,6 +64,9 @@ const AdminProfiles = () => {
 
 
 
+
+
+
     return (
         <View style={styles.container}>
 
@@ -101,6 +104,7 @@ const AdminProfiles = () => {
                 leftIcon={<SimpleLineIcons name="earphones-alt" size={20} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}
                 onPress={() => navigation.navigate("AdminSupport")}
+               
             />
 
 
