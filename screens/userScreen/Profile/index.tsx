@@ -9,7 +9,7 @@ import { AccountScreenProps} from '../../../types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { UserState, logoutMutation } from '../../../redux/features/useSlice';
 import { ProfileItem } from '../../../components';
-
+import * as Linking from 'expo-linking';
 
 
 
@@ -35,6 +35,25 @@ const DoctorProfile = () => {
         dispatch(logoutMutation())
         setLoading(false)
     }
+
+    const openWhatsApp = () => {
+
+            let url =
+              "whatsapp://send?text=" +
+              "welcome to embodiment health-care. How may we help you?" +
+              "&phone=+234" +
+              "7067057396";
+            Linking.openURL(url)
+              .then(data => {
+                // console.log("WhatsApp Opened successfully " + data);
+                return data
+              })
+              .catch(() => {
+                alert("Make sure WhatsApp installed on your device");
+              });
+      };
+    
+      
 
 
     return (
@@ -80,7 +99,8 @@ const DoctorProfile = () => {
                 title="Help & Support"
                 leftIcon={<SimpleLineIcons name="earphones-alt" size={20} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}
-                onPress={() => navigation.navigate("HelpandSupport")}
+                // onPress={() => navigation.navigate("HelpandSupport")}
+                onPress={openWhatsApp}
             />
 
 
