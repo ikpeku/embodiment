@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { CustomButton } from "../../../components";
 import { SubscribeScreenProps } from "../../../types";
+import useRevenueCat from "../../../hooks/useRevenueCat";
 
 
 const Render:FC<{title:string}> = ({ title }) => (
@@ -17,6 +18,15 @@ const Render:FC<{title:string}> = ({ title }) => (
 
 
 const Subscribe = () => {
+    const {currentOffering, customerInfo, isProMember} = useRevenueCat()
+
+    console.log("Debug: ", currentOffering)
+    // console.log("isProMember: ", isProMember)
+    // console.log("isProMember: ", isProMember)
+
+
+
+
     const [annual, setAnnual] = useState("annual")
 
     const navigation = useNavigation<SubscribeScreenProps>()

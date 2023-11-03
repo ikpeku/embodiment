@@ -5,7 +5,7 @@ import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Root from './navigation/Root';
-import { View } from 'react-native';
+import {  View } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
@@ -17,6 +17,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+
 
 let persistor = persistStore(store);
 const queryClient = new QueryClient()
@@ -35,7 +36,7 @@ export default function App() {
     await queryClient.invalidateQueries({ queryKey: ['alldisease'] })
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
-      
+
     }
   }, [fontsLoaded]);
 
@@ -43,24 +44,26 @@ export default function App() {
     return null;
   }
 
-  return (
-   
-       
-    <SafeAreaProvider>
-    <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <PaperProvider>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <QueryClientProvider client={queryClient}>
 
-        <Root />
-      </QueryClientProvider>
-      </View>
-      </PaperProvider>
-      </PersistGate>
+
+  return (
+
+
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <PaperProvider>
+            <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+              <QueryClientProvider client={queryClient}>
+
+                <Root />
+              </QueryClientProvider>
+            </View>
+          </PaperProvider>
+        </PersistGate>
       </Provider>
     </SafeAreaProvider>
-   
+
 
   );
 }

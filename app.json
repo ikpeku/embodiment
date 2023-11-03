@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "embodiment",
+    "name": "embodiment healthcare",
     "slug": "embodiment",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,22 +15,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ppi10.embodiment"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
-      // ,
-      // "package": "com.i_am_danielikpe.embodiment"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.ppi10.embodiment"
     },
     "web": {
       "favicon": "./assets/favicon1.png"
     },
     "extra": {
       "eas": {
-        // "projectId": "4afc1654-d6e6-474b-b927-4c020381d9f4"
+        "projectId": "0419553c-e08e-4844-aa92-8aab96522036"
       }
     },
     "plugins": [
