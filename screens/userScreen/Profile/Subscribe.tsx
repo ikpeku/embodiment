@@ -22,8 +22,6 @@ const Subscribe = () => {
 
     console.log("Debug: ", currentOffering)
     // console.log("isProMember: ", isProMember)
-    // console.log("isProMember: ", isProMember)
-
 
 
 
