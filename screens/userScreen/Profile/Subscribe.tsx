@@ -19,11 +19,9 @@ const Render:FC<{title:string}> = ({ title }) => (
 
 const Subscribe = () => {
     const {currentOffering, customerInfo, isProMember} = useRevenueCat()
-
+ 
     console.log("Debug: ", currentOffering)
     // console.log("isProMember: ", isProMember)
-
-
 
     const [annual, setAnnual] = useState("annual")
 
@@ -36,6 +34,7 @@ const Subscribe = () => {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
+            
             <View style={styles.root}>
 
                 <View style={styles.boxContainer}>
