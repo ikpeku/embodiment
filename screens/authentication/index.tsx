@@ -86,7 +86,7 @@ export default function AuthUser() {
                 // console.log("alluser: ",user)
                 // console.log(updatedData)
 
-                await Purchases.logIn(user?.email)
+                // await Purchases.logIn(user?.email)
                 dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
 
             } else {
