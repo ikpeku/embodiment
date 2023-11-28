@@ -137,7 +137,7 @@ const UserHealthDetail = () => {
                         {/* Malaria Treatment */}
 
                         {
-                            id === "6504faa4d4c2c22773c9935b" &&
+                            id === "65666a47be61c51e8ffdf87b" &&
                             <Treatmentsteps
                                 header='Are feeling feverish or experiencing symptoms that feels familiar but not certain what to treat!
                             Get your malaria treatment within in short period.'

@@ -10,7 +10,7 @@ import { ConfirmUserRouteProp } from '../../types';
 import { useResendOTP} from '../../services/authenApi';
 import { baseURL } from '../../services';
 import axios from 'axios';
-import Purchases from 'react-native-purchases';
+// import Purchases from 'react-native-purchases';
 
 
 interface IConfirmUser {
