@@ -7,11 +7,15 @@ import { useNavigation } from "@react-navigation/native";
 import { SubmitQuetionnaire } from "../../services";
 import { UserState } from "../../redux/features/useSlice";
 import { useAppSelector } from "../../redux/hooks";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 
 type IdiseaseId = { diseaseId:string}
 
 const ACNETREATMENT = ({diseaseId}:IdiseaseId) => {
+    const { currentOffering } = useRevenueCat()
+
     const {user} = useAppSelector(UserState)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
@@ -139,6 +143,10 @@ const result: {
 
             setIsLoading(true)
             try {
+                const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
+                if (Acne_treatment) {
+                    const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -149,6 +157,8 @@ const result: {
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
+
+                }}
     
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
@@ -166,6 +176,10 @@ const result: {
     const handleSubmit = async() => {
         setIsLoading(true)
         try {
+            const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
+            if (Acne_treatment) {
+                const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -176,6 +190,7 @@ const result: {
                 },
                 {text: 'OK', onPress: () =>navigation.popToTop()},
               ])
+            }}
 
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {

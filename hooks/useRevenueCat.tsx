@@ -1,6 +1,8 @@
 import Purchases, { CustomerInfo, PurchasesOffering } from 'react-native-purchases';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 import { useEffect, useState } from 'react';
+import { UserState } from '../redux/features/useSlice';
+import { useAppSelector } from '../redux/hooks';
 
 
 const ApiKeys = {
@@ -8,46 +10,52 @@ const ApiKeys = {
     ios: "appl_PTzdPFQWGxYAfDcWxXYLzedkkpN"
 }
 
-const memberShipType = {
-    monthlyIndividual: "individual_monthly",
-    monthlyFamily: "Monthly",
-    annuallyIndividual: "Annual",
-    annuallyFammily: "family_annual"
-}
+// const memberShipType = {
+//     monthlyIndividual: "individual_monthly",
+//     monthlyFamily: "Monthly",
+//     annuallyIndividual: "Annual",
+//     annuallyFammily: "family_annual"
+// }
 
 const useRevenueCat = () => {
+    const {user} = useAppSelector(UserState)
 
     const [currentOffering, setCurrentOffering] = useState<PurchasesOffering | null>(null)
     const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null)
 
-    const isProMember =
-        customerInfo?.activeSubscriptions.includes(memberShipType.annuallyFammily) ||
-        customerInfo?.activeSubscriptions.includes(memberShipType.annuallyIndividual) ||
-        customerInfo?.activeSubscriptions.includes(memberShipType.monthlyFamily) ||
-        customerInfo?.activeSubscriptions.includes(memberShipType.monthlyIndividual)
-
-
-
+    const isProMember = customerInfo?.entitlements?.active?.pro
+        // customerInfo?.activeSubscriptions.includes(memberShipType.annuallyFammily) ||
+        // customerInfo?.activeSubscriptions.includes(memberShipType.annuallyIndividual) ||
+        // customerInfo?.activeSubscriptions.includes(memberShipType.monthlyFamily) ||
+        // customerInfo?.activeSubscriptions.includes(memberShipType.monthlyIndividual)
 
 
     useEffect(() => {
 
         const fetchData = async () => {
-            Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG)
+            // Purchases.setLogLevel(Purchases.LOG_LEVEL.VERBOSE)
             if (Platform.OS === "ios") {
-                await Purchases.configure({ apiKey: ApiKeys.ios })
+                await Purchases.configure({ apiKey: ApiKeys.ios, appUserID: user.email })
             } else if (Platform.OS == "android") {
-                await Purchases.configure({ apiKey: ApiKeys.andriod })
+                await Purchases.configure({ apiKey: ApiKeys.andriod, appUserID: user.email })
             }
 
             const offerings = await Purchases.getOfferings()
+
             const customerInfo = await Purchases.getCustomerInfo()
+            if (offerings.current !== null) {  
             setCurrentOffering(offerings.current)
+            }
             setCustomerInfo(customerInfo)
 
         }
 
-        fetchData().catch(console.error)
+        fetchData().catch((error) => {
+             console.log(JSON.stringify(error));
+        }
+        //  console.error
+       
+         )
 
 
     }, [])
@@ -69,47 +77,3 @@ const useRevenueCat = () => {
 export default useRevenueCat;
 
 
-//
-// get family access annually
-// 1 Product
-// 2023-11-01 11:24 AM UTC
-// urinary_tract_infection
-// urinary_tract_infection access
-// 1 Product
-// 2023-11-01 12:26 PM UTC
-// Migraine
-// Migraine access
-// 1 Product
-// 2023-11-01 12:30 PM UTC
-// Anxiety treatment
-// Anxiety treatment access
-// 1 Product
-// 2023-11-01 12:30 PM UTC
-// Erectile Dyfunction
-// Erectile Dyfunction access
-// 1 Product
-// 2023-11-01 12:30 PM UTC
-// Premature ejaculation
-// Premature ejaculation access
-// 1 Product
-// 2023-11-01 12:31 PM UTC
-// Acne treatment
-// Acne treatment access
-// 1 Product
-// 2023-11-01 12:32 PM UTC
-// Gastritis
-// Gastritis access
-// 1 Product
-// 2023-11-01 12:32 PM UTC
-// Common Cold
-// Common Cold access
-// 1 Product
-// 2023-11-01 12:32 PM UTC
-// Malaria
-// Malaria access
-// 1 Product
-// 2023-11-01 12:33 PM UTC
-// Typhoid
-// Typhoid access
-// 1 Product
-// 2023-11-01 12:33 PM UTC

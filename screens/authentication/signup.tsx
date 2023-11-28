@@ -232,20 +232,20 @@ export default function SignupUser() {
                 </View>
 
 
-                <View style={styles.lineContainer}>
+                {/* <View style={styles.lineContainer}>
                     <View style={styles.line} />
                     <Text style={{ color: "rgba(0, 0, 0, 0.5)" }}>or</Text>
                     <View style={styles.line} />
-                </View>
+                </View> */}
 
                 {/* Google btn */}
-                <CustomButton
+                {/* <CustomButton
                     title="Sign up with Google"
 
                     icon={<Image source={require('../../assets/google.png')} style={{ width: 18, height: 18 }} />}
                     type="secondary"
                     onPress={signwithgoogle}
-                />
+                /> */}
 
                 {/* </Pressable> */}
                 {/* </KeyboardAvoidingView> */}

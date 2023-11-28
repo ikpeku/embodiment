@@ -7,10 +7,14 @@ import { QuestionnaireScreenProps } from "../../types";
 import { UserState } from "../../redux/features/useSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { SubmitQuetionnaire } from "../../services";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId:string}
 
 const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
+
+    const { currentOffering } = useRevenueCat()
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
     const {user} = useAppSelector(UserState)
@@ -130,6 +134,10 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
            
             setIsLoading(true)
             try {
+                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+                if (Anxiety_treatment) {
+                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -140,7 +148,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
-    
+                }}
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
@@ -164,6 +172,11 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
         if (question9 === "Stop questions") {
             setIsLoading(true)
             try {
+
+                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+                if (Anxiety_treatment) {
+                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,9)})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -174,6 +187,8 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
+
+                }}
     
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
@@ -203,6 +218,11 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
     const handleSubmit = async() => {
         setIsLoading(true)
             try {
+
+                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+                if (Anxiety_treatment) {
+                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -213,7 +233,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
-    
+                }}
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)

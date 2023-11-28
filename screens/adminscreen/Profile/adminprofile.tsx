@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AccountScreenProps} from '../../../types';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { UserState, logoutMutation } from '../../../redux/features/useSlice';
+import Purchases from 'react-native-purchases';
 
 
 interface IItem {
@@ -57,6 +58,7 @@ const AdminProfiles = () => {
         if (loading) return
         setLoading(true)
         dispatch(logoutMutation())
+        await Purchases.logOut()
         setLoading(false)
     }
 

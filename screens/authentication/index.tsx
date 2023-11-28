@@ -7,7 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { CustomButton, CustomInput } from "../../components";
-import { useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { AuthenticateuserScreenProps } from "../../types";
 // import { loginUser, registerUser } from "../../services";
@@ -15,6 +15,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { loginUserMutation } from "../../redux/features/useSlice";
 import { baseURL } from "../../services";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Purchases from "react-native-purchases";
 
 
 
@@ -79,13 +80,13 @@ export default function AuthUser() {
                     updatedAt: user?.updatedAt,
                     role: user?.role,
                     // doctorId: user?.doctorId
-                    avatar: user?.avatar ? user?.avatar  : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
+                    avatar: user?.avatar ? user?.avatar : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
                 }
 
                 // console.log("alluser: ",user)
                 // console.log(updatedData)
 
-
+                await Purchases.logIn(user?.email)
                 dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
 
             } else {
@@ -149,19 +150,19 @@ export default function AuthUser() {
                 </View>
 
 
-                <View style={styles.lineContainer}>
+                {/* <View style={styles.lineContainer}>
                     <View style={styles.line} />
                     <Text style={{ color: "rgba(0, 0, 0, 0.5)" }}>or</Text>
                     <View style={styles.line} />
-                </View>
+                </View> */}
 
                 {/* Google btn */}
-                <CustomButton
+                {/* <CustomButton
                     title={"Log In with Google"}
                     icon={<Image source={require('../../assets/google.png')} style={{ width: 18, height: 18 }} />}
                     type="secondary"
                     onPress={signwithgoogle}
-                />
+                /> */}
 
                 {/* </Pressable> */}
                 {/* </KeyboardAvoidingView> */}
@@ -248,7 +249,5 @@ const styles = StyleSheet.create({
     label: {
         fontWeight: "bold"
     }
-
-
 
 })

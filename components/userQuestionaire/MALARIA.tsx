@@ -8,9 +8,14 @@ import { QuestionnaireScreenProps } from "../../types";
 import { SubmitQuetionnaire } from "../../services";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId:string}
 const MALARIA = ({diseaseId}:IdiseaseId) => {
+
+    
+    const { currentOffering } = useRevenueCat()
 
     const {user} = useAppSelector(UserState)
 
@@ -81,6 +86,10 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
     const handleSubmit = async() => {
         setIsLoading(true)
         try {
+            const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
+            if (Malaria) {
+                const purchaseInfo = await Purchases.purchasePackage(Malaria)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -91,7 +100,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                 },
                 {text: 'OK', onPress: () =>navigation.popToTop()},
               ])
-
+            }}
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)

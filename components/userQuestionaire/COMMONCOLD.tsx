@@ -8,10 +8,13 @@ import { QuestionnaireScreenProps } from "../../types";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
 import { SubmitQuetionnaire } from "../../services";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId:string}
 const COMMONCOLD = ({diseaseId}:IdiseaseId) => {
 
+    const { currentOffering } = useRevenueCat()
     const {user} = useAppSelector(UserState)
 
 
@@ -71,6 +74,10 @@ Wheezing
         if (question2 === "Yes") {
             setIsLoading(true)
             try {
+                const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+                if (Common_Cold) {
+                    const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -81,7 +88,7 @@ Wheezing
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
-    
+                }}
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
@@ -99,6 +106,10 @@ Wheezing
 
         setIsLoading(true)
         try {
+            const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+            if (Common_Cold) {
+                const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -109,7 +120,7 @@ Wheezing
                 },
                 {text: 'OK', onPress: () => navigation.popToTop()},
               ])
-
+            }}
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)

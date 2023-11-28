@@ -8,9 +8,13 @@ import { QuestionnaireScreenProps } from "../../types";
 import { SubmitQuetionnaire } from "../../services";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
+import useRevenueCat from "../../hooks/useRevenueCat";
+import Purchases from "react-native-purchases";
 
 type IdiseaseId = { diseaseId:string}
 const TYPHOIDFEVER = ({diseaseId}:IdiseaseId) => {
+
+    const { currentOffering } = useRevenueCat()
 
     const {user} = useAppSelector(UserState)
 
@@ -85,6 +89,10 @@ const TYPHOIDFEVER = ({diseaseId}:IdiseaseId) => {
     const handleSubmit = async() => {
         setIsLoading(true)
         try {
+            const Typhoid = currentOffering?.availablePackages.find(offer => offer.identifier === "Typhoid")
+            if (Typhoid) {
+                const purchaseInfo = await Purchases.purchasePackage(Typhoid)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -95,7 +103,7 @@ const TYPHOIDFEVER = ({diseaseId}:IdiseaseId) => {
                 },
                 {text: 'OK', onPress: () =>navigation.popToTop()},
               ])
-
+            }}
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
@@ -342,11 +350,11 @@ const TYPHOIDFEVER = ({diseaseId}:IdiseaseId) => {
                     <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
                 </View>}
 
-                {+progress.toFixed(1) * 10 === 9 && <View style={{ marginVertical: 15, gap: 15 }}>
+                {+progress.toFixed(1) * 10 === 10 && <View style={{ marginVertical: 15, gap: 15 }}>
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Have you been feeling weak and fatigued?
+                        Have you noticed a change in the color of your stool or urine?
                         </Text>
                     </View>
                    

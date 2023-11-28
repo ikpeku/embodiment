@@ -7,6 +7,8 @@ import { ProgressBar, Text, Checkbox, TextInput, ActivityIndicator, MD2Colors } 
 import { SubmitQuetionnaire } from "../../services";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
+import useRevenueCat from "../../hooks/useRevenueCat";
+import Purchases from "react-native-purchases";
 
 
 // interface IQuestionnaire {
@@ -21,6 +23,7 @@ interface IUTITREATMENT {
 
 
 const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
+    const { currentOffering } = useRevenueCat()
 
     const {user} = useAppSelector(UserState)
 
@@ -103,24 +106,36 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
         if (sex === "Female") {
             setProgress((current) => current + 0.1)
         } else {
+            const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            if(urinary_tract_infection) {
+                const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active){
+                    try {
+                        const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
+        
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                              text: 'Cancel',
+                              onPress: () => navigation.goBack(),
+                              style: 'cancel',
+                            },
+                            {text: 'OK', onPress: () =>navigation.popToTop()},
+                          ])
+        
+                        // navigation.navigate("ConfirmAppointment")
+                    } catch (error) {
+                        // console.log(error)
+                        Alert.alert("Error", "please retry sending")
+                    }
+                }
+
+               
 
 
-            try {
-                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
+              
 
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                      text: 'Cancel',
-                      onPress: () => navigation.goBack(),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () =>navigation.popToTop()},
-                  ])
 
-                // navigation.navigate("ConfirmAppointment")
-            } catch (error) {
-                // console.log(error)
-                Alert.alert("Error", "please retry sending")
             }
 
         } 
@@ -135,7 +150,12 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
             setProgress((current) => current + 0.1)
         } else {
 
-            try {
+            const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            if(urinary_tract_infection) {
+                const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                     try {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
 
                 Alert.alert("Done", response?.data?.message, [
@@ -147,13 +167,16 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
 
-                // navigation.navigate("ConfirmAppointment")
+                
             } catch (error) {
                 console.log(error)
                 Alert.alert("Error", "please retry sending")
             }
+                }
 
-            // navigation.navigate("ConfirmAppointment")
+            }
+
+            
         }
         setIsLoading(false)
 
@@ -181,7 +204,13 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
         setIsLoading(true)
         if (question6 === "No") {
 
-            try {
+            const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            if(urinary_tract_infection) {
+                const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                  
+ try {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers:  result.slice(0,6)})
 
                 Alert.alert("Done", response?.data?.message, [
@@ -193,13 +222,20 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
 
-                // navigation.navigate("ConfirmAppointment")
+               
             } catch (error) {
                 console.log(error)
                 Alert.alert("Error", "please retry sending")
             }
 
-            // navigation.navigate("ConfirmAppointment")
+
+                }
+
+            }
+
+           
+
+           
         } else {
             setProgress((current) => current + 0.1)
         }
@@ -209,7 +245,12 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
     const handleStepSeven = async() => {
         if (question7 === "No") {
 
-            try {
+            const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            if(urinary_tract_infection) {
+                const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                     try {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers:  result.slice(0,7)})
 
             
@@ -227,7 +268,11 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
                 console.log(error)
                 Alert.alert("Error", "please retry sending")
             }
-            // navigation.navigate("ConfirmAppointment")
+                    
+                }
+
+            }
+           
         } else {
             setProgress((current) => current + 0.1)
 
@@ -237,7 +282,13 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
     const handleStepElleven = async() => {
         setIsLoading(true)
         if (question11 === "No") {
-            try {
+
+            const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            if(urinary_tract_infection) {
+                const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+             try {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers:  result})
 
             
@@ -255,7 +306,13 @@ const UTITREATMENT = ({diseaseId}:IUTITREATMENT) => {
                 console.log(error)
                 Alert.alert("Error", "please retry sending")
             }
-            // navigation.navigate("ConfirmAppointment")
+                    
+                }
+
+            }
+
+
+            
         } else {
             navigate.navigate("Consultation")
 

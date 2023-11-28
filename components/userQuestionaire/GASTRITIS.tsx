@@ -7,11 +7,13 @@ import { QuestionnaireScreenProps } from "../../types";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
 import { SubmitQuetionnaire } from "../../services";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId:string}
 const GASTRITIS = ({diseaseId}:IdiseaseId) => {
 
-
+    const { currentOffering } = useRevenueCat()
     const {user} = useAppSelector(UserState)
 
 
@@ -91,6 +93,10 @@ Dark, tarry stools or bloody vomit
 
             setIsLoading(true)
             try {
+                const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+                if (Gastritis) {
+                    const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,3)})
     
                 Alert.alert("Done", response?.data?.message, [
@@ -101,6 +107,8 @@ Dark, tarry stools or bloody vomit
                     },
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
+
+                }}
     
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
@@ -120,6 +128,10 @@ Dark, tarry stools or bloody vomit
     const handleSubmit = async() => {
         setIsLoading(true)
         try {
+            const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+            if (Gastritis) {
+                const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -130,6 +142,7 @@ Dark, tarry stools or bloody vomit
                 },
                 {text: 'OK', onPress: () =>navigation.popToTop()},
               ])
+            }}
 
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {

@@ -23,9 +23,7 @@ const UserHealthDetail = () => {
                 {data?.data?.photo && <Image style={styles.banner} source={{ uri: `https://embodi-be.vercel.app/${data?.data?.photo}` }} />}
                 <Ionicons style={styles.icon} name="chevron-back" size={30} color="white" onPress={() => navigation.goBack()} />
 
-
                 <View style={{ padding: 10 }}>
-
 
                     {data?.data?.detailTitle ?
                         <Text style={[styles.text, { fontWeight: "bold", marginVertical: 20, textAlign: "center" }]}
@@ -36,7 +34,6 @@ const UserHealthDetail = () => {
                     }
 
                     {data?.data?.detail && <Text variant='bodyLarge'>{data?.data?.detail}</Text>}
-
 
                     <View>
                         {/* Gastritis Treatment */}

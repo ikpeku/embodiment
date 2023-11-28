@@ -21,7 +21,7 @@ export type RootStackParamList = {
     HelpandSupport: undefined;
     Support: undefined;
     Subscribe: undefined;
-    ConfirmSubscription: undefined;
+    ConfirmSubscription: { type: string };
 
     // consultation screen
     Consultationappointment: { id: string }
@@ -108,6 +108,7 @@ export type AdminDoctorprofileRouteProp = RouteProp<RootStackParamList, "AdminDo
 
 // user route
 export type ConsultationappointmentRouteProp = RouteProp<RootStackParamList, "Consultationappointment">
+export type ConfirmSubscriptiontRouteProp = RouteProp<RootStackParamList, "ConfirmSubscription">
 export type ConsultationcheckoutRouteProp = RouteProp<RootStackParamList, "Consultationcheckout">
 
 

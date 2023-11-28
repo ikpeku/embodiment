@@ -1,49 +1,156 @@
-[
-    {
-        "id": 1,
-        "Name": "Dr. Benjamin John",
-        "expert": "Endocrinologists",
-       "rate": 4,
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Benjamin John is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    },
-    {
-        "id": 2,
-        "Name": "Dr. Leslie Alexander",
-        "expert": "Dr. Leslie Alexander",
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Leslie Alexander is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    },
-    {
-        "id": 3,
-        "Name": "Dr. Ralph Edwards",
-        "expert": "Psychiatrist",
-        "rate": 2,
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Ralph Edwards is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    },
-    {
-        "id": 4,
-        "Name": "Dr. Jacob Jones",
-        "expert": "Neurology",
-        "rate": 4,
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Jacob Jones is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    },
-    {
-        "id": 5,
-        "Name": "Dr. Jenny Wilson",
-        "expert": "Endocrinologists",
-        "rate": 3,
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Jenny Wilson is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    },
-    {
-        "id": 6,
-        "Name": "Dr. Benjamin John",
-        "expert": "Gastroenterology",
-        "rate": 5,
-        "img": "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960",
-        "about": "Dr. Benjamin John is a 45-year-old physician with over 15 years of experience in the medical field. She received her medical degree from a top-ranked university and completed her residency at a leading teaching hospital."
-    }
-]
+// {
+//     "annual": {
+//         "identifier": "$rc_annual",
+//         "offeringIdentifier": "default",
+//         "packageType": "ANNUAL",
+//         "product": {
+//             "currencyCode": "NGN",
+//             "defaultOption": [Object
+//             ],
+//             "description": "embodiment yearly plan",
+//             "discounts": null,
+//             "identifier": "embodiment_20000_y:1yearly-individual",
+//             "introPrice": null,
+//             "presentedOfferingIdentifier": "default",
+//             "price": 138500,
+//             "priceString": "₦138,500.00",
+//             "productCategory": "SUBSCRIPTION",
+//             "productType": "AUTO_RENEWABLE_SUBSCRIPTION",
+//             "subscriptionOptions": [Array
+//             ],
+//             "subscriptionPeriod": "P1Y",
+//             "title": "yearly plan (embodiment healthcare)"
+//         }
+//     },
+//     "availablePackages": [
+//         // {
+//         //     "identifier": "$rc_monthly",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "MONTHLY",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "$rc_annual",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "ANNUAL",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "individual_monthly",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "family_annual",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "urinary_tract_infection",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Migraine",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Anxiety treatment",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Erectile Dyfunction",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Premature ejaculation",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Acne treatment",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Gastritis",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Common Cold",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Malaria",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // },
+//         // {
+//         //     "identifier": "Typhoid",
+//         //     "offeringIdentifier": "default",
+//         //     "packageType": "CUSTOM",
+//         //     "product": [Object
+//         //     ]
+//         // }
+//     ],
+//     "identifier": "default",
+//     "lifetime": null,
+//     "metadata": {},
+//     "monthly": {
+//         "identifier": "$rc_monthly",
+//         "offeringIdentifier": "default",
+//         "packageType": "MONTHLY",
+//         "product": {
+//             "currencyCode": "NGN",
+//             "defaultOption": [Object
+//             ],
+//             "description": "family pack",
+//             "discounts": null,
+//             "identifier": "embodiment_family_20000_m:1monthly-family",
+//             "introPrice": null,
+//             "presentedOfferingIdentifier": "default",
+//             "price": 23000,
+//             "priceString": "₦23,000.00",
+//             "productCategory": "SUBSCRIPTION",
+//             "productType": "AUTO_RENEWABLE_SUBSCRIPTION",
+//             "subscriptionOptions": [Array
+//             ],
+//             "subscriptionPeriod": "P1M",
+//             "title": "family pack (embodiment healthcare)"
+//         }
+//     },
+//     "serverDescription": "default offerings",
+//     "sixMonth": null,
+//     "threeMonth": null,
+//     "twoMonth": null,
+//     "weekly": null
+// }

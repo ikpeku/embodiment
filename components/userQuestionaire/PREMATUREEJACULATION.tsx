@@ -7,11 +7,15 @@ import CustomButton from "../Button";
 import { SubmitQuetionnaire } from "../../services";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 
 type IdiseaseId = { diseaseId:string}
 
 const PREMATUREEJACULATION = ({diseaseId}:IdiseaseId) => {
+    const { currentOffering } = useRevenueCat()
+
     const {user} = useAppSelector(UserState)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
@@ -67,6 +71,10 @@ const result: {
 
             setIsLoading(true)
         try {
+            const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
+            if (Premature_ejaculation) {
+                const purchaseInfo = await Purchases.purchasePackage(Premature_ejaculation)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -77,6 +85,8 @@ const result: {
                 },
                 {text: 'OK', onPress: () => navigation.popToTop()},
               ])
+
+            }}
 
         } catch (error) {
         

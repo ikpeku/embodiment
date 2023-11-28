@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ppi10.embodiment"
@@ -23,10 +21,11 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.ppi10.embodiment"
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "package": "com.ppi10.embodiment",
+      "versionCode": 2,
+      "versionName": "0.0.1",
+      "enableProguardInReleaseBuilds": true
     },
     "web": {
       "favicon": "./assets/favicon1.png"

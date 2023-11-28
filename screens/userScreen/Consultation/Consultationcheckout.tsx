@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import { useAppSelector } from '../../../redux/hooks';
 import { UserState } from '../../../redux/features/useSlice';
 import { useQueryClient } from '@tanstack/react-query';
+import useRevenueCat from '../../../hooks/useRevenueCat';
 
 
 
@@ -22,12 +23,15 @@ const Consultationcheckout = () => {
 
     const { data = [], isLoading } = useDoctor(route?.params.doctorId)
 
+    const {currentOffering, customerInfo, isProMember} = useRevenueCat()
+
+    // console.log(isProMember)
   
 
 
     const handleCheckout = async() => {
 
-    try {
+        try {
         const response = await BookAppointment({
             appointmentId:route.params.appointmentId,
              doctorId: route.params.doctorId,
@@ -42,6 +46,7 @@ const Consultationcheckout = () => {
     } catch (error:any) {
         Alert.alert("Error", error.response.data.message)
     }
+      
     
     }
 
@@ -52,7 +57,7 @@ const Consultationcheckout = () => {
                 <CardTag
                     title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
                     subTitle={data?.data?.specialty}
-                    url={"https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"}
+                    url={data?.data?.user?.avatar}
 
                 />
                 <View style={{ marginLeft: "20%", backgroundColor: "#fff", flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -77,16 +82,17 @@ const Consultationcheckout = () => {
                             <Text variant='bodyLarge'>{route.params.startTime}</Text>
                         </View>
 
-                        <View style={styles.detail}>
+                        {/* <View style={styles.detail}>
                             <Text variant='bodyLarge'>Fee</Text>
                             <Text variant='bodyLarge'>${data?.data?.rate}</Text>
-                        </View>
+                        </View> */}
                     </Card.Content>
                 </Card>
             </View>
 
             <View style={{ width: "100%", marginTop: 30, }}>
-                <CustomButton title="Pay" onPress={handleCheckout} />
+                {isProMember && <CustomButton title="Book Appointment" onPress={handleCheckout} />}
+                {!isProMember && <CustomButton title="Subsquire" onPress={() => navigation.navigate("Subscribe")} />}
             </View>
 
 

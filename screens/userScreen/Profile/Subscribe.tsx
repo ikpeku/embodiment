@@ -1,15 +1,16 @@
-import {FC} from "react"
+import { FC, useEffect } from "react"
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
-import { Text, Divider, Card } from 'react-native-paper';
+import { Text, Divider, Card, ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { Octicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { CustomButton } from "../../../components";
 import { SubscribeScreenProps } from "../../../types";
 import useRevenueCat from "../../../hooks/useRevenueCat";
+import Purchases from "react-native-purchases";
 
 
-const Render:FC<{title:string}> = ({ title }) => (
+const Render: FC<{ title: string }> = ({ title }) => (
     <View style={{ width: "100%", flexDirection: "row", gap: 15 }}>
         <Octicons name="check" size={24} color="#0665CB" />
         <Text variant="bodyLarge">{title}</Text>
@@ -18,23 +19,99 @@ const Render:FC<{title:string}> = ({ title }) => (
 
 
 const Subscribe = () => {
-    const {currentOffering, customerInfo, isProMember} = useRevenueCat()
- 
-    console.log("Debug: ", currentOffering)
-    // console.log("isProMember: ", isProMember)
+    const { currentOffering, customerInfo, isProMember } = useRevenueCat()
 
     const [annual, setAnnual] = useState("annual")
 
     const navigation = useNavigation<SubscribeScreenProps>()
 
+    const [monthlyIndividual, setMonthlyIndividual] = useState<string | undefined>("")
+    const [yearlyIndividual, setYearlyIndividual] = useState<string | undefined>("")
 
-    const onSubsquire = () => {
-        navigation.navigate("ConfirmSubscription")
+    const [family_monthly, setFamily_monthly] = useState<string | undefined>("")
+    const [family_annual, setFamily_annual] = useState<string | undefined>("")
+
+
+
+    useEffect(() => {
+        if (currentOffering) {
+            const family_monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_monthly")
+            const annual = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_annual")
+            const family_annual = currentOffering?.availablePackages.find(offer => offer.identifier === "family_annual")
+            const monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "individual_monthly")
+            setMonthlyIndividual(monthly?.product?.priceString)
+            setYearlyIndividual(annual?.product?.priceString)
+            setFamily_monthly(family_monthly?.product?.priceString)
+            setFamily_annual(family_annual?.product?.priceString)
+
+        }
+    }, [currentOffering])
+
+
+
+
+
+
+
+
+    if (!currentOffering) {
+        return (
+            <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "#fff" }]}>
+                <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+            </View>
+        )
     }
+
+   
+    const handleMonthlyIndividualSubscription = async() => {
+        const monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "individual_monthly")
+        if(monthly) {
+            const purchaseInfo = await Purchases.purchasePackage(monthly)
+
+            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                navigation.navigate("ConfirmSubscription" , {type: "Monthly"})
+            }
+        }
+    }
+
+    const handleYearlyIndividualSubscription = async() => {
+        const annual = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_annual")
+        if(annual) {
+            const purchaseInfo = await Purchases.purchasePackage(annual)
+
+            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                navigation.navigate("ConfirmSubscription", {type: "Yearly"})
+            }
+        }
+    }
+    const handleMonthlyFamilySubscription = async() => {
+        const family_monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_monthly")
+        if(family_monthly) {
+            const purchaseInfo = await Purchases.purchasePackage(family_monthly)
+
+            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                navigation.navigate("ConfirmSubscription", {type: "Family Monthly"})
+            }
+        }
+    }
+
+    const handleYearlyFamilySubscription = async() => {
+        const family_annual = currentOffering?.availablePackages.find(offer => offer.identifier === "family_annual")
+        if(family_annual) {
+            const purchaseInfo = await Purchases.purchasePackage(family_annual)
+
+            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                navigation.navigate("ConfirmSubscription", {type: "Family Yearly"})
+            }
+        }
+    }
+
+
+
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
-            
+
             <View style={styles.root}>
 
                 <View style={styles.boxContainer}>
@@ -55,7 +132,7 @@ const Subscribe = () => {
                     <View style={{ alignItems: "center", padding: 20 }}>
                         <Text variant="titleLarge" style={{ fontFamily: "avenir" }}>Individual</Text>
                         <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "avenir" }} variant="titleLarge">
-                            {annual === "annual" ? "$120" : "$10"}
+                            {annual === "annual" ? yearlyIndividual : monthlyIndividual}
                             <Text style={{}} variant="titleLarge">
                                 {annual === "annual" ? "/y" : "/m"}
                             </Text>
@@ -71,7 +148,10 @@ const Subscribe = () => {
                     </View>
 
                     <View style={{ width: "75%", alignSelf: "center", paddingVertical: 20 }}>
-                        <CustomButton title="Subscribe" onPress={onSubsquire} />
+                        {annual === "annual" ?
+                            <CustomButton title="Subscribe" onPress={handleYearlyIndividualSubscription} />
+                            :
+                            <CustomButton title="Subscribe" onPress={handleMonthlyIndividualSubscription} />}
                     </View>
 
                 </Card>
@@ -80,7 +160,7 @@ const Subscribe = () => {
                     <View style={{ alignItems: "center", padding: 20 }}>
                         <Text variant="titleLarge" style={{ fontFamily: "avenir" }}>Family</Text>
                         <Text style={{ fontWeight: "bold", fontSize: 24, fontFamily: "avenir" }} variant="titleLarge">
-                            {annual === "annual" ? "$180" : "$15"}
+                            {annual === "annual" ? family_annual : family_monthly}
                             <Text style={{}} variant="titleLarge">
                                 {annual === "annual" ? "/y" : "/m"}
                             </Text>
@@ -96,7 +176,10 @@ const Subscribe = () => {
                     </View>
 
                     <View style={{ width: "75%", alignSelf: "center", paddingVertical: 20 }}>
-                        <CustomButton title="Subscribe" onPress={onSubsquire} />
+                    {annual === "annual" ?
+                            <CustomButton title="Subscribe" onPress={handleYearlyFamilySubscription} />
+                            :
+                            <CustomButton title="Subscribe" onPress={handleMonthlyFamilySubscription} />}
                     </View>
 
                 </Card>

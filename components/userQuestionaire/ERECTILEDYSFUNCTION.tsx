@@ -7,11 +7,16 @@ import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../type
 import { SubmitQuetionnaire } from "../../services";
 import { UserState } from "../../redux/features/useSlice";
 import { useAppSelector } from "../../redux/hooks";
+import Purchases from "react-native-purchases";
+import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId:string}
 
 
 const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
+
+    const { currentOffering } = useRevenueCat()
+
     const {user} = useAppSelector(UserState)
     const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
@@ -76,8 +81,13 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
         setIsLoading(true)
         
         if (question1 === "Yes") {
+            
 
             try {
+                const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
+            if (Erectile_Dyfunction) {
+                const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
                 const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
 
                 Alert.alert("Done", response?.data?.message, [
@@ -89,12 +99,14 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
                     {text: 'OK', onPress: () =>navigation.popToTop()},
                   ])
 
-                // navigation.navigate("ConfirmAppointment")
+                }}
+
             } catch (error) {
                 // console.log(error)
                 Alert.alert("Error", "please retry sending")
             }
-            // navigation.navigate("ConfirmAppointment")
+
+    
         } else {
             setProgress((current) => current + 0.1)
         }
@@ -115,6 +127,12 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
     const handleStepSeven = async() => {
         setIsLoading(true)
         try {
+
+            const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
+            if (Erectile_Dyfunction) {
+                const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
+
             const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
 
             Alert.alert("Done", response?.data?.message, [
@@ -125,6 +143,8 @@ const ERECTILEDYSFUNCTION = ({diseaseId}:IdiseaseId) => {
                 },
                 {text: 'OK', onPress: () =>navigation.popToTop()},
               ])
+
+                }}
 
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
