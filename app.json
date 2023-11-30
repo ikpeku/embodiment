@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,10 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.ppi10.embodiment",
-      "versionCode": 2,
-      "versionName": "0.0.1",
-      "enableProguardInReleaseBuilds": true
+      "package": "com.ppi10.embodiment"
     },
     "web": {
       "favicon": "./assets/favicon1.png"

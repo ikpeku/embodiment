@@ -98,13 +98,16 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
         setIsLoading(true)
         if (question2sub6) {
 
-            const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-            if (Migraine) {
-                const purchaseInfo = await Purchases.purchasePackage(Migraine)
 
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
 
-                    try {
+            try {
+
+
+                const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+                if (Migraine) {
+                    const purchaseInfo = await Purchases.purchasePackage(Migraine)
+
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
                         Alert.alert("Done", response?.data?.message, [
@@ -115,17 +118,17 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                             },
                             { text: 'OK', onPress: () => navigation.popToTop() },
                         ])
-
-
-                    } catch (error) {
-
-                        Alert.alert("Error", "please retry sending")
                     }
+
 
                 }
 
+            } catch (error) {
 
+                Alert.alert("Error", "please retry sending")
             }
+
+
 
 
 
@@ -140,12 +143,14 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
         setIsLoading(true)
         if (question7) {
 
-            const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-            if (Migraine) {
-                const purchaseInfo = await Purchases.purchasePackage(Migraine)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
 
-                    try {
+
+            try {
+
+                const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+                if (Migraine) {
+                    const purchaseInfo = await Purchases.purchasePackage(Migraine)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
                         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
                         Alert.alert("Done", response?.data?.message, [
@@ -157,15 +162,15 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                             { text: 'OK', onPress: () => navigation.popToTop() },
                         ])
 
-
-                    } catch (error) {
-                     
-                        Alert.alert("Error", "please retry sending")
                     }
 
                 }
 
+            } catch (error) {
+
+                Alert.alert("Error", "please retry sending")
             }
+
 
 
 
@@ -199,6 +204,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -206,6 +212,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">NO</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -231,6 +238,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         <Text variant="titleLarge" style={{ flex: 1 }}>Sensitivity to light, noise, or smells move to next question
                         </Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub1 ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -238,12 +246,14 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion2Sub2(v => !v)} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Nausea or vomiting</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub2 ? "checked" : "unchecked"}
                         />
                     </Pressable>
                     <Pressable onPress={() => setQuestion2Sub3(v => !v)} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Blurred vision</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub3 ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -251,6 +261,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion2Sub4(v => !v)} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Lightheadedness, dizziness, or vertigo</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub4 ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -258,6 +269,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         <Text variant="titleLarge" style={{ flex: 1 }}>Tingling or numbness in your face or extremities
                         </Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub5 ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -266,6 +278,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         <Text variant="titleLarge" style={{ flex: 1 }}>None
                         </Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2sub6 ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -286,6 +299,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("Fewer than 15 times per month")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Fewer than 15 times per month</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "Fewer than 15 times per month" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -293,6 +307,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("0nce or twice a week")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>0nce or twice a week</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "0nce or twice a week" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -300,6 +315,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("Not sure")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Not sure</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "Not sure" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -319,6 +335,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("Less than 1 year")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Less than 1 year</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "Less than 1 year" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -326,6 +343,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("1-5 years")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>1-5 years</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "1-5 years" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -333,6 +351,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("More than 5 years")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>More than 5 years</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "More than 5 years" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -352,6 +371,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -359,6 +379,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -378,6 +399,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -385,6 +407,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -404,6 +427,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>I need a new prescription</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -411,6 +435,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>I want to renew my prescription</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>

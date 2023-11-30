@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
         paddingVertical: 13
     },
     title: {
-        fontFamily: 'avenir',
-        fontWeight: "500",
-        fontSize: 24,
-        lineHeight: 33,
+        // fontFamily: 'avenir',
+        // fontWeight: "500",
+        // fontSize: 24,
+        // lineHeight: 33,
     },
 });

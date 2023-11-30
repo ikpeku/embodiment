@@ -1,16 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { StyleSheet, FlatList, View, Keyboard, Image } from 'react-native'
 import { ActivityIndicator, MD2Colors, Text, TextInput } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-// import Doctors from "../../../dummy/doctors.json"
 import { useNavigation } from '@react-navigation/native';
 import { CardTag } from '../../../components';
 import { EvilIcons } from '@expo/vector-icons';
-import {useGetVerifyAllDoctors} from "../../../services/doctorApi";
-import {ConsultationappointmentScreenProps} from "../../../types";
-
-
+import { useGetVerifyAllDoctors } from "../../../services/doctorApi";
+import { ConsultationappointmentScreenProps } from "../../../types";
 
 
 
@@ -21,20 +18,16 @@ export default function Consultation() {
     const { data = [], isLoading } = useGetVerifyAllDoctors()
 
 
-    // const [data, setData] = useState(Doctors)
+    const filterItem = [...data].filter(item => {
 
+        if (!searchQuery) {
+            return item
+        } else {
+            return item?.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item?.lastName.toLowerCase().includes(searchQuery.toLowerCase()) || item?.specialty.toLowerCase().includes(searchQuery.toLowerCase())
+        }
 
-    // useEffect(() => {
-    //
-    //     if (!searchQuery) {
-    //         setData(Doctors)
-    //     } else {
-    //         setData(Doctors.filter(item => item.Name.toLowerCase().includes(searchQuery.toLowerCase()) || item.expert.toLowerCase().includes(searchQuery.toLowerCase())))
-    //     }
-    //
-    // }, [searchQuery])
+    })
 
-  
 
     return (
         <SafeAreaView style={styles.root} >
@@ -47,7 +40,7 @@ export default function Consultation() {
                     contentStyle={{ paddingHorizontal: 10 }}
 
                     onChangeText={(event) => setSearchQuery(event)}
-                    value={searchQuery} mode='outlined' style={{ height: 35, flexGrow: 1, }}
+                    value={searchQuery} mode='outlined' style={{ flexGrow: 1, backgroundColor: "white"}}
                     right={<TextInput.Icon icon={(properties) => <EvilIcons name="search" {...properties} />
                     } />}
                 />
@@ -63,7 +56,7 @@ export default function Consultation() {
 
 
             <FlatList
-                data={data}
+                data={filterItem}
                 renderItem={({ item }) => <CardTag
                     mode='elevated'
                     // elevation={1}
@@ -79,11 +72,11 @@ export default function Consultation() {
             />
 
 
-{isLoading && (
-        <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-            <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-        </View>
-    )}
+            {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
 
         </SafeAreaView >
     )

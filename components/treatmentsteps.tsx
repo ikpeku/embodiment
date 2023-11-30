@@ -24,7 +24,7 @@ const Treatmentsteps = ({header,  stepOneSubText, stepThreeSubText, stepTwoSubTe
     const TreatmentCard = ({ source, title, text , NB}:ITreatmentCard) => (
 
         <Card>
-            <Card.Content style={{ gap: 10 }}>
+            <Card.Content style={{ gap: 10 , backgroundColor: "#fff"}}>
                 <Avatar.Image size={70} source={source} />
                 {title &&<Text style={[styles.text, { fontWeight: "bold", }]} variant='titleMedium'>{title}</Text>}
                 {text && <Text style={[styles.text, {opacity: 0.7}]} variant='bodyLarge'>{text}</Text>}
@@ -33,7 +33,7 @@ const Treatmentsteps = ({header,  stepOneSubText, stepThreeSubText, stepTwoSubTe
         </Card>
     )
   return (
-    <View style={{gap:20}}>
+    <View style={{gap:20, backgroundColor: "white"}}>
         {header && <Text style={[{marginTop : 5 }]} variant='bodyLarge'>{header}</Text>}
 
         <Text style={[styles.text, { fontWeight: "bold", textAlign: "center", marginVertical: 20 }]}
@@ -67,6 +67,6 @@ export default Treatmentsteps;
 
 const styles = StyleSheet.create({
     text: {
-        fontFamily: 'avenir'
+        // fontFamily: 'avenir'
     },
 })

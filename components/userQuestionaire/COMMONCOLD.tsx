@@ -11,11 +11,11 @@ import { SubmitQuetionnaire } from "../../services";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
 
-type IdiseaseId = { diseaseId:string}
-const COMMONCOLD = ({diseaseId}:IdiseaseId) => {
+type IdiseaseId = { diseaseId: string }
+const COMMONCOLD = ({ diseaseId }: IdiseaseId) => {
 
     const { currentOffering } = useRevenueCat()
-    const {user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -34,9 +34,9 @@ const COMMONCOLD = ({diseaseId}:IdiseaseId) => {
     const result: {
         question: string,
         answer: string | number
-    }[] =  [
-        {
-            question: `
+    }[] = [
+            {
+                question: `
             Have you been experiencing any of the following symptoms?
 Runny or stuffy nose
 Sneezing
@@ -46,10 +46,10 @@ Headache
 Body aches
 Mild fever
             `,
-            answer: question1
-        },
-        {
-            question: `
+                answer: question1
+            },
+            {
+                question: `
             Have you been experiencing any of the following symptoms?
 Severe fever (above 38°C)
 Chest pain or tightness
@@ -57,19 +57,19 @@ Shortness of breath
 Difficulty breathing
 Wheezing
             `,
-            answer: question2
-        },
-        {
-            question: `
+                answer: question2
+            },
+            {
+                question: `
             Have you been experiencing symptoms for less than 2 weeks?
             `,
-            answer: question3
-        },
-    
-    ]
+                answer: question3
+            },
+
+        ]
 
 
-    const handleStepTwo = async() => {
+    const handleStepTwo = async () => {
 
         if (question2 === "Yes") {
             setIsLoading(true)
@@ -78,17 +78,18 @@ Wheezing
                 if (Common_Cold) {
                     const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
                     if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,2)})
-    
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                      text: 'Cancel',
-                      onPress: () => navigation.goBack(),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () =>navigation.popToTop()},
-                  ])
-                }}
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+                    }
+                }
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
@@ -102,7 +103,7 @@ Wheezing
 
     }
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
 
         setIsLoading(true)
         try {
@@ -110,25 +111,26 @@ Wheezing
             if (Common_Cold) {
                 const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
                 if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-            Alert.alert("Done", response?.data?.message, [
-                {
-                  text: 'Cancel',
-                  onPress: () => navigation.goBack(),
-                  style: 'cancel',
-                },
-                {text: 'OK', onPress: () => navigation.popToTop()},
-              ])
-            }}
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+                }
+            }
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
             Alert.alert("Error", "please retry sending")
         }
-       
+
         setIsLoading(false)
-       
+
     }
 
     return (
@@ -171,6 +173,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -178,6 +181,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -213,6 +217,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -220,6 +225,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -239,6 +245,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -246,6 +253,7 @@ Wheezing
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -255,10 +263,10 @@ Wheezing
 
 
                 {isLoading && (
-                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                </View>
-            )}
+                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                    </View>
+                )}
 
             </KeyboardAvoidingView>
         </ScrollView>
@@ -286,10 +294,4 @@ const styles = StyleSheet.create({
         marginVertical: 5
     }
 })
-
-
-
-
-
-
 

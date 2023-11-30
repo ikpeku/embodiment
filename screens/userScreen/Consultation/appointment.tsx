@@ -112,7 +112,6 @@ const { user } = useAppSelector(UserState)
 
 
 
-
     return (
         <View style={[styles.root, { padding: 9 }]}>
                  {!isLoading && <>
@@ -141,13 +140,11 @@ const { user } = useAppSelector(UserState)
                         title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
                         subTitle={data?.data?.specialty}
                         url={data?.data?.user?.avatar}
+                        isStar={true}
+                        starRating={star}
+                        onPress={showModal}
                     />
 
-                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 15, backgroundColor: "#fff" }}>
-                        <Ionicons name="md-star" size={24} color="#FFCE31" />
-                        <Text variant='bodySmall'>{data?.data?.StarRating}</Text>
-                        <Text onPress={showModal} variant='bodyMedium' style={{ backgroundColor: "#0665CB", color: "#fff", borderRadius: 4, paddingHorizontal: 5 }}>Rate this doctor</Text>
-                    </View>
                 </View>
 
                 <View>
@@ -162,7 +159,7 @@ const { user } = useAppSelector(UserState)
                                 <Text>Patients</Text>
                             </View>
                             <View style={{ alignItems: "center" }}>
-                                <Text variant='titleMedium'>{data?.data?.rate}</Text>
+                                <Text variant='titleMedium'>${data?.data?.rate}</Text>
                                 <Text>Rate</Text>
                             </View>
                         </Card.Content>

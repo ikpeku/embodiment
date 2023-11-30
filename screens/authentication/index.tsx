@@ -14,8 +14,8 @@ import { AuthenticateuserScreenProps } from "../../types";
 import { useAppDispatch } from "../../redux/hooks";
 import { loginUserMutation } from "../../redux/features/useSlice";
 import { baseURL } from "../../services";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Purchases from "react-native-purchases";
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import Purchases from "react-native-purchases";
 
 
 
@@ -103,7 +103,7 @@ export default function AuthUser() {
     }
 
 
-    const signwithgoogle = () => { }
+    // const signwithgoogle = () => { }
 
     const email = watch("Email_Address")
 

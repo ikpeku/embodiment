@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import {
     Text, View, ScrollView, StyleSheet, KeyboardAvoidingView, Platform, Alert, Image,
     Pressable
@@ -8,15 +8,16 @@ import {
 import { useForm } from "react-hook-form";
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { CustomButton, CustomInput } from "../../components";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { AuthenticateuserScreenProps } from "../../types";
 // import { loginUser, registerUser } from "../../services";
 import { useAppDispatch } from "../../redux/hooks";
-import { loginUserMutation } from "../../redux/features/useSlice";
+// import { loginUserMutation } from "../../redux/features/useSlice";
 import { baseURL } from "../../services";
-import { signup, useSignup } from "../../services/authenApi";
-import axios from "axios";
+// import { signup, useSignup } from "../../services/authenApi";
+// import axios from "axios";
+// import { getGoogle } from "../../utils/firebase";
 
 export interface ISign {
     FirstName: string,
@@ -31,91 +32,21 @@ export default function SignupUser() {
 
 
     const [loading, setLoading] = useState(false)
-    // const [signup, setSignup] = useState(false)
-    const [error, setError] = useState("")
+
     const navigation = useNavigation<AuthenticateuserScreenProps>()
 
-    const dispatch = useAppDispatch()
-
-
+  
     const { handleSubmit, control, watch } = useForm<ISign>(
     );
-
-
-    // const {mutate, data, error, isLoading} = useSignup()
-
-    // console.log("response: ",data.data)
 
 
 
     const onSignupSubmit = async ({ Email_Address, Password, Phone_Number, FirstName, LastName }: ISign) => {
         if (loading) return
         setLoading(true);
-        // const data = {
-        //             email: Email_Address,
-        //             firstName: FirstName,
-        //             lastName: LastName,
-        //             password: Password,
-        //             phoneNumber: Phone_Number
-        //         }
-
-        //     mutate(data)
-
-    //            try {
-    //             // const res = await signup(data)
-    //             // console.log(res)
-
-    //             const res =  JSON.stringify(data)
-    //             console.log(res)
-
-    //                 const response = await fetch(`${baseURL}/auth/register`, {
-    //                     method: "POST",
-    //                     headers: {
-    //                         'Accept': 'application/json',
-	// 'Content-Type': 'application/json; charset=utf-8',
-    
-    //                     //   "Content-Type": "application/json",
-    //                     //   'Access-Control-Allow-Origin': '*',
-    //                     //   'Access-Control-Allow-Headers': '*',
-    //                     // 'Content-Type': 'multipart/form-data'
-                        
-    //                     },
-    //                     body: res
-    //                   })
-    //                   const datas = await response.json()
-    //         console.log(datas)
-
-    //            } catch (error) {
-
-    //             // if(axios.isAxiosError(error)) {
-
-    //                 console.log(error)
-    //             // }
-    //            }
-
-
-        
-
-
-        
-       
           
                 try {
-                    // const response = await registerUser({
-                    //     email: Email_Address,
-                    //     firstName: FirstName,
-                    //     lastName: LastName,
-                    //     password: Password,
-                    //     phoneNumber: Phone_Number
-                    // })
-
-                    // if (response.status === "success") {
-                    //     const { user } = response
-                    //     dispatch(loginUserMutation({ isLogin: false, user , isFirst: false}))
-
-                        // navigation.navigate("ConfirmUser", {id: response.user._id})
-                    // }
-                   
+                  
                     const data = {
                         email: Email_Address,
                         firstName: FirstName,
@@ -171,7 +102,7 @@ export default function SignupUser() {
                 setLoading(false)
     }
 
-    const signwithgoogle = () => {}
+    // const signwithgoogle = async() => await getGoogle()
     const email = watch("Email_Address")
 
 

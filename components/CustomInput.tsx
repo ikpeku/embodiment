@@ -41,6 +41,10 @@ function CustomInput({ control, name, label, placeholder, rules, passord = false
                         editable={editable}
                         multiline={multiline}
                         numberOfLines={numberOfLines}
+                        theme={{colors: {outline: "black", background: "#fff", outlineVariant: "black", primary: "black" }}}
+                        outlineColor='black'
+                        // underlineColor='#000'
+                        // underlineColorAndroid={"#000"}
                         style={{backgroundColor: "#fff"}}
 
 

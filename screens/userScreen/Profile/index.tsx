@@ -66,7 +66,7 @@ const DoctorProfile = () => {
 
                 <Avatar.Image size={40}
                     source={{ uri: avatar}} />
-                <Text variant='titleMedium' style={{flex: 0.8}}>{`${firstName} ${lastName}  `}</Text>
+                <Text variant='titleMedium' style={{flex: 0.8, fontFamily: 'avenir',}}>{`${firstName} ${lastName}  `}</Text>
                
             </View>
 

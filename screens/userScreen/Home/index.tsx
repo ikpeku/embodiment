@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { View, FlatList, StyleSheet, Image } from 'react-native';
 import { ActivityIndicator, Card, MD2Colors, Text, TextInput } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import DATA from "../../../dummy/data.json"
 import { useNavigation } from '@react-navigation/native';
 
 import { EvilIcons } from '@expo/vector-icons';
@@ -25,12 +24,10 @@ const UserHome = () => {
 
     const queryClient = new QueryClient()
     const [searchQuery, setSearchQuery] = useState('');
-    // const [data, setData] = useState(DATA)
-
-    // const router = useRouter()
+    
     const navigation = useNavigation< UserHealthDetailScreenProps>()
 
-    const {data, isLoading, isSuccess} = useGetAllDisease()
+    const {data = [], isLoading, isSuccess} = useGetAllDisease()
 
 
     if(isSuccess) {
@@ -38,20 +35,22 @@ const UserHome = () => {
      queryClient.invalidateQueries({ queryKey: ['getDoctorVerifyDoctors'] })
     }
 
-    // useEffect(() => {
 
-    //     // if (!searchQuery) {
-    //     //     setData(DATA)
-    //     // } else {
-    //     //     setData(DATA.filter(item => item.title.includes(searchQuery)))
-    //     // }
 
-    // }, [searchQuery])
+    const filterItem = data?.data?.filter((item: IrenderItem["item"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+
+    })
 
 
 
     const renderItem = ({ item }:IrenderItem) => (
-        // router.push(`./Home/${item.id}`)
+        
         <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", {id: item._id})}>
             <Card.Content style={{ gap: 10 }} >
                 <Text variant='bodyMedium' style={{ backgroundColor: "#E5F6FD", paddingHorizontal: 3, borderRadius: 50, width: 100 }} >{item.category}</Text>
@@ -72,17 +71,17 @@ const UserHome = () => {
                 <TextInput
                     placeholder="Search for illness"
                     outlineStyle={{ borderColor: "gainsboro", borderWidth: StyleSheet.hairlineWidth }}
-                    contentStyle={{ paddingHorizontal: 10 }}
+                    contentStyle={{ paddingHorizontal: 10}}
 
                     onChangeText={(event) => setSearchQuery(event)}
-                    value={searchQuery} mode='outlined' style={{ height: 35, flexGrow: 1, }}
+                    value={searchQuery} mode='outlined' style={{ flexGrow: 1, backgroundColor: "white" }}
                     right={<TextInput.Icon icon={(properties) => <EvilIcons name="search" {...properties} />
                 }/>}
                 />
             </View>
 
             <FlatList
-                data={data?.data}
+                data={filterItem}
                 renderItem={renderItem}
                 numColumns={2}
                 showsVerticalScrollIndicator={false}

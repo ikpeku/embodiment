@@ -11,13 +11,13 @@ import { UserState } from "../../redux/features/useSlice";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
 
-type IdiseaseId = { diseaseId:string}
-const MALARIA = ({diseaseId}:IdiseaseId) => {
+type IdiseaseId = { diseaseId: string }
+const MALARIA = ({ diseaseId }: IdiseaseId) => {
 
-    
+
     const { currentOffering } = useRevenueCat()
 
-    const {user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -41,73 +41,74 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
     const result: {
         question: string,
         answer: string | number
-    }[] =  [
-        {
-            question: "Do you have a high fever?",
-            answer: question1
-        },
-        {
-            question: "Have you taken any preventive measures against malaria, such as using insecticide-treated bed nets or taking antimalarial medication?",
-            answer: question2
-        },
-        {
-            question: " Do you experience recurrent episodes of fever?",
-            answer: question3
-        },
-        {
-            question: `Are you experiencing any of the following symptoms?
+    }[] = [
+            {
+                question: "Do you have a high fever?",
+                answer: question1
+            },
+            {
+                question: "Have you taken any preventive measures against malaria, such as using insecticide-treated bed nets or taking antimalarial medication?",
+                answer: question2
+            },
+            {
+                question: " Do you experience recurrent episodes of fever?",
+                answer: question3
+            },
+            {
+                question: `Are you experiencing any of the following symptoms?
             Chills and sweating?`,
-            answer: question4
-        },
-        {
-            question: "Headache and body aches?",
-            answer: question5
-        },
-        {
-            question: "Fatigue and weakness?",
-            answer: question6
-        },
-        {
-            question: "Nausea, vomiting, or diarrhea?",
-            answer: question7
-        },
-        {
-            question: "When last did you take malaria medication",
-            answer: question8
-        },
-    ]
-    
+                answer: question4
+            },
+            {
+                question: "Headache and body aches?",
+                answer: question5
+            },
+            {
+                question: "Fatigue and weakness?",
+                answer: question6
+            },
+            {
+                question: "Nausea, vomiting, or diarrhea?",
+                answer: question7
+            },
+            {
+                question: "When last did you take malaria medication",
+                answer: question8
+            },
+        ]
 
 
 
 
 
 
-    const handleSubmit = async() => {
+
+    const handleSubmit = async () => {
         setIsLoading(true)
         try {
             const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
             if (Malaria) {
                 const purchaseInfo = await Purchases.purchasePackage(Malaria)
                 if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-            Alert.alert("Done", response?.data?.message, [
-                {
-                  text: 'Cancel',
-                  onPress: () => navigation.goBack(),
-                  style: 'cancel',
-                },
-                {text: 'OK', onPress: () =>navigation.popToTop()},
-              ])
-            }}
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+                }
+            }
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
             Alert.alert("Error", "please retry sending")
         }
         setIsLoading(false)
-        
+
     }
 
     return (
@@ -122,13 +123,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Do you have a high fever?
+                            Do you have a high fever?
                         </Text>
                     </View>
 
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -136,6 +138,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -149,14 +152,15 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Have you taken any preventive measures against malaria, such as using insecticide-treated bed nets or taking antimalarial medication?
+                            Have you taken any preventive measures against malaria, such as using insecticide-treated bed nets or taking antimalarial medication?
                         </Text>
                     </View>
-            
+
 
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -164,6 +168,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -175,13 +180,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Do you experience recurrent episodes of fever?
+                            Do you experience recurrent episodes of fever?
                         </Text>
                     </View>
 
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -189,6 +195,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -200,16 +207,17 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Are you experiencing any of the following symptoms?
+                            Are you experiencing any of the following symptoms?
                         </Text>
                     </View>
                     <Text variant='titleMedium' style={{ textAlign: "left" }}>
-                    Chills and sweating?
-                        </Text>
+                        Chills and sweating?
+                    </Text>
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -217,6 +225,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -228,13 +237,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Headache and body aches?
+                            Headache and body aches?
                         </Text>
                     </View>
-                   
+
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -242,6 +252,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -252,13 +263,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Fatigue and weakness?
+                            Fatigue and weakness?
                         </Text>
                     </View>
-                   
+
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -266,6 +278,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -278,13 +291,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Nausea, vomiting, or diarrhea?
+                            Nausea, vomiting, or diarrhea?
                         </Text>
                     </View>
-                   
+
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -292,6 +306,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -303,13 +318,14 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        When last did you take malaria medication
+                            When last did you take malaria medication
                         </Text>
                     </View>
-                   
+
                     <Pressable onPress={() => setQuestion8("Can’t remember")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Can’t remember</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "Can’t remember" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -317,6 +333,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion8("Less than 3 days")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Less than 3 days</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "Less than 3 days" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -324,6 +341,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion8("More than 7 days")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than 7 days</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "More than 7 days" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -331,6 +349,7 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion8("More than a month ago")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than a month ago</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "More than a month ago" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -340,10 +359,10 @@ const MALARIA = ({diseaseId}:IdiseaseId) => {
                 </View>}
 
                 {isLoading && (
-                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                </View>
-            )}
+                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                    </View>
+                )}
 
             </KeyboardAvoidingView>
         </ScrollView>

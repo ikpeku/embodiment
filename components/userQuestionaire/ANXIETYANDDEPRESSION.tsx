@@ -10,14 +10,14 @@ import { SubmitQuetionnaire } from "../../services";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
 
-type IdiseaseId = { diseaseId:string}
+type IdiseaseId = { diseaseId: string }
 
-const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
+const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
     const { currentOffering } = useRevenueCat()
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
-    const {user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +25,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
     const [progress, setProgress] = useState(0.1)
 
     const [question1, setQuestion1] = useState<"Schizophrenia" | "Personalitity disorder( obessive compulsive disorder)" | "Mood disorder" | "Substance Abuse" | "No">("No")
-    
+
     const [question2, setQuestion2] = useState<"Yes" | "No">("Yes")
     const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
     const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
@@ -46,109 +46,110 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
     const [question17, setQuestion17] = useState("")
     const [question18, setQuestion18] = useState<"Yes" | "No">("Yes")
 
-    
+
 
 
     const result: {
         question: string,
         answer: string | number
-    }[] =  [
-        {
-            question: "Have you ever been diagnosed with any of the following by a haelath professional?",
-            answer: question1
-        },
-        {
-            question: "Do you feel excessively worried or anxious about different aspects of your life, such as work, relationships, or health?",
-            answer: question2
-        },
-        {
-            question: "Do you have any issues falling asleep, staying asleep or sleeping too much?",
-            answer: question3
-        },
-        {
-            question: "Do you always feel tired or little energy?",
-            answer: question4
-        },
-        {
-            question: "Do you feel bad about yourself, that  you are not good enough and ;let yourself or or loved ones down?",
-            answer: question5
-        },
-        {
-            question: "Do you find it difficult concentrating on things such as completing a chore, reading newspaper or watching television?",
-            answer: question6
-        },
-        {
-            question: "Do you experience physical symptoms such as trembling, sweating, or a racing heartbeat when you feel anxious or worried?",
-            answer: question7
-        },
-        {
-            question: "Do you ever have thoughts about hurting yourself or that you will be better of dead?",
-            answer: question8
-        },
-        {
-            question: "If you have suicidal thoughts it is very important you call the lagos state emergency line on 112 or seek in-person care as soon as possible?",
-            answer: question9
-        },
-        {
-            question: "Do you often worry too much about different things?",
-            answer: question10
-        },
-        {
-            question: "Do you often fee you are not able to control or stop worrying?",
-            answer: question11
-        },
-        {
-            question: "Have you ever been treated of anxiety and depression?",
-            answer: question12
-        },
-        {
-            question: "How long have you been on treatment?",
-            answer: question13
-        },
-        {
-            question: "Is there any even related to your anxiety of depression?",
-            answer: question14 === "Other" ? question14a : question14
-        },
-        {
-            question: "Do you have any other medical diagnosis currently?",
-            answer: question15 === "Others" ? question15a : question15
-        },
-        {
-            question: "Are you currently on any prescription medication for anxiety and depression?",
-            answer: question16
-        },
-        {
-            question: "Please tell us the name of the medication, if ts working for you and if you will like t continue with it?",
-            answer: question17
-        },
-        {
-            question: "Do you have any drug allergies?",
-            answer: question18
-        }
-    ]
+    }[] = [
+            {
+                question: "Have you ever been diagnosed with any of the following by a haelath professional?",
+                answer: question1
+            },
+            {
+                question: "Do you feel excessively worried or anxious about different aspects of your life, such as work, relationships, or health?",
+                answer: question2
+            },
+            {
+                question: "Do you have any issues falling asleep, staying asleep or sleeping too much?",
+                answer: question3
+            },
+            {
+                question: "Do you always feel tired or little energy?",
+                answer: question4
+            },
+            {
+                question: "Do you feel bad about yourself, that  you are not good enough and ;let yourself or or loved ones down?",
+                answer: question5
+            },
+            {
+                question: "Do you find it difficult concentrating on things such as completing a chore, reading newspaper or watching television?",
+                answer: question6
+            },
+            {
+                question: "Do you experience physical symptoms such as trembling, sweating, or a racing heartbeat when you feel anxious or worried?",
+                answer: question7
+            },
+            {
+                question: "Do you ever have thoughts about hurting yourself or that you will be better of dead?",
+                answer: question8
+            },
+            {
+                question: "If you have suicidal thoughts it is very important you call the lagos state emergency line on 112 or seek in-person care as soon as possible?",
+                answer: question9
+            },
+            {
+                question: "Do you often worry too much about different things?",
+                answer: question10
+            },
+            {
+                question: "Do you often fee you are not able to control or stop worrying?",
+                answer: question11
+            },
+            {
+                question: "Have you ever been treated of anxiety and depression?",
+                answer: question12
+            },
+            {
+                question: "How long have you been on treatment?",
+                answer: question13
+            },
+            {
+                question: "Is there any even related to your anxiety of depression?",
+                answer: question14 === "Other" ? question14a : question14
+            },
+            {
+                question: "Do you have any other medical diagnosis currently?",
+                answer: question15 === "Others" ? question15a : question15
+            },
+            {
+                question: "Are you currently on any prescription medication for anxiety and depression?",
+                answer: question16
+            },
+            {
+                question: "Please tell us the name of the medication, if ts working for you and if you will like t continue with it?",
+                answer: question17
+            },
+            {
+                question: "Do you have any drug allergies?",
+                answer: question18
+            }
+        ]
 
 
-    const handleStepOne = async() => {
+    const handleStepOne = async () => {
 
         if (question1 === "Schizophrenia" || question1 === "Personalitity disorder( obessive compulsive disorder)" || question1 === "Mood disorder" || question1 === "Substance Abuse") {
-           
+
             setIsLoading(true)
             try {
                 const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
                 if (Anxiety_treatment) {
                     const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
                     if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,1)})
-    
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                      text: 'Cancel',
-                      onPress: () => navigation.goBack(),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () =>navigation.popToTop()},
-                  ])
-                }}
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+                    }
+                }
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
@@ -156,9 +157,9 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
             }
             // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
-           
-           
-           
+
+
+
             // navigation.navigate("ConfirmAppointment")
         } else {
             setProgress((current) => current + 0.1)
@@ -167,7 +168,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
 
     }
 
-    const handleStepNine = async() => {
+    const handleStepNine = async () => {
 
         if (question9 === "Stop questions") {
             setIsLoading(true)
@@ -177,19 +178,20 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                 if (Anxiety_treatment) {
                     const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
                     if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result.slice(0,9)})
-    
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                      text: 'Cancel',
-                      onPress: () => navigation.goBack(),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () =>navigation.popToTop()},
-                  ])
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
 
-                }}
-    
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+
+                    }
+                }
+
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
@@ -215,32 +217,33 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
     }
 
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         setIsLoading(true)
-            try {
+        try {
 
-                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-                if (Anxiety_treatment) {
-                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                const response = await SubmitQuetionnaire({diseaseId, userId: user._id, questionsAndAnswers: result})
-    
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                      text: 'Cancel',
-                      onPress: () => navigation.goBack(),
-                      style: 'cancel',
-                    },
-                    {text: 'OK', onPress: () =>navigation.popToTop()},
-                  ])
-                }}
-                // navigation.navigate("ConfirmAppointment")
-            } catch (error) {
-                // console.log(error)
-                Alert.alert("Error", "please retry sending")
+            const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+            if (Anxiety_treatment) {
+                const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+                if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+                }
             }
             // navigation.navigate("ConfirmAppointment")
-            setIsLoading(false)
+        } catch (error) {
+            // console.log(error)
+            Alert.alert("Error", "please retry sending")
+        }
+        // navigation.navigate("ConfirmAppointment")
+        setIsLoading(false)
         // navigation.navigate("ConfirmAppointment")
     }
 
@@ -264,6 +267,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("Schizophrenia")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Schizophrenia</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Schizophrenia" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -271,6 +275,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("Personalitity disorder( obessive compulsive disorder)")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Personalitity disorder( obessive compulsive disorder)</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Personalitity disorder( obessive compulsive disorder)" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -278,6 +283,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("Mood disorder")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Mood disorder</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Mood disorder" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -285,6 +291,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("Mood disorder")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Substance Abuse</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "Substance Abuse" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -293,6 +300,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -315,6 +323,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -322,6 +331,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -342,6 +352,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -349,6 +360,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -369,6 +381,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -376,6 +389,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -396,6 +410,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -403,6 +418,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -422,6 +438,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -429,6 +446,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -448,6 +466,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -455,6 +474,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -474,6 +494,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion8("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -481,6 +502,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion8("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question8 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -500,6 +522,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion9("I am safe let’s continue")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am safe let’s continue</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question9 === "I am safe let’s continue" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -507,6 +530,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion9("Stop questions")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Stop questions</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question9 === "Stop questions" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -527,6 +551,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion10("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question10 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -534,6 +559,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion10("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question10 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -553,6 +579,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion11("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question11 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -560,6 +587,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion11("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question11 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -580,6 +608,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion12("Yes in the past")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes in the past</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question12 === "Yes in the past" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -587,6 +616,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion12("Yes currently")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes currently</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question12 === "Yes currently" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -595,6 +625,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion12("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question12 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -615,6 +646,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion13("3 months to 6 months")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">3 months to 6 months</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question13 === "3 months to 6 months" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -622,6 +654,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion13("Less than 3 months")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Less than 3 months</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question13 === "Less than 3 months" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -629,6 +662,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion13("More than 6 months")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than 6 months</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question13 === "More than 6 months" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -648,6 +682,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("Birth of a child")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Birth of a child</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "Birth of a child" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -655,6 +690,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("Loss of loved one")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Loss of loved one</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "Loss of loved one" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -662,6 +698,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("Relationship issues")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Relationship issues</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "Relationship issues" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -669,6 +706,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("financial issues")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">financial issues</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "financial issues" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -676,6 +714,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("Other")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Other</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "Other" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -690,6 +729,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion14("None")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question14 === "None" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -711,6 +751,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("Auto-immune disease")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Auto-immune disease</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "Auto-immune disease" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -718,6 +759,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("Diabetes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Diabetes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "Diabetes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -725,6 +767,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("Heart problem")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Heart problem</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "Heart problem" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -732,6 +775,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("High blood pressure")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">High blood pressure</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "High blood pressure" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -739,6 +783,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("Others")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Others</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "Others" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -751,6 +796,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion15("None")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question15 === "None" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -772,6 +818,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion16("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question16 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -779,6 +826,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion16("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question16 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -813,6 +861,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion18("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question18 === "Yes" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -820,6 +869,7 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
                     <Pressable onPress={() => setQuestion18("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
                         <Checkbox
+                            color="#0665CB"
                             status={question18 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
@@ -830,10 +880,10 @@ const ANXIETYANDDEPRESSION = ({diseaseId}:IdiseaseId) => {
 
 
                 {isLoading && (
-                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                </View>
-            )}
+                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                    </View>
+                )}
 
             </KeyboardAvoidingView>
         </ScrollView>

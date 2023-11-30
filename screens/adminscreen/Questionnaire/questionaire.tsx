@@ -116,7 +116,8 @@ const Item = ({ item, }: IItem) => {
                 onPress={() => {}}
                     type='Start'
                     text={user.firstName}
-                    photoUrl={user.avatar} />
+                    photoUrl={user.avatar}
+                     />
                
             </View>
 
@@ -148,8 +149,6 @@ const Item = ({ item, }: IItem) => {
 
             {completed && 
           <View style={{width: "100%"}}>
-
-           
          <FlatList
                 data={completedQuestionnaire.slice().reverse()}
                 keyExtractor={item => item._id}
@@ -172,7 +171,6 @@ const Item = ({ item, }: IItem) => {
                 contentContainerStyle={{ rowGap: 10 }}
             />
           </View>}
-
 
 
           {isLoading && (
