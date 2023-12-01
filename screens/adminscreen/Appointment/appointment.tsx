@@ -72,8 +72,8 @@ export default function Appointments() {
 }
 
 
-            {completed && <CompletedAdminAppointment />}
-           {!completed && <UnCompletedAdminAppointment />
+            {completed && <CompletedAdminAppointment searchQuery={searchQuery} />}
+           {!completed && <UnCompletedAdminAppointment searchQuery={searchQuery} />
 }
         </SafeAreaView>
     )

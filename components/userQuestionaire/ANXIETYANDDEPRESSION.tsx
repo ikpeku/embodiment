@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
 import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps } from "../../types";
+import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
 import { UserState } from "../../redux/features/useSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { SubmitQuetionnaire } from "../../services";
@@ -17,6 +17,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
     const { currentOffering } = useRevenueCat()
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
+    const navigate = useNavigation<UserConsultationScreenProp>()
     const { user } = useAppSelector(UserState)
 
 
@@ -24,27 +25,27 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
     const [progress, setProgress] = useState(0.1)
 
-    const [question1, setQuestion1] = useState<"Schizophrenia" | "Personalitity disorder( obessive compulsive disorder)" | "Mood disorder" | "Substance Abuse" | "No">("No")
+    const [question1, setQuestion1] = useState<"Schizophrenia" | "Personalitity disorder( obessive compulsive disorder)" | "Mood disorder" | "Substance Abuse" | "No" | string>("")
 
-    const [question2, setQuestion2] = useState<"Yes" | "No">("Yes")
-    const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
-    const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
-    const [question5, setQuestion5] = useState<"Yes" | "No">("Yes")
-    const [question6, setQuestion6] = useState<"Yes" | "No">("Yes")
-    const [question7, setQuestion7] = useState<"Yes" | "No">("Yes")
-    const [question8, setQuestion8] = useState<"Yes" | "No">("Yes")
-    const [question9, setQuestion9] = useState<"I am safe let’s continue" | "Stop questions">("I am safe let’s continue")
-    const [question10, setQuestion10] = useState<"Yes" | "No">("Yes")
-    const [question11, setQuestion11] = useState<"Yes" | "No">("Yes")
-    const [question12, setQuestion12] = useState<"Yes in the past" | "Yes currently" | "No">("No")
-    const [question13, setQuestion13] = useState<"Less than 3 months" | "3 months to 6 months" | "More than 6 months">("Less than 3 months")
-    const [question14, setQuestion14] = useState<"Birth of a child" | "Loss of loved one" | "Relationship issues" | "financial issues" | "Other" | "None">("Birth of a child")
+    const [question2, setQuestion2] = useState<"Yes" | "No" | string>("")
+    const [question3, setQuestion3] = useState<"Yes" | "No" | string>("")
+    const [question4, setQuestion4] = useState<"Yes" | "No" | string>("")
+    const [question5, setQuestion5] = useState<"Yes" | "No" | string>("")
+    const [question6, setQuestion6] = useState<"Yes" | "No" | string>("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
+    const [question8, setQuestion8] = useState<"Yes" | "No" | string>("")
+    const [question9, setQuestion9] = useState<"I am safe let’s continue" | "Stop questions" | string>("")
+    const [question10, setQuestion10] = useState<"Yes" | "No" | string>("")
+    const [question11, setQuestion11] = useState<"Yes" | "No" | string>("")
+    const [question12, setQuestion12] = useState<"Yes in the past" | "Yes currently" | "No" | string>("")
+    const [question13, setQuestion13] = useState<"Less than 3 months" | "3 months to 6 months" | "More than 6 months" | string>("")
+    const [question14, setQuestion14] = useState<"Birth of a child" | "Loss of loved one" | "Relationship issues" | "financial issues" | "Other" | "None" | string>("")
     const [question14a, setQuestion14a] = useState("")
-    const [question15, setQuestion15] = useState<"Diabetes" | "High blood pressure" | "Heart problem" | "Seizures" | "Auto-immune disease" | "Others" | "None">("Diabetes")
+    const [question15, setQuestion15] = useState<"Diabetes" | "High blood pressure" | "Heart problem" | "Seizures" | "Auto-immune disease" | "Others" | "None" | string>("")
     const [question15a, setQuestion15a] = useState("")
-    const [question16, setQuestion16] = useState<"Yes" | "No">("Yes")
+    const [question16, setQuestion16] = useState<"Yes" | "No" | string>("")
     const [question17, setQuestion17] = useState("")
-    const [question18, setQuestion18] = useState<"Yes" | "No">("Yes")
+    const [question18, setQuestion18] = useState<"Yes" | "No" | string>("")
 
 
 
@@ -54,7 +55,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
         answer: string | number
     }[] = [
             {
-                question: "Have you ever been diagnosed with any of the following by a haelath professional?",
+                question: "Have you ever been diagnosed with any of the following by a Health professional?",
                 answer: question1
             },
             {
@@ -94,7 +95,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                 answer: question10
             },
             {
-                question: "Do you often fee you are not able to control or stop worrying?",
+                question: "Do you often feel you are not able to control or stop worrying?",
                 answer: question11
             },
             {
@@ -118,7 +119,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                 answer: question16
             },
             {
-                question: "Please tell us the name of the medication, if ts working for you and if you will like t continue with it?",
+                question: "Please tell us the name of the medication, if it's working for you and if you will like to continue with it?",
                 answer: question17
             },
             {
@@ -153,7 +154,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
             // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
@@ -195,7 +196,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
             // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
@@ -216,32 +217,43 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
     }
 
+    const handleStepSixteen = () => {
+        if (question16 === "No") {
+            setProgress((current) => current + 0.2)
+        } else {
+            setProgress((current) => current + 0.1)
+        }
+
+    }
+
 
     const handleSubmit = async () => {
         setIsLoading(true)
-        try {
+        navigate.navigate("Consultation")
 
-            const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-            if (Anxiety_treatment) {
-                const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        // try {
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
-            }
-            // navigation.navigate("ConfirmAppointment")
-        } catch (error) {
-            // console.log(error)
-            Alert.alert("Error", "please retry sending")
-        }
+        //     const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+        //     if (Anxiety_treatment) {
+        //         const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+        //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
+        //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+        //             Alert.alert("Done", response?.data?.message, [
+        //                 {
+        //                     text: 'Cancel',
+        //                     onPress: () => navigation.goBack(),
+        //                     style: 'cancel',
+        //                 },
+        //                 { text: 'OK', onPress: () => navigation.popToTop() },
+        //             ])
+        //         }
+        //     }
+        //     // navigation.navigate("ConfirmAppointment")
+        // } catch (error) {
+        //     // console.log(error)
+        //     // Alert.alert("Error", "please retry sending")
+        // }
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
         // navigation.navigate("ConfirmAppointment")
@@ -260,7 +272,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                            Have you ever been diagnosed with any of the following by a haelath professional?
+                            Have you ever been diagnosed with any of the following by a Health professional?
                         </Text>
                     </View>
 
@@ -306,7 +318,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={question1 === "No" ? "Next" : "Book Appointment"} onPress={handleStepOne} />
+                    {question1 && <CustomButton title={question1 === "No" ? "Next" : "Book Appointment"} onPress={handleStepOne} />}
 
                 </View>}
 
@@ -336,7 +348,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -365,7 +377,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -394,7 +406,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -423,7 +435,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -451,8 +463,8 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
-
+                   { question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 7 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -479,7 +491,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question7 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -507,7 +519,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question8 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -535,7 +547,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={question9 === "Stop questions" ? "Book Appointment" : "Next"} onPress={handleStepNine} />
+                   {question9 && <CustomButton title={question9 === "Stop questions" ? "Book Appointment" : "Next"} onPress={handleStepNine} />}
 
                 </View>}
 
@@ -564,7 +576,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question10 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -572,7 +584,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                            Do you often fee you are not able to control or stop worrying?
+                            Do you often feel you are not able to control or stop worrying?
                         </Text>
                     </View>
 
@@ -592,7 +604,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   { question11 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -631,7 +643,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={handleStepTwelve} />
+                    {question12 && <CustomButton title={"Next"} onPress={handleStepTwelve} />}
 
                 </View>}
 
@@ -667,7 +679,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question13 &&  <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -735,7 +747,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question14 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -802,7 +814,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   { question15 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -831,18 +843,18 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question16 && <CustomButton title={"Next"} onPress={handleStepSixteen} />}
 
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 17 && <View>
-                    <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>Please tell us the name of the medication, if ts working for you and if you will like t continue with it</Text>
+                    <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>Please tell us the name of the medication, if it's working for you and if you will like to continue with it</Text>
 
                     <TextInput placeholder="please specify" value={question17} onChangeText={(e) => setQuestion17(e)} multiline numberOfLines={6} mode="outlined" style={{ backgroundColor: "#fff", borderColor: "blue" }}>
                     </TextInput>
 
                     <View style={{ marginTop: 20 }}>
-                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                       {question17 &&  <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                     </View>
                 </View>
@@ -874,7 +886,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                    {question18 && <CustomButton title={"Book Appointment"} onPress={handleSubmit} />}
 
                 </View>}
 

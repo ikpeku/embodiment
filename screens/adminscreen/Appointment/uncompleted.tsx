@@ -34,13 +34,27 @@ const Empty = () => {
     )
 }
 
+interface IUnCompletedAdminAppointment {
+    searchQuery: string
+}
 
 
-export default function UnCompletedAdminAppointment() {
+export default function UnCompletedAdminAppointment({searchQuery}: IUnCompletedAdminAppointment) {
     const {user} = useAppSelector(UserState)
     const {data: appointment = []} = useGetAllAppointments(user._id)
 
     const navigation = useNavigation<DoctorviewuserScreenProps>()
+
+
+    const filterItemUnCompleted = appointment?.data?.bookedSchedules?.filter((item: IItem["data"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.patient.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.patient.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+    
+    })
 
 
 
@@ -70,7 +84,7 @@ export default function UnCompletedAdminAppointment() {
     return (
           <View style={{width: "100%", flex: 1}}>
           <FlatList
-                data={appointment?.data?.bookedSchedules}
+                data={filterItemUnCompleted}
                 renderItem={({ item }) => <Item  data={item} />}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}

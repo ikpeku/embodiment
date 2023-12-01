@@ -23,7 +23,9 @@ interface IItem {
 }
 
 
-
+interface ICompletedAdminAppointment {
+    searchQuery: string
+}
 
 
 const Empty = () => {
@@ -36,7 +38,7 @@ const Empty = () => {
 
 
 
-export default function CompletedAdminAppointment() {
+export default function CompletedAdminAppointment({searchQuery}:ICompletedAdminAppointment) {
 
     // const navigation = useNavigation<any>()
     const navigation = useNavigation<DoctorviewuserScreenProps>()
@@ -46,6 +48,18 @@ export default function CompletedAdminAppointment() {
     // console.log(appointment?.data?.completedSchedules[0].patient)
 
 
+    const filterItemCompleted = appointment?.data?.completedSchedules?.filter((item: IItem["data"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.patient.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.patient.lastName.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+    
+    })
+
+
+  
     const Item = ({data}:IItem) => {
 
 
@@ -72,7 +86,7 @@ export default function CompletedAdminAppointment() {
     return (
           <View style={{width: "100%", flex: 1}}>
           <FlatList
-                data={appointment?.data?.completedSchedules}
+                data={filterItemCompleted}
                 renderItem={({ item }) => <Item  data={item} />}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}

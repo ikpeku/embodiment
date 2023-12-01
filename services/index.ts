@@ -135,7 +135,6 @@ export const useGetSingleDisease = (id: string) => {
 }
 
 
-
 // Create Appointment
 
 interface IcreateAppointmentApi {

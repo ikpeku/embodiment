@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text } from "react-native-paper";
 import CustomButton from "../Button";
 import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps } from "../../types";
+import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
 import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
 import { SubmitQuetionnaire } from "../../services";
@@ -21,13 +21,13 @@ const COMMONCOLD = ({ diseaseId }: IdiseaseId) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
+    const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
 
-    const [question1, setQuestion1] = useState<"Yes" | "No">("Yes")
-    const [question2, setQuestion2] = useState<"Yes" | "No">("Yes")
-    const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
+    const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
+    const [question2, setQuestion2] = useState<"Yes" | "No" | string>("")
+    const [question3, setQuestion3] = useState<"Yes" | "No" | string>("")
 
 
 
@@ -93,7 +93,7 @@ Wheezing
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
             setIsLoading(false)
         } else {
@@ -106,27 +106,32 @@ Wheezing
     const handleSubmit = async () => {
 
         setIsLoading(true)
-        try {
-            const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-            if (Common_Cold) {
-                const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
+        if(question3 === "No"){
+            try {
+                const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+                if (Common_Cold) {
+                    const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+    
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+                    }
                 }
+                // navigation.navigate("ConfirmAppointment")
+            } catch (error) {
+                // console.log(error)
+                // Alert.alert("Error", "please retry sending")
             }
-            // navigation.navigate("ConfirmAppointment")
-        } catch (error) {
-            // console.log(error)
-            Alert.alert("Error", "please retry sending")
+
+        } else {
+navigate.navigate("Consultation")
         }
 
         setIsLoading(false)
@@ -186,7 +191,7 @@ Wheezing
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question1 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -230,7 +235,7 @@ Wheezing
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={handleStepTwo} />
+                    {question2 && <CustomButton title={"Next"} onPress={handleStepTwo} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -258,7 +263,7 @@ Wheezing
                         />
                     </Pressable>
 
-                    <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                    {question3 && <CustomButton title={ question3 === "Yes" ? "Book Appointment" : "Submit" } onPress={handleSubmit} />}
                 </View>}
 
 

@@ -24,16 +24,16 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
 
-    const [question1, setQuestion1] = useState<"Yes" | "No">("Yes")
-    const [question2, setQuestion2] = useState<"Yes occasionally" | "Yes more than half the time" | "Yes, everytime">("Yes more than half the time")
-    const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
+    const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
+    const [question2, setQuestion2] = useState<"Yes occasionally" | "Yes more than half the time" | "Yes, everytime" | string>("")
+    const [question3, setQuestion3] = useState<"Yes" | "No" | string>("")
     const [question4a, setQuestion4a] = useState(false)
     const [question4b, setQuestion4b] = useState(false)
-    const [question4c, setQuestion4c] = useState(true)
+    const [question4c, setQuestion4c] = useState(false)
 
-    const [question5, setQuestion5] = useState<"No, it starts hard but never remains hard" | "Yes but only rarely" | "Yes always">("Yes always")
-    const [question6, setQuestion6] = useState<"Rarely" | "Sometimes" | "Everytime">("Rarely")
-    const [question7, setQuestion7] = useState<"Yes" | "No">("No")
+    const [question5, setQuestion5] = useState<"No, it starts hard but never remains hard" | "Yes but only rarely" | "Yes always" | string>("")
+    const [question6, setQuestion6] = useState<"Rarely" | "Sometimes" | "Everytime" | string>("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
     const [question7a, setQuestion7a] = useState("")
 
 
@@ -104,7 +104,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
 
 
@@ -151,7 +151,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
-            Alert.alert("Error", "please retry sending")
+            // Alert.alert("Error", "please retry sending")
         }
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
@@ -215,7 +215,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={question1 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepOne} />
+                    {question1 && <CustomButton title={question1 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepOne} />}
 
                 </View>}
 
@@ -254,7 +254,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -285,7 +285,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                  { question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -325,7 +325,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={handleStepFour} />
+                   {(question4a || question4b || question4c) && <CustomButton title={"Next"} onPress={handleStepFour} />}
 
                 </View>}
 
@@ -363,7 +363,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -400,7 +400,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -433,7 +433,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />
+                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />}
 
                 </View>}
 

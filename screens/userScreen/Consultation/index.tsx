@@ -35,7 +35,7 @@ export default function Consultation() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 10 }}>
                 <Image source={require('../../../assets/logo.png')} style={{ width: 40, aspectRatio: 1 }} resizeMode='contain' />
                 <TextInput
-                    placeholder="Search for illness"
+                    placeholder="Search for doctors"
                     outlineStyle={{ borderColor: "gainsboro", borderWidth: StyleSheet.hairlineWidth }}
                     contentStyle={{ paddingHorizontal: 10 }}
 

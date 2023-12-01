@@ -23,39 +23,39 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
     const [progress, setProgress] = useState(0.1)
 
-    const [question1, setQuestion1] = useState<"Male" | "Female">("Male")
+    const [question1, setQuestion1] = useState<"Male" | "Female" | string>("")
     const [question2, setQuestion2] = useState<
         "I am pregnant"
         | "I am breastfeeding"
         | "I had a child in the last 6 weeks"
         | "I am planning on getting a child in the next year"
-        | "None">("I am pregnant")
+        | "None" | string>("")
 
 
-    const [question3, setQuestion3] = useState<"Oily" | "Dry" | "Combination(oil and dry)">("Oily")
-    const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
-    const [question5, setQuestion5] = useState<"Yes" | "No">("Yes")
-    const [question6, setQuestion6] = useState<"Over a month but less than a year" | "Less than a month" | "More than a year">("More than a year")
+    const [question3, setQuestion3] = useState<"Oily" | "Dry" | "Combination(oil and dry)" | string>("")
+    const [question4, setQuestion4] = useState<"Yes" | "No" | string>("")
+    const [question5, setQuestion5] = useState<"Yes" | "No" | string>("")
+    const [question6, setQuestion6] = useState<"Over a month but less than a year" | "Less than a month" | "More than a year" | string>("")
 
-    const [question7, setQuestion7] = useState<"On the face" | "Back or shoulders" | "Chest">("Back or shoulders")
-    const [question8, setQuestion8] = useState<"A few times a month" | "About once or twice a week" | "Mostly around the start of my period">("A few times a month")
-    const [question9, setQuestion9] = useState<"Yes" | "No">("Yes")
+    const [question7, setQuestion7] = useState<"On the face" | "Back or shoulders" | "Chest" | string>("")
+    const [question8, setQuestion8] = useState<"A few times a month" | "About once or twice a week" | "Mostly around the start of my period" | string>("")
+    const [question9, setQuestion9] = useState<"Yes" | "No" | string>("")
     const [question9a, setQuestion9a] = useState("")
 
 
-    const [question10, setQuestion10] = useState<"Cleanser" | "Sunscreen" | "Moistuirizer/lotion" | "Toner" | "Tea tree oil" | "Scrubs" | "Others">("Sunscreen")
+    const [question10, setQuestion10] = useState<"Cleanser" | "Sunscreen" | "Moistuirizer/lotion" | "Toner" | "Tea tree oil" | "Scrubs" | "Others" | string>("")
     const [question10a, setQuestion10a] = useState("")
 
     const [question11, setQuestion11] = useState<
         "Polycystic ovarian syndron PCOSS"
         | "Other endocrine diseases like cushings diseas, Addison disease"
         | "Liver disease" | "Kidney disease"
-        | "Auto-immune disease" | "Severe ezcema or psoriasis" | "Asthma or hay fever" | "diabetes" | "None">("Auto-immune disease")
+        | "Auto-immune disease" | "Severe ezcema or psoriasis" | "Asthma or hay fever" | "diabetes" | "None" | string>("")
 
-    const [question12, setQuestion12] = useState<"Yes" | "No">("No")
+    const [question12, setQuestion12] = useState<"Yes" | "No" | string>("")
     const [question12a, setQuestion12a] = useState("")
 
-    const [question13, setQuestion13] = useState<"Yes" | "No">("No")
+    const [question13, setQuestion13] = useState<"Yes" | "No" | string>("")
     const [question13a, setQuestion13a] = useState("")
 
 
@@ -164,7 +164,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
             // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
@@ -197,7 +197,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
-            Alert.alert("Error", "please retry sending")
+            // Alert.alert("Error", "please retry sending")
         }
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
@@ -237,7 +237,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={handleStepOne} />
+                    {question1 && <CustomButton title={"Next"} onPress={handleStepOne} />}
 
                 </View>}
 
@@ -291,7 +291,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={question2 === "I am pregnant" ? "Book Appointment" : "Next"} onPress={handleStepTwo} />
+                    {question2 && <CustomButton title={question2 === "I am pregnant" ? "Book Appointment" : "Next"} onPress={handleStepTwo} />}
 
                 </View>}
 
@@ -329,7 +329,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -363,7 +363,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -390,7 +390,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -425,7 +425,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -460,7 +460,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question7 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -495,7 +495,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question8 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -530,7 +530,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question9 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -602,7 +602,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     {question10 === "Others" && <TextInput placeholder="please specify" value={question10a} onChangeText={(e) => setQuestion10a(e)} multiline numberOfLines={6} mode="outlined" style={{ backgroundColor: "#fff", borderColor: "blue" }}>
                     </TextInput>}
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question10 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -685,7 +685,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question11 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -718,7 +718,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question12 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -751,7 +751,8 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {/* {question13 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />} */}
+                    {question13  && <CustomButton title={"Submit"} onPress={handleSubmit} />}
 
                 </View>}
 

@@ -107,6 +107,28 @@ const Item = ({ item, }: IItem) => {
 
     },[data?.questionnaires])
 
+
+    const filterItemCompleted = completedQuestionnaire.slice().reverse()?.filter((item: IItem["item"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.diseaseId.title.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+    
+    })
+
+
+    const filterItemUncompleted = unCompletedQuestionnaire.slice().reverse()?.filter((item: IItem["item"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) || item.diseaseId.title.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+    
+    })
+
  
     return (
         <SafeAreaView style={styles.container}>
@@ -150,7 +172,7 @@ const Item = ({ item, }: IItem) => {
             {completed && 
           <View style={{width: "100%"}}>
          <FlatList
-                data={completedQuestionnaire.slice().reverse()}
+                data={filterItemCompleted}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => <Item item={item} />}
                 ListEmptyComponent={<Empty />}
@@ -163,7 +185,7 @@ const Item = ({ item, }: IItem) => {
             {!completed && 
           <View style={{width: "100%"}}>
          <FlatList
-                data={unCompletedQuestionnaire.slice().reverse()}
+                data={filterItemUncompleted}
                 keyExtractor={item => item._id}
                 renderItem={({ item }) => <Item item={item} />}
                 ListEmptyComponent={<Empty />}

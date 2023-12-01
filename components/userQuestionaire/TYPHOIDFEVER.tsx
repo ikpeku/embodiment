@@ -36,16 +36,16 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
 
   const [progress, setProgress] = useState(0.1);
 
-  const [question1, setQuestion1] = useState<"Yes" | "No">("Yes");
-  const [question2, setQuestion2] = useState<"Yes" | "No">("Yes");
-  const [question3, setQuestion3] = useState<"Yes" | "No">("Yes");
-  const [question4, setQuestion4] = useState<"Yes" | "No">("Yes");
-  const [question5, setQuestion5] = useState<"Yes" | "No">("Yes");
-  const [question6, setQuestion6] = useState<"Yes" | "No">("Yes");
-  const [question7, setQuestion7] = useState<"Yes" | "No">("Yes");
-  const [question8, setQuestion8] = useState<"Yes" | "No">("Yes");
-  const [question9, setQuestion9] = useState<"Yes" | "No">("Yes");
-  const [question10, setQuestion10] = useState<"Yes" | "No">("Yes");
+  const [question1, setQuestion1] = useState<"Yes" | "No" | string>("");
+  const [question2, setQuestion2] = useState<"Yes" | "No" | string>("");
+  const [question3, setQuestion3] = useState<"Yes" | "No" | string>("");
+  const [question4, setQuestion4] = useState<"Yes" | "No" | string>("");
+  const [question5, setQuestion5] = useState<"Yes" | "No" | string>("");
+  const [question6, setQuestion6] = useState<"Yes" | "No" | string>("");
+  const [question7, setQuestion7] = useState<"Yes" | "No" | string>("");
+  const [question8, setQuestion8] = useState<"Yes" | "No" | string>("");
+  const [question9, setQuestion9] = useState<"Yes" | "No" | string>("");
+  const [question10, setQuestion10] = useState<"Yes" | "No" | string>("");
 
   const result: {
     question: string;
@@ -126,7 +126,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
       // navigation.navigate("ConfirmAppointment")
     } catch (error) {
       // console.log(error)
-      Alert.alert("Error", "please retry sending");
+      // Alert.alert("Error", "please retry sending");
     }
     setIsLoading(false);
   };
@@ -179,10 +179,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-            <CustomButton
+            {question1 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -222,10 +222,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-            <CustomButton
+           {question2 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -267,10 +267,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-            <CustomButton
+         { question3 &&  <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -308,10 +308,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question4 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+           {question4 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -349,10 +349,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question5 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+            {question5 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -390,10 +390,11 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question6 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+
+          { question6 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -432,10 +433,11 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question7 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+
+          { question7 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -474,10 +476,12 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question8 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+
+           { question8 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
+
           </View>
         )}
 
@@ -515,10 +519,10 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question9 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton
+           {question9 && <CustomButton
               title={"Next"}
               onPress={() => setProgress((current) => current + 0.1)}
-            />
+            />}
           </View>
         )}
 
@@ -559,7 +563,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question10 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            <CustomButton title={"Treatment Plan"} onPress={handleSubmit} />
+            {question10 && <CustomButton title={"Treatment Plan"} onPress={handleSubmit} />}
           </View>
         )}
 

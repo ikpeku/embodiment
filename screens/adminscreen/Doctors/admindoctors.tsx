@@ -57,7 +57,6 @@ export default function Admindoctor() {
     const { user } = useAppSelector(UserState)
     const [email, setEmail] = useState("")
 
-    // console.log(data)
 
 
     const Item = ({ item }: IItem) => {
@@ -115,7 +114,8 @@ export default function Admindoctor() {
             navigation.navigate("Admindoctorsuccess", { type: "invite" })
             // queryClient.invalidateQueries({ queryKey: ['reminders'] })
         },
-        onError: () => {
+        onError: (error) => {
+            // console.log("error: ",error.response.data)
             Alert.alert("Error", "adding doctor failed. try again")
         },
         onMutate: () => {
@@ -149,6 +149,17 @@ export default function Admindoctor() {
     // }
 
 
+    const filterItem = doctors?.slice().reverse()?.filter((item: IItem["item"]) => {
+        if(!searchQuery) {
+            return item
+        } 
+        else {
+            return item?.lastName.toLowerCase().includes(searchQuery.toLowerCase()) || item.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+        }
+    
+    })
+    
+    
 
 
 
@@ -156,6 +167,8 @@ export default function Admindoctor() {
         setDotors(data?.data)
 
     }, [data])
+
+
 
 
 
@@ -195,7 +208,7 @@ export default function Admindoctor() {
             <View style={{ width: "100%" , flex: 2}}>
 
                 <FlatList
-                    data={doctors?.slice().reverse()}
+                    data={filterItem}
                     renderItem={({ item }) => <Item item={item} />}
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<Empty />}

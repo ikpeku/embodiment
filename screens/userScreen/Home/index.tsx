@@ -36,7 +36,6 @@ const UserHome = () => {
     }
 
 
-
     const filterItem = data?.data?.filter((item: IrenderItem["item"]) => {
         if(!searchQuery) {
             return item
@@ -53,7 +52,11 @@ const UserHome = () => {
         
         <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", {id: item._id})}>
             <Card.Content style={{ gap: 10 }} >
-                <Text variant='bodyMedium' style={{ backgroundColor: "#E5F6FD", paddingHorizontal: 3, borderRadius: 50, width: 100 }} >{item.category}</Text>
+
+                <View style={{ backgroundColor: "#E5F6FD", padding: 5, borderRadius: 5 , width: "auto"}}>
+
+                <Text variant='bodyMedium'>{item.category}</Text>
+                </View>
                 {item.popular && <Text variant='bodyMedium' style={{ backgroundColor: "#7EA5CE", paddingHorizontal: 3, borderRadius: 50, width: 70 }}>Popular</Text>}
                 <Text variant='bodyMedium' style={{ backgroundColor: "#fff", paddingHorizontal: 3, borderRadius: 50, width: "100%" }}>{item.title}</Text>
 

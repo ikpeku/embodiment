@@ -60,6 +60,15 @@ setUsers(data?.data)
 },[data])
 
 
+const filterItem = users?.slice()?.reverse()?.filter((item: IItem["item"]) => {
+    if(!searchQuery) {
+        return item
+    } 
+    else {
+        return item?.lastName.toLowerCase().includes(searchQuery.toLowerCase()) || item.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+    }
+
+})
 
 
 
@@ -112,7 +121,7 @@ setUsers(data?.data)
 
             <View style={{ width: "100%", flex: 1}}>
             <FlatList
-                data={users?.slice()?.reverse()}
+                data={filterItem}
                 renderItem={({ item }) => <Item  item={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}

@@ -89,7 +89,7 @@ const UserHealthDetail = () => {
                         {
                             id === "6504f684d4c2c22773c99349" &&
                             <Treatmentsteps
-                                stepOneSubText='You will answer a few questions to assess the right treatment plan for you and enable our medical providers to evaluate your symptoms and thought process'
+                                stepOneSubText='You will answer a few questions to assess the right treatment plan for you and enable our medical providers to evaluate your symptoms.'
                                 stepTwoSubText='A member of our medical team will evaluate your responses and approve a personalized treatment plan for you'
                                 stepThreeSubText='We will pick up your medication at the pharmacy and deliver it to your doorstep, while our medical team follows up for ongoing care.'
                                 NB='N/B: UTI treatment is only available to biological females.'
@@ -126,7 +126,7 @@ const UserHealthDetail = () => {
                         {
                             id === "6504f87cd4c2c22773c99351" &&
                             <Treatmentsteps
-                                header='Get clinical proven treatment from our medical experts discreetly at the comfort of your home.'
+                                header='Get clinically  proven treatment from our medical experts discreetly at the comfort of your home.'
                                 stepOneSubText='You will answer a few questions to assess the right treatment plan for you and enable our medical providers to evaluate your symptoms'
                                 stepTwoSubText='A member of our medical team will evaluate your responses and approve a personalized treatment plan for you'
                                 stepThreeSubText='We will pick up your medication at the pharmacy and deliver it to your doorstep, while our medical team follows up for ongoing care.'
@@ -139,7 +139,7 @@ const UserHealthDetail = () => {
                         {
                             id === "65666a47be61c51e8ffdf87b" &&
                             <Treatmentsteps
-                                header='Are feeling feverish or experiencing symptoms that feels familiar but not certain what to treat!
+                                header='Are you feeling feverish or experiencing symptoms that feels familiar but not certain what to treat!
                             Get your malaria treatment within in short period.'
                                 stepOneSubText='You will answer a few questions to assess the right treatment plan for you and enable our medical providers to evaluate your symptoms'
                                 stepTwoSubText='A member of our medical team will evaluate your responses and approve a personalized treatment plan for you'

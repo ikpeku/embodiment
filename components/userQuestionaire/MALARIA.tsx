@@ -27,14 +27,14 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
 
     const [progress, setProgress] = useState(0.1)
 
-    const [question1, setQuestion1] = useState<"Yes" | "No">("Yes")
-    const [question2, setQuestion2] = useState<"Yes" | "No">("Yes")
-    const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
-    const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
-    const [question5, setQuestion5] = useState<"Yes" | "No">("Yes")
-    const [question6, setQuestion6] = useState<"Yes" | "No">("Yes")
-    const [question7, setQuestion7] = useState<"Yes" | "No">("Yes")
-    const [question8, setQuestion8] = useState<"Less than 3 days" | "More than 7 days" | "More than a month ago" | "Can’t remember">("Less than 3 days")
+    const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
+    const [question2, setQuestion2] = useState<"Yes" | "No" | string>("")
+    const [question3, setQuestion3] = useState<"Yes" | "No" | string>("")
+    const [question4, setQuestion4] = useState<"Yes" | "No" | string>("")
+    const [question5, setQuestion5] = useState<"Yes" | "No" | string>("")
+    const [question6, setQuestion6] = useState<"Yes" | "No" | string>("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
+    const [question8, setQuestion8] = useState<"Less than 3 days" | "More than 7 days" | "More than a month ago" | "Can’t remember" | string>("")
 
 
 
@@ -105,7 +105,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
-            Alert.alert("Error", "please retry sending")
+            // Alert.alert("Error", "please retry sending")
         }
         setIsLoading(false)
 
@@ -115,7 +115,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
-                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 10</Text>
+                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 8</Text>
 
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -143,7 +143,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question1 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -173,7 +173,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -200,7 +200,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 4 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -229,7 +229,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   { question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 
@@ -242,7 +242,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </View>
 
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box]}>
-                        <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
+                        <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
                             color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
@@ -256,7 +256,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -282,7 +282,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 
@@ -310,7 +310,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question7 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 
@@ -355,7 +355,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    <CustomButton title={"Treatment plan"} onPress={handleSubmit} />
+                    {question8 && <CustomButton title={"Treatment plan"} onPress={handleSubmit} />}
                 </View>}
 
                 {isLoading && (

@@ -24,13 +24,13 @@ const GASTRITIS = ({ diseaseId }: IdiseaseId) => {
 
     const [progress, setProgress] = useState(0.1)
 
-    const [question1, setQuestion1] = useState<"Yes" | "No">("Yes")
-    const [question2, setQuestion2] = useState<"Yes" | "No">("Yes")
-    const [question3, setQuestion3] = useState<"Yes" | "No">("Yes")
-    const [question4, setQuestion4] = useState<"Yes" | "No">("Yes")
-    const [question5, setQuestion5] = useState<"Yes" | "No">("Yes")
-    const [question6, setQuestion6] = useState<"Yes" | "No">("Yes")
-    const [question7, setQuestion7] = useState<"Yes" | "No">("Yes")
+    const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
+    const [question2, setQuestion2] = useState<"Yes" | "No" | string>("")
+    const [question3, setQuestion3] = useState<"Yes" | "No" | string>("")
+    const [question4, setQuestion4] = useState<"Yes" | "No" | string>("")
+    const [question5, setQuestion5] = useState<"Yes" | "No" | string>("")
+    const [question6, setQuestion6] = useState<"Yes" | "No" | string>("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
 
 
 
@@ -57,8 +57,7 @@ const GASTRITIS = ({ diseaseId }: IdiseaseId) => {
             },
             {
                 question: `
-        When do you experience these symptoms?
-        After eating or while hungry
+                Do you experience these symptoms after eating or while hungry
         `,
                 answer: question4
             },
@@ -114,7 +113,7 @@ Dark, tarry stools or bloody vomit
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {
                 // console.log(error)
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
             // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
@@ -149,7 +148,7 @@ Dark, tarry stools or bloody vomit
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {
             // console.log(error)
-            Alert.alert("Error", "please retry sending")
+            // Alert.alert("Error", "please retry sending")
         }
         // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
@@ -161,7 +160,7 @@ Dark, tarry stools or bloody vomit
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
-                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 18</Text>
+                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -191,7 +190,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question1 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -223,7 +222,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -264,7 +263,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepThree} />
+                    {question3 && <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepThree} />}
                 </View>}
 
 
@@ -274,12 +273,12 @@ Dark, tarry stools or bloody vomit
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                            When do you experience these symptoms?
+                        Do you experience these symptoms after eating or while hungry?
 
                         </Text>
-                        <Text variant='titleMedium' style={{ textAlign: "center", }}>
+                        {/* <Text variant='titleMedium' style={{ textAlign: "center", }}>
                             Burning or gnawing sensation
-                        </Text>
+                        </Text> */}
                     </View>
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
@@ -298,7 +297,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 
@@ -327,7 +326,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -370,7 +369,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 7 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -401,7 +400,7 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleSubmit} />}
                 </View>}
 
 

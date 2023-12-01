@@ -23,7 +23,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
 
-    const [question1, setQuestion1] = useState<"Yes" | "No">("Yes")
+    const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
 
     const [question2sub1, setQuestion2Sub1] = useState<boolean>(false)
     const [question2sub2, setQuestion2Sub2] = useState<boolean>(false)
@@ -32,11 +32,11 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
     const [question2sub5, setQuestion2Sub5] = useState<boolean>(false)
     const [question2sub6, setQuestion2Sub6] = useState<boolean>(false)
 
-    const [question3, setQuestion3] = useState<"Fewer than 15 times per month" | "0nce or twice a week" | "Not sure">("0nce or twice a week")
-    const [question4, setQuestion4] = useState<"Less than 1 year" | "1-5 years" | "More than 5 years">("More than 5 years")
-    const [question5, setQuestion5] = useState<"Yes" | "No">("No")
-    const [question6, setQuestion6] = useState<"Yes" | "No">("No")
-    const [question7, setQuestion7] = useState<"Yes" | "No">("No")
+    const [question3, setQuestion3] = useState<"Fewer than 15 times per month" | "0nce or twice a week" | "Not sure" | string>("")
+    const [question4, setQuestion4] = useState<"Less than 1 year" | "1-5 years" | "More than 5 years" | string>("")
+    const [question5, setQuestion5] = useState<"Yes" | "No" | string>("")
+    const [question6, setQuestion6] = useState<"Yes" | "No" | string>("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
 
 
     const result: {
@@ -57,7 +57,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                 answer: question3
             },
             {
-                question: "How long have been having these headaches?",
+                question: "How long have you been having these headaches?",
                 answer: question4
             },
             {
@@ -125,7 +125,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
             } catch (error) {
 
-                Alert.alert("Error", "please retry sending")
+                // Alert.alert("Error", "please retry sending")
             }
 
 
@@ -141,43 +141,44 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
     const handleStepSeven = async () => {
         setIsLoading(true)
-        if (question7) {
+        navigate.navigate("Consultation")
+        // if (question7) {
 
 
 
-            try {
+        //     try {
 
-                const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-                if (Migraine) {
-                    const purchaseInfo = await Purchases.purchasePackage(Migraine)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        //         const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+        //         if (Migraine) {
+        //             const purchaseInfo = await Purchases.purchasePackage(Migraine)
+        //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+        //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+        //                 Alert.alert("Done", response?.data?.message, [
+        //                     {
+        //                         text: 'Cancel',
+        //                         onPress: () => navigation.goBack(),
+        //                         style: 'cancel',
+        //                     },
+        //                     { text: 'OK', onPress: () => navigation.popToTop() },
+        //                 ])
 
-                    }
+        //             }
 
-                }
+        //         }
 
-            } catch (error) {
+        //     } catch (error) {
 
-                Alert.alert("Error", "please retry sending")
-            }
-
-
+        //         // Alert.alert("Error", "please retry sending")
+        //     }
 
 
-        } else {
-            navigate.navigate("Consultation")
 
-        }
+
+        // } else {
+        //     navigate.navigate("Consultation")
+
+        // }
 
         setIsLoading(false)
     }
@@ -189,7 +190,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
-                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 10</Text>
+                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -217,7 +218,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                   {question1 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -283,7 +284,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={question2sub6 ? "Submit" : "Next"} onPress={handleStepTwo} />
+                    {(question2sub1 || question2sub2 || question2sub3 || question2sub4 || question2sub5 || question2sub6) && <CustomButton title={question2sub6 ? "Submit" : "Next"} onPress={handleStepTwo} />}
 
                 </View>}
 
@@ -320,7 +321,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -328,7 +329,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                            How long have been having these headaches?
+                            How long have you been having these headaches?
                         </Text>
                     </View>
 
@@ -356,7 +357,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -384,7 +385,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -412,7 +413,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
 
                 </View>}
 
@@ -440,7 +441,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />
+                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />}
 
                 </View>}
 
