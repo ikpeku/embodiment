@@ -58,9 +58,9 @@ export default function Admindoctor() {
     const [email, setEmail] = useState("")
 
 
-    const handleRemoveDoctor = useMutation({
-        mutationFn: (id: {id: string}) => {
-          return axios.put(`${baseURL}/doctor/removedoctor/${id}`)
+      const handleRemoveDoctor = useMutation({
+        mutationFn: async (id: {id: string}) => {
+          return await axios.delete(`${baseURL}/user/delete/${id}`)
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['doctors'] })
@@ -68,7 +68,7 @@ export default function Admindoctor() {
             setShowmodal(v => !v)
             navigation.navigate("Admindoctorsuccess", {type: "remove"})
           },
-         onError: () => {
+         onError: (e) => {
             Alert.alert("Error",  "Can't delete doctor try again")
          }
       })
@@ -121,14 +121,6 @@ export default function Admindoctor() {
 
 
 
-
-    // const handleAddDoctor = () => {
-    //     setShowmodal(v => !v)
-    //     addDoctor({adminUserId: user.id, email})
-    //     navigation.navigate("Admindoctorsuccess", {type: "invite"})
-
-    // }
-
     interface IAddDoctor {
         email: string,
         adminUserId: string
@@ -179,7 +171,6 @@ export default function Admindoctor() {
             }
 
         } catch (e) {
-            // console.log("err: ",e.response.data)
             setShowmodal(false)
             Alert.alert("unsuccesful", "Failed to invite email. try again")
         }
