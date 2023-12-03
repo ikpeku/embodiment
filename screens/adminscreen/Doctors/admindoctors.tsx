@@ -58,18 +58,28 @@ export default function Admindoctor() {
     const [email, setEmail] = useState("")
 
 
+    const handleRedirect = (item:IItem["item"]) => {
+        if(!item?.firstName || !item?.lastName){
+            console.log(item._id)
+        } else {
+            navigation.navigate("AdminDoctorprofile", { id: item._id })
+           
+        }
+    }
+
+
 
     const Item = ({ item }: IItem) => {
+       
         return (
-            // Adminusers
-            <Pressable onPress={() => navigation.navigate("AdminDoctorprofile", { id: item._id })} style={{ borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro" }}>
-                {/* <Card.Content> */}
+            <Pressable onPress={() => handleRedirect(item)} style={{ borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro" }}>
+               
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                    <Text variant='titleMedium' style={[styles.title, { color: item?.firstName && item?.lastName ? "#000" : "red" }]}>{item?.firstName && item?.lastName ? `${item?.firstName} ${item?.lastName}` : "unregister doctor"}</Text>
-                    < TouchableOpacity onPress={() => navigation.navigate("AdminDoctorprofile", { id: item._id })}>
+                    <Text variant='titleMedium' style={[styles.title, { color: item?.firstName && item?.lastName ? "#000" : "red" }]}>{item?.firstName && item?.lastName ? `${item?.firstName} ${item?.lastName}` : "unclaimed email"}</Text>
+                    {/* < TouchableOpacity onPress={() => navigation.navigate("AdminDoctorprofile", { id: item._id })}> */}
                         <Text style={[styles.title,
-                        { color: "#0665CB" }]}>View</Text>
-                    </TouchableOpacity>
+                        { color: "#0665CB" }]}>{item?.firstName && item?.lastName ? "View" : "Delete"}</Text>
+                    {/* </TouchableOpacity> */}
                 </View>
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
@@ -104,49 +114,55 @@ export default function Admindoctor() {
 
     }
 
-    const handleAddDoctor = useMutation({
-        mutationFn: async (newPost: IAddDoctor) => {
-            return (await axios.post(`${baseURL}/doctor/signupdoctor`, newPost)).data
-        },
-        onSuccess: async () => {
-            setEmail("")
-            await queryClient.invalidateQueries({ queryKey: ['doctors'] })
-            navigation.navigate("Admindoctorsuccess", { type: "invite" })
-            // queryClient.invalidateQueries({ queryKey: ['reminders'] })
-        },
-        onError: (error) => {
-            // console.log("error: ",error.response.data)
-            Alert.alert("Error", "adding doctor failed. try again")
-        },
-        onMutate: () => {
-            setShowmodal(false)
-
-        }
-    })
-
-
-    // const addADoctor = async () => {
-
-    //     const newPost = {
-    //         email: email, adminUserId: user._id
-    //     }
-
-    //     try{
-    //         // return axios.post(`${baseUrl}/doctor/signupdoctor`, newPost).then((data) => data.data)
-    //         const response = await  fetch(`${baseUrl}/doctor/signupdoctor`, {
-    //             method: "POST",
-    //             body: JSON.stringify(newPost)
-    //         })
-    //         const data = await response.json()
+    // const handleAddDoctor = useMutation({
+    //     mutationFn: async (newPost: IAddDoctor) => {
+    //         return (await axios.post(`${baseURL}/doctor/signupdoctor`, newPost)).data
+    //     },
+    //     onSuccess: async () => {
     //         setEmail("")
     //         await queryClient.invalidateQueries({ queryKey: ['doctors'] })
+    //         navigation.navigate("Admindoctorsuccess", { type: "invite" })
+    //         // queryClient.invalidateQueries({ queryKey: ['reminders'] })
+    //     },
+    //     onError: (error) => {
+    //         console.log("error: ",error.response.data)
+    //         Alert.alert("Error", "adding doctor failed. try again")
+    //     },
+    //     onMutate: () => {
+    //         setShowmodal(false)
 
-    //         console.log(data)
-    //         console.log(newPost)
-    //     } catch (e) {
-    //         console.log(e)
     //     }
-    // }
+    // })
+
+
+    const addADoctor = async () => {
+
+        const newPost = {
+            email: email.trim(), adminUserId: user._id.trim()
+        }
+
+        try{
+            const res = await axios.post(`${baseURL}/doctor/signupdoctor`, newPost).then((data) => data.data)
+
+            // const response = await fetch(`${baseURL}/doctor/signupdoctor`, {
+            //     method: "POST",
+            //     body: JSON.stringify(newPost)
+            // })
+            // const data = await response.json()
+
+            if(res) {
+                await queryClient.invalidateQueries({ queryKey: ['doctors'] })
+                setEmail("")
+                setShowmodal(false)
+
+            }
+
+        } catch (e) {
+            // console.log("err: ",e.response.data)
+            setShowmodal(false)
+            Alert.alert("unsuccesful", "Failed to invite email. try again")
+        }
+    }
 
 
     const filterItem = doctors?.slice().reverse()?.filter((item: IItem["item"]) => {
@@ -167,8 +183,6 @@ export default function Admindoctor() {
         setDotors(data?.data)
 
     }, [data])
-
-
 
 
 
@@ -231,8 +245,8 @@ export default function Admindoctor() {
                         </View>
 
                         <View style={{ flexGrow: 1 }}>
-                            <CustomButton onPress={() => handleAddDoctor.mutate({ email: email, adminUserId: user._id })} title='Add' />
-                            {/*<CustomButton onPress={() => addADoctor()} title='Add' />*/}
+                            {/* <CustomButton onPress={() => handleAddDoctor.mutate({ email: email, adminUserId: user._id })} title='Add' /> */}
+                            <CustomButton onPress={addADoctor} title='Add' />
 
                         </View>
                     </View>
