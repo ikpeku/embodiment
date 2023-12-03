@@ -58,14 +58,35 @@ export default function Admindoctor() {
     const [email, setEmail] = useState("")
 
 
+    const handleRemoveDoctor = useMutation({
+        mutationFn: (id: {id: string}) => {
+          return axios.put(`${baseURL}/doctor/removedoctor/${id}`)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['doctors'] })
+            queryClient.invalidateQueries({ queryKey: ['users'] })
+            setShowmodal(v => !v)
+            navigation.navigate("Admindoctorsuccess", {type: "remove"})
+          },
+         onError: () => {
+            Alert.alert("Error",  "Can't delete doctor try again")
+         }
+      })
+
+
     const handleRedirect = (item:IItem["item"]) => {
         if(!item?.firstName || !item?.lastName){
-            console.log(item._id)
+            // console.log(item._id)
+             handleRemoveDoctor.mutate({id: item._id})
+
         } else {
             navigation.navigate("AdminDoctorprofile", { id: item._id })
            
         }
     }
+
+
+  
 
 
 
