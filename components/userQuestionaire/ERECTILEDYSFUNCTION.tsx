@@ -15,7 +15,7 @@ type IdiseaseId = { diseaseId: string }
 
 const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering , isProMember} = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
     const navigation = useNavigation<QuestionnaireScreenProps>()
@@ -84,7 +84,9 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
 
             try {
-                const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
+
+                if(!isProMember){
+                    const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
                 if (Erectile_Dyfunction) {
                     const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
                     if (purchaseInfo?.customerInfo?.entitlements?.active) {
@@ -100,6 +102,19 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         ])
 
                     }
+                }
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+
                 }
 
             } catch (error) {
@@ -129,6 +144,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
         setIsLoading(true)
         try {
 
+           if(!isProMember){
             const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
             if (Erectile_Dyfunction) {
                 const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
@@ -147,6 +163,18 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                 }
             }
+           } else {
+            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+           }
 
             // navigation.navigate("ConfirmAppointment")
         } catch (error) {

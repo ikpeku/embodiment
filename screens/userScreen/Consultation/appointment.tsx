@@ -155,7 +155,7 @@ const { user } = useAppSelector(UserState)
                                 <Text>Years exp.</Text>
                             </View>
                             <View style={{ alignItems: "center" }}>
-                                <Text variant='titleMedium'>30</Text>
+                                <Text variant='titleMedium'>{data?.data?.patientCount}</Text>
                                 <Text>Patients</Text>
                             </View>
                             <View style={{ alignItems: "center" }}>

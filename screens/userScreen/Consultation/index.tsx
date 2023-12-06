@@ -18,7 +18,7 @@ export default function Consultation() {
     const { data = [], isLoading } = useGetVerifyAllDoctors()
 
 
-    const filterItem = [...data].filter(item => {
+    const filterItem = data.filter((item: {lastName: string, firstName: string, specialty:string}) => {
 
         if (!searchQuery) {
             return item

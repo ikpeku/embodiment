@@ -23,7 +23,7 @@ interface IUTITREATMENT {
 
 
 const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering , isProMember} = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
 
@@ -150,6 +150,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
         } else {
 
 
+          if(isProMember) {
             try {
                 const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
                 if (urinary_tract_infection) {
@@ -175,6 +176,18 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                 // console.log(error)
                 // Alert.alert("Error", "please retry sending")
             }
+          } else {
+            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+
+            Alert.alert("Done", response?.data?.message, [
+                {
+                    text: 'Cancel',
+                    onPress: () => navigation.goBack(),
+                    style: 'cancel',
+                },
+                { text: 'OK', onPress: () => navigation.popToTop() },
+            ])
+          }
 
 
         }
@@ -208,6 +221,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
             try {
 
+               if(!isProMember) {
                 const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
                 if (urinary_tract_infection) {
                     const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
@@ -226,6 +240,18 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                     }
 
                 }
+               } else{
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
+
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                        text: 'Cancel',
+                        onPress: () => navigation.goBack(),
+                        style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => navigation.popToTop() },
+                ])
+               }
 
 
             } catch (error) {
@@ -295,6 +321,8 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
             try {
 
+
+            if(!isProMember) {
                 const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
                 if (urinary_tract_infection) {
                     const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
@@ -313,7 +341,23 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         ])
                     }
 
-                }   
+                } 
+            }  else {
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                        text: 'Cancel',
+                        onPress: () => navigation.goBack(),
+                        style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => navigation.popToTop() },
+                ])
+            }
+
+
+
 
                 // navigation.navigate("ConfirmAppointment")
             } catch (error) {

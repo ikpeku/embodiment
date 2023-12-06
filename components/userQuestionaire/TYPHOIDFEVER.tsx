@@ -25,7 +25,7 @@ import Purchases from "react-native-purchases";
 
 type IdiseaseId = { diseaseId: string };
 const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
-  const { currentOffering } = useRevenueCat();
+  const { currentOffering , isProMember} = useRevenueCat();
 
   const { user } = useAppSelector(UserState);
 
@@ -101,32 +101,50 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const Typhoid = currentOffering?.availablePackages.find(
-        (offer) => offer.identifier === "Typhoid"
-      );
-      if (Typhoid) {
-        const purchaseInfo = await Purchases.purchasePackage(Typhoid);
-        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-          const response = await SubmitQuetionnaire({
-            diseaseId,
-            userId: user._id,
-            questionsAndAnswers: result,
-          });
 
-          Alert.alert("Done", response?.data?.message, [
-            {
-              text: "Cancel",
-              onPress: () => navigation.goBack(),
-              style: "cancel",
-            },
-            { text: "OK", onPress: () => navigation.popToTop() },
-          ]);
+      if(!isProMember) {
+        const Typhoid = currentOffering?.availablePackages.find(
+          (offer) => offer.identifier === "Typhoid"
+        );
+        if (Typhoid) {
+          const purchaseInfo = await Purchases.purchasePackage(Typhoid);
+          if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            const response = await SubmitQuetionnaire({
+              diseaseId,
+              userId: user._id,
+              questionsAndAnswers: result,
+            });
+  
+            Alert.alert("Done", response?.data?.message, [
+              {
+                text: "Cancel",
+                onPress: () => navigation.goBack(),
+                style: "cancel",
+              },
+              { text: "OK", onPress: () => navigation.popToTop() },
+            ]);
+          }
         }
+
+      } else {
+        const response = await SubmitQuetionnaire({
+          diseaseId,
+          userId: user._id,
+          questionsAndAnswers: result,
+        });
+
+        Alert.alert("Done", response?.data?.message, [
+          {
+            text: "Cancel",
+            onPress: () => navigation.goBack(),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => navigation.popToTop() },
+        ]);
       }
-      // navigation.navigate("ConfirmAppointment")
+     
     } catch (error) {
-      // console.log(error)
-      // Alert.alert("Error", "please retry sending");
+     
     }
     setIsLoading(false);
   };

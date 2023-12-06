@@ -4,7 +4,7 @@ import { useDoctor, useGetCompletedIndividualAppointment } from "../services";
 import { useAppSelector } from "../redux/hooks";
 import { UserState } from "../redux/features/useSlice";
 import dayjs from 'dayjs'
-import { useGetDoctorAppointments } from "../services/doctorApi";
+// import { useGetDoctorAppointments } from "../services/doctorApi";
 import { useNavigation } from "@react-navigation/native";
 import { DoctorviewuserScreenProps } from "../types";
 
@@ -37,9 +37,10 @@ const CompletedAppointment = () => {
 
     const { user} = useAppSelector(UserState)
     const { data, isLoading } = useDoctor(user._id)
-    // const { data, isLoading } = useGetDoctorAppointments(user._id)
+  
 
     const Item = ({ data }: IItem) => {
+        // console.log(data)
 
         return (
             <Card mode='contained' style={styles.item} onPress={() =>  navigation.navigate("Doctorviewuser", { id: data.patientId, scheduleId: data._id, status: data.status})} >

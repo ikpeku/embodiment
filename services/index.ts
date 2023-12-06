@@ -126,7 +126,10 @@ export const useGetAllAppointments = (adminId: string) => {
 
 // GET All APPOINTMENTs completed and uncompleted
 export const useGetAllDisease = () => {
-    return useQuery({ queryKey: ['alldisease'], queryFn: () => endPoint(`disease/viewAll`) })
+    return useQuery({
+        queryKey: ['alldisease'], queryFn: () => endPoint(`disease/viewAll`),
+        cacheTime: 1000 * 60 * 60 * 24
+    })
 }
 
 // GET All APPOINTMENTs completed and uncompleted
@@ -220,7 +223,8 @@ interface ISubmitQuetionnaire {
 
 type MarkQuestionnaireAsComplete = {
     diseaseId: string
-    userId: string
+    userId: string,
+    prescription: string
 }
 type IMarkAppointmentAsComplete = {
     doctorId: string
@@ -245,8 +249,8 @@ export const MarkAppointmentAsComplete = ({ doctorId, scheduleId }: IMarkAppoint
     return axios.patch(`${baseURL}/appointment/completed/${doctorId}/${scheduleId}`)
 }
 
-export const MarkQuestionnaireAsComplete = ({ diseaseId, userId }: MarkQuestionnaireAsComplete) => {
-    return axios.patch(`${baseURL}/questionnaire/completed/${userId}/${diseaseId}`)
+export const MarkQuestionnaireAsComplete = ({ diseaseId, userId, prescription }: MarkQuestionnaireAsComplete) => {
+    return axios.patch(`${baseURL}/questionnaire/completed/${userId}/${diseaseId}`, { prescription })
 }
 // appointmentId,
 // /${appointmentId}

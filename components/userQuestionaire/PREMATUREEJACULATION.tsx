@@ -14,7 +14,7 @@ import useRevenueCat from "../../hooks/useRevenueCat";
 type IdiseaseId = { diseaseId: string }
 
 const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering, isProMember } = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
 
@@ -72,7 +72,9 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
             setIsLoading(true)
             try {
-                const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
+
+                if(!isProMember) {
+                    const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
                 if (Premature_ejaculation) {
                     const purchaseInfo = await Purchases.purchasePackage(Premature_ejaculation)
                     if (purchaseInfo?.customerInfo?.entitlements?.active) {
@@ -88,6 +90,18 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                         ])
 
                     }
+                }
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
                 }
 
             } catch (error) {

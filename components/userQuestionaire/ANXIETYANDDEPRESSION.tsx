@@ -14,7 +14,7 @@ type IdiseaseId = { diseaseId: string }
 
 const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering, isProMember } = useRevenueCat()
 
     const navigation = useNavigation<QuestionnaireScreenProps>()
     const navigate = useNavigation<UserConsultationScreenProp>()
@@ -135,33 +135,44 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
             setIsLoading(true)
             try {
-                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-                if (Anxiety_treatment) {
-                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
-
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                if(!isProMember) {
+                    const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+                    if (Anxiety_treatment) {
+                        const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+    
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
                     }
+
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+    
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
-                // navigation.navigate("ConfirmAppointment")
+          
             } catch (error) {
                 // console.log(error)
                 // Alert.alert("Error", "please retry sending")
             }
-            // navigation.navigate("ConfirmAppointment")
+         
             setIsLoading(false)
-
-
-
-            // navigation.navigate("ConfirmAppointment")
+         
         } else {
             setProgress((current) => current + 0.1)
 
@@ -175,6 +186,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
             setIsLoading(true)
             try {
 
+              if(!isProMember) {
                 const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
                 if (Anxiety_treatment) {
                     const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
@@ -193,15 +205,24 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     }
                 }
 
-                // navigation.navigate("ConfirmAppointment")
+              } else {
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
+
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+              }
+          
             } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+            
             }
-            // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
 
-            // navigation.navigate("ConfirmAppointment")
         } else {
             setProgress((current) => current + 0.1)
         }
@@ -230,33 +251,8 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
     const handleSubmit = async () => {
         setIsLoading(true)
         navigate.navigate("Consultation")
-
-        // try {
-
-        //     const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-        //     if (Anxiety_treatment) {
-        //         const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-        //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
-        //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-        //             Alert.alert("Done", response?.data?.message, [
-        //                 {
-        //                     text: 'Cancel',
-        //                     onPress: () => navigation.goBack(),
-        //                     style: 'cancel',
-        //                 },
-        //                 { text: 'OK', onPress: () => navigation.popToTop() },
-        //             ])
-        //         }
-        //     }
-        //     // navigation.navigate("ConfirmAppointment")
-        // } catch (error) {
-        //     // console.log(error)
-        //     // Alert.alert("Error", "please retry sending")
-        // }
-        // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
-        // navigation.navigate("ConfirmAppointment")
+      
     }
 
 

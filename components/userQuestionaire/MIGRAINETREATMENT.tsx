@@ -14,7 +14,7 @@ type IdiseaseId = { diseaseId: string }
 
 const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering , isProMember} = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
     const navigation = useNavigation<QuestionnaireScreenProps>()
@@ -102,34 +102,46 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
             try {
 
+                if(!isProMember) {
 
-                const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-                if (Migraine) {
-                    const purchaseInfo = await Purchases.purchasePackage(Migraine)
-
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                    const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+                    if (Migraine) {
+                        const purchaseInfo = await Purchases.purchasePackage(Migraine)
+    
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+    
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
+    
+    
                     }
-
-
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+    
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
+
+
 
             } catch (error) {
 
                 // Alert.alert("Error", "please retry sending")
             }
-
-
-
 
 
         } else {

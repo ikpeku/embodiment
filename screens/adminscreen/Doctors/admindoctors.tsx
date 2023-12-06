@@ -58,26 +58,19 @@ export default function Admindoctor() {
     const [email, setEmail] = useState("")
 
 
-      const handleRemoveDoctor = useMutation({
-        mutationFn: async (id: {id: string}) => {
-          return await axios.delete(`${baseURL}/user/delete/${id}`)
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['doctors'] })
-            queryClient.invalidateQueries({ queryKey: ['users'] })
-            setShowmodal(v => !v)
-            navigation.navigate("Admindoctorsuccess", {type: "remove"})
-          },
-         onError: (e) => {
-            Alert.alert("Error",  "Can't delete doctor try again")
-         }
-      })
-
-
-    const handleRedirect = (item:IItem["item"]) => {
+    const handleRedirect = async(item:IItem["item"]) => {
         if(!item?.firstName || !item?.lastName){
-            // console.log(item._id)
-             handleRemoveDoctor.mutate({id: item._id})
+        
+            try {
+               await axios.delete(`${baseURL}/user/delete/${item._id}`)
+               queryClient.invalidateQueries({ queryKey: ['doctors'] })
+            queryClient.invalidateQueries({ queryKey: ['users'] })
+            navigation.navigate("Admindoctorsuccess", {type: "remove"})
+                
+            } catch (error) {
+                Alert.alert("Error",  "Can't delete doctor try again")
+                
+            }
 
         } else {
             navigation.navigate("AdminDoctorprofile", { id: item._id })
@@ -151,7 +144,7 @@ export default function Admindoctor() {
     const addADoctor = async () => {
 
         const newPost = {
-            email: email.trim(), adminUserId: user._id.trim()
+            email: email?.trim(), adminUserId: user?._id?.trim()
         }
 
         try{

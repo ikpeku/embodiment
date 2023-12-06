@@ -31,16 +31,14 @@ const ConfirmUser = () => {
     const { handleSubmit, control } = useForm<IConfirmUser>();
 
     const onSubmit = async ({code}: IConfirmUser) => {
-        // console.log("code: ",code)
-
-
+        
         if (loading) return
         setLoading(true)
         const token = {userId: route.id.trim(), verificationCode: code.trim()}
 
         try {
            const res = await axios.post(`${baseURL}/auth/verifyotp`, token)
-        //    console.log("res: ",res.data)
+          
            const result = res.data
                  if (result.status === "success") {
                 const { user, token } = result
@@ -61,6 +59,8 @@ const ConfirmUser = () => {
                     // doctorId: user?.doctorId
                     avatar: user?.avatar ? user?.avatar  : "https://imageio.forbes.com/specials-images/imageserve/609946db7c398a0de6c94893/Mid-Adult-Female-Entrepreneur-With-Arms-Crossed-/960x0.jpg?format=jpg&width=960"
                 }
+
+               
                 // await Purchases.logIn(user?.email)
                 dispatch(loginUserMutation({ isLogin: true, user: updatedData, isFirst: false, token }))
             }

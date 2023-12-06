@@ -4,7 +4,7 @@ import { useDoctor, useDoctorAppiontment } from "../services";
 import { UserState } from "../redux/features/useSlice";
 import { useAppSelector } from "../redux/hooks";
 import dayjs from 'dayjs'
-import { useGetDoctorAppointments } from "../services/doctorApi";
+// import { useGetDoctorAppointments } from "../services/doctorApi";
 import { DoctorviewuserScreenProps } from "../types";
 import { useNavigation } from "@react-navigation/native";
 

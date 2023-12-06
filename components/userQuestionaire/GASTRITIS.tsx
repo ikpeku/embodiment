@@ -13,7 +13,7 @@ import useRevenueCat from "../../hooks/useRevenueCat";
 type IdiseaseId = { diseaseId: string }
 const GASTRITIS = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering , isProMember} = useRevenueCat()
     const { user } = useAppSelector(UserState)
 
 
@@ -92,32 +92,44 @@ Dark, tarry stools or bloody vomit
 
             setIsLoading(true)
             try {
-                const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-                if (Gastritis) {
-                    const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-
+                if(!isProMember) {
+                    const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+                    if (Gastritis) {
+                        const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
+    
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+    
+                        }
                     }
+
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
+    
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
 
-                // navigation.navigate("ConfirmAppointment")
+
             } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+              
             }
-            // navigation.navigate("ConfirmAppointment")
             setIsLoading(false)
-            // navigation.navigate("ConfirmAppointment")
         } else {
             setProgress((current) => current + 0.1)
 
@@ -128,31 +140,42 @@ Dark, tarry stools or bloody vomit
     const handleSubmit = async () => {
         setIsLoading(true)
         try {
-            const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-            if (Gastritis) {
-                const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
+            if(!isProMember) {
+                const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+                if (Gastritis) {
+                    const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+    
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+                    }
                 }
+
+            } else {
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+    
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
             }
 
-            // navigation.navigate("ConfirmAppointment")
+
         } catch (error) {
-            // console.log(error)
-            // Alert.alert("Error", "please retry sending")
+       
         }
-        // navigation.navigate("ConfirmAppointment")
         setIsLoading(false)
-        // navigation.navigate("ConfirmAppointment")
 
     }
 

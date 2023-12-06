@@ -16,6 +16,15 @@ const UserHealthDetail = () => {
     const { data, isLoading, isRefetching } = useGetSingleDisease(id)
 
 
+    if(isLoading || isRefetching) {
+        return     (
+            <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+            </View>
+        )
+    }
+
+
 
     return (
         <>
@@ -172,11 +181,7 @@ const UserHealthDetail = () => {
                 </View>
 
             </ScrollView>
-            {isLoading || isRefetching && (
-                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                </View>
-            )}
+            
         </>
 
     )

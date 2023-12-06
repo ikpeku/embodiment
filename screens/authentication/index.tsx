@@ -63,6 +63,7 @@ export default function AuthUser() {
             })
 
             const result = await response.json()
+            // console.log(result)
             if (result.status === "success") {
                 const { user, token } = result
                 // await AsyncStorage.setItem('token', token);

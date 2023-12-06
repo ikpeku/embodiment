@@ -1,13 +1,13 @@
 
 import { useState, useEffect } from "react"
-import { StyleSheet, ScrollView, View, Alert, } from 'react-native'
+import { StyleSheet, ScrollView, View, Alert, Image} from 'react-native'
 import { CustomButton } from '../../../components'
-import { ActivityIndicator, Modal, Portal, Text } from 'react-native-paper';
+import { ActivityIndicator, Modal, Portal, Text, TextInput } from 'react-native-paper';
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AdminQuestionandanswerRouteProp } from "../../../types";
 import { MarkQuestionnaireAsComplete, baseURL, useUser } from "../../../services";
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios';
+// import axios from 'axios';
 import { useGetAdminnQuestionnaire } from "../../../services/doctorApi";
 import { UserState } from "../../../redux/features/useSlice";
 import { useAppSelector } from "../../../redux/hooks";
@@ -31,6 +31,7 @@ interface IItem {
         },
         createdAt: string,
         questionsAndAnswers: {
+            isText: boolean,
             answer: string,
             question: string,
             _id: string,
@@ -51,7 +52,12 @@ export default function Questionandanswer() {
 
     const [showmodal, setShowmodal] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [prescription, setPrescription] = useState("")
+
+
     const [userInfo, setUserInfo] = useState<IItem["item"]>()
+
+
 
     // const { data, isLoading } = useUser(id)
     const {data, isLoading} = useGetAdminnQuestionnaire()
@@ -72,7 +78,7 @@ export default function Questionandanswer() {
     const handleMarkAsComplete = async() => {
         setLoading(true)
         try {
-            const response = await MarkQuestionnaireAsComplete({diseaseId: id, userId: user._id})
+            const response = await MarkQuestionnaireAsComplete({diseaseId: id, userId: user._id, prescription })
             setShowmodal(false)
             Alert.alert("Done", response?.data?.message , [
                 {style: "default",
@@ -105,7 +111,6 @@ export default function Questionandanswer() {
     }, [data, data?.questionnaires])
 
 
-
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 50 }} showsVerticalScrollIndicator={false} >
 
@@ -129,11 +134,21 @@ export default function Questionandanswer() {
                     userInfo?.questionsAndAnswers.map(v => (
                         <View key={v._id}>
                             <Text variant="titleMedium" >{v.question} : </Text>
-                            <Text style={{ color: "#0665CB" }} variant="bodyMedium">-{v.answer}</Text>
+                            {v.isText && <Text style={{ color: "#0665CB" }} variant="bodyMedium">-{v.answer}</Text>}
+                            {!v.isText && <Image source={{uri: v.answer}} style={{width: "100%", aspectRatio: 4/3}} resizeMode="center" />}
                         </View>
                     ))
                 }
              </View>
+
+             <Text style={{marginTop: 20, textAlign: "center"}} variant="titleLarge">Add Prescription </Text>
+
+             <TextInput mode="outlined" style={{borderColor: "black"}} 
+               theme={{colors: {outline: "black", background: "#fff", outlineVariant: "black", primary: "black" }}}
+               outlineColor='black'
+             multiline numberOfLines={6} value={prescription} onChangeText={setPrescription}>
+
+             </TextInput>
 
 
               {userInfo?.status === "uncompleted"  &&  <View style={{ marginTop: 30 }}>
@@ -160,8 +175,6 @@ export default function Questionandanswer() {
                 </Portal>
             </>}
 
-
-            {/* {!isLoading && !data && <Text style={{ color: "red", textAlign: "center" }}>Not a registered user</Text>} */}
 
             <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {isLoading || loading && <ActivityIndicator size={"large"} color='#0665CB' />}

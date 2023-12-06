@@ -67,7 +67,7 @@ export default function DoctorHome() {
 
 
 
-    // console.log("doctor: ",data.data)
+    console.log("doctor: ",data.data)
 
 
     return (
@@ -101,7 +101,7 @@ export default function DoctorHome() {
                     renderItem={({ item }) => {
                    
                         return (
-                            <View style={{ gap: 10 }}>
+                            <View style={{ gap: 10 , width: "100%"}}>
                                 {
                                   doctorNotification?.notifications && 
                                   doctorNotification?.notifications[item].map((data: any) => <Item key={data._id} data={data} />)
@@ -109,7 +109,7 @@ export default function DoctorHome() {
                             </View>
                         )
                     }}
-                    contentContainerStyle={{ width: "100%", gap: 10 }}
+                    contentContainerStyle={{ width: "100%", gap: 10 ,}}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={<Empty />}
                 />
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderWidth: 0.4,
         borderColor: "rgba(0,0,0,0.1)",
+        
     },
     title: {
         fontFamily: 'avenir',

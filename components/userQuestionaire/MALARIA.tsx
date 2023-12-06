@@ -15,7 +15,7 @@ type IdiseaseId = { diseaseId: string }
 const MALARIA = ({ diseaseId }: IdiseaseId) => {
 
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering, isProMember } = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
 
@@ -86,26 +86,38 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
     const handleSubmit = async () => {
         setIsLoading(true)
         try {
-            const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
-            if (Malaria) {
-                const purchaseInfo = await Purchases.purchasePackage(Malaria)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+            if (!isProMember) {
+                const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
+                if (Malaria) {
+                    const purchaseInfo = await Purchases.purchasePackage(Malaria)
+                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
+                        Alert.alert("Done", response?.data?.message, [
+                            {
+                                text: 'Cancel',
+                                onPress: () => navigation.goBack(),
+                                style: 'cancel',
+                            },
+                            { text: 'OK', onPress: () => navigation.popToTop() },
+                        ])
+                    }
                 }
+            } else {
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                        text: 'Cancel',
+                        onPress: () => navigation.goBack(),
+                        style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => navigation.popToTop() },
+                ])
             }
-            // navigation.navigate("ConfirmAppointment")
+
         } catch (error) {
-            // console.log(error)
-            // Alert.alert("Error", "please retry sending")
+
         }
         setIsLoading(false)
 
@@ -229,7 +241,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                   { question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 
@@ -256,7 +268,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                   {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -282,7 +294,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                   {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
                 </View>}
 
 

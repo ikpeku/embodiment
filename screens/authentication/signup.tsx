@@ -67,10 +67,11 @@ export default function SignupUser() {
 
 
                       const result = await response.json()
-                    //   console.log("result: ",result)
+                      console.log("result: ",result)
 
                       if (result.status === "success") {
                         const { user , token} = result
+                        
                             // dispatch(loginUserMutation({ isLogin: false, user , isFirst: false, token}))
                             navigation.navigate("ConfirmUser", {id: result.user._id, email: result.user.email})
 

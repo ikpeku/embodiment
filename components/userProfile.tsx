@@ -233,16 +233,6 @@ const handleChangeAvatar = () => {
 
                 <CustomInput editable={edit} control={control} name="PhoneNumber" placeholder="Enter  Phone Number" label=" Phone Number" rules={{ required: "required" }} />
 
-                {/* {user.role === "isDoctor" &&
-                    <>
-                        <CustomInput editable={edit} control={control} name="Qualifications" placeholder="Enter your educational qualifications" label="Qualifications" rules={{ required: "required" }} />
-                        <CustomInput editable={edit} control={control} name="specialty" placeholder="Enter your medical specialty" label=" Medical specialty" rules={{ required: "required" }} />
-                        <CustomInput editable={edit} control={control} name="Years_of_experience" placeholder="Enter number of years of experience" label="Years of experience" rules={{ required: "required" }} />
-
-                        <CustomInput editable={edit} control={control} name="Rate" placeholder="$0.00" label="Rate" rules={{ required: "required" }} />
-
-                        <CustomInput editable={edit} control={control} multiline={true} numberOfLines={5} name="aboutYourself" placeholder="Write about yourself" rules={{ required: "required" }} />
-                    </>} */}
 
                 {user.role === "isUser" && <>
                     <CustomInput editable={edit} control={control} name="Address" placeholder="Enter Address" label="Address" rules={{ required: "required" }} />

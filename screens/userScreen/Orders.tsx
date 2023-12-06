@@ -40,7 +40,7 @@ export default function Orders() {
             data[title].map((title1: any, index: number) => (
                 <Card key={index} mode='contained' style={styles.item}  >
                 <Card.Content>
-                    <Paper_Text style={styles.title}>{title1.message}</Paper_Text>
+                    <Paper_Text style={styles.title}>{title1?.message}</Paper_Text> 
                 </Card.Content>
             </Card>
             ))

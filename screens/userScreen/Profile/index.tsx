@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { UserState, logoutMutation } from '../../../redux/features/useSlice';
 import { ProfileItem } from '../../../components';
 import * as Linking from 'expo-linking';
-import Purchases from 'react-native-purchases';
+// import Purchases from 'react-native-purchases';
 
 
 
@@ -34,7 +34,7 @@ const DoctorProfile = () => {
         if (loading) return
         setLoading(true)
         dispatch(logoutMutation())
-        await Purchases.logOut()
+        // await Purchases.logOut()
         setLoading(false)
 
     }

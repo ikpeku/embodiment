@@ -14,7 +14,7 @@ import useRevenueCat from "../../hooks/useRevenueCat";
 type IdiseaseId = { diseaseId: string }
 const COMMONCOLD = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering } = useRevenueCat()
+    const { currentOffering, isProMember } = useRevenueCat()
     const { user } = useAppSelector(UserState)
 
 
@@ -74,26 +74,39 @@ Wheezing
         if (question2 === "Yes") {
             setIsLoading(true)
             try {
-                const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-                if (Common_Cold) {
-                    const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+                if (!isProMember) {
+                    const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+                    if (Common_Cold) {
+                        const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
                     }
+
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
-                // navigation.navigate("ConfirmAppointment")
+
             } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+
             }
             setIsLoading(false)
         } else {
@@ -106,32 +119,45 @@ Wheezing
     const handleSubmit = async () => {
 
         setIsLoading(true)
-        if(question3 === "No"){
+        if (question3 === "No") {
             try {
-                const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-                if (Common_Cold) {
-                    const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-    
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                if (!isProMember) {
+                    const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+                    if (Common_Cold) {
+                        const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
                     }
+
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
-                // navigation.navigate("ConfirmAppointment")
+
             } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+
             }
 
         } else {
-navigate.navigate("Consultation")
+            navigate.navigate("Consultation")
         }
 
         setIsLoading(false)
@@ -263,7 +289,7 @@ navigate.navigate("Consultation")
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={ question3 === "Yes" ? "Book Appointment" : "Submit" } onPress={handleSubmit} />}
+                    {question3 && <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Submit"} onPress={handleSubmit} />}
                 </View>}
 
 
