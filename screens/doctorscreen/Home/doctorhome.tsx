@@ -13,9 +13,10 @@ import { useAppSelector } from '../../../redux/hooks';
 import { Appointment } from '../../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { DoctorAppointmentsScreenProps } from '../../../types';
-import { useDoctor,
+import {
+    useDoctor,
     //  useDoctorAppiontment, useGetCompletedIndividualAppointment 
-    } from '../../../services';
+} from '../../../services';
 import dayjs from 'dayjs'
 import { useGetDoctorNotification } from '../../../services/doctorApi';
 // import { useEffect } from 'react';
@@ -31,6 +32,7 @@ interface IItem {
 
 const Item = ({ data }: IItem) => {
 
+    // console.log("doctor: ",data)
     return (
         <Card mode='contained' style={styles.item}  >
             <Card.Content style={{ gap: 10 }}>
@@ -65,64 +67,56 @@ export default function DoctorHome() {
     const { data, isLoading } = useDoctor(user._id)
     const { data: doctorNotification, isLoading: loading } = useGetDoctorNotification(user._id)
 
-
-
-    console.log("doctor: ",data.data)
-
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={{}}>
 
-            <View style={{ width: "100%" }}>
-                <ProfileAvatar
-                onPress={() => {}}
-                    type='Start'
-                    text={user?.lastName}
-                    photoUrl={user.avatar} />
+                <View style={{ width: "100%" }}>
+                    <ProfileAvatar
+                        onPress={() => { }}
+                        type='Start'
+                        text={user?.lastName}
+                        photoUrl={user.avatar} />
+                </View>
+
+                <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
+                    <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data?.data?.total_number_of_appointment_completed ? data?.data?.total_number_of_appointment_completed : 0} rightIcon={<Appointment color={"white"} size={20} />} />
+                    <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings(pts)"} subTitle={data?.data?.overallEarnings ? data?.data?.overallEarnings : 0} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
+                </View>
+
+
+                <View style={{ width: "100%", paddingVertical: 10 }}>
+                    <Text variant='titleLarge'>Recent appointments</Text>
+                </View>
             </View>
 
-            <View style={{ width: "100%", flexDirection: "row", gap: 10 }}>
-                <DoctorCard onCardPress={() => navigation.navigate("DoctorAppointments")} title={"Appointments"} subTitle={data?.data?.total_number_of_appointment_completed ? data?.data?.total_number_of_appointment_completed : 0} rightIcon={<Appointment color={"white"} size={20} />} />
-                <DoctorCard onCardPress={() => navigation.navigate("Doctorearnings")} title={"Earnings"} subTitle={0} rightIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color="white" />} />
-            </View>
 
-            
-
-            <View style={{ width: "100%" , paddingVertical: 10}}>
-                <Text variant='titleLarge'>Recent appointments</Text>
-                </View>
-                </View>
-                
-           
-           {doctorNotification?.notifications && 
-           <FlatList
-                    data={[...Object.keys(doctorNotification?.notifications).slice(0,10).reverse()]}
+            {doctorNotification?.notifications &&
+                <FlatList
+                    data={[...Object.keys(doctorNotification?.notifications).slice(0, 10).reverse()]}
                     renderItem={({ item }) => {
-                   
+
                         return (
-                            <View style={{ gap: 10 , width: "100%"}}>
+                            <View style={{ gap: 10, width: "100%" }}>
                                 {
-                                  doctorNotification?.notifications && 
-                                  doctorNotification?.notifications[item].map((data: any) => <Item key={data._id} data={data} />)
+                                    doctorNotification?.notifications &&
+                                    doctorNotification?.notifications[item].map((data: any) => <Item key={data._id} data={data} />)
                                 }
                             </View>
                         )
                     }}
-                    contentContainerStyle={{ width: "100%", gap: 10 ,}}
+                    contentContainerStyle={{ width: "100%", gap: 10, }}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={<Empty />}
                 />
-                }
+            }
 
-{ loading || isLoading && (
+            {loading || isLoading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                     <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                 </View>
             )}
 
-            
-           
         </SafeAreaView>
     )
 }
@@ -142,7 +136,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderWidth: 0.4,
         borderColor: "rgba(0,0,0,0.1)",
-        
+
     },
     title: {
         fontFamily: 'avenir',

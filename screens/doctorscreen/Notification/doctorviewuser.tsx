@@ -75,7 +75,7 @@ export default function Doctorviewuser() {
 
     }
 
-
+console.log(data)
 
   return (
     <View style={styles.container}>
@@ -84,6 +84,7 @@ export default function Doctorviewuser() {
                     <Card.Content>
 
                         <Item title="Patient:" subTitle={data?.data ? `${data?.data?.firstName} ${data?.data?.lastName}` : ""} />
+                
                         <Item title="Sex:" subTitle={data?.data?.gender ? data?.data?.gender : ""} />
                         <Item title="Date of birth:" subTitle={data?.data?.dob ? data?.data?.dob : ""}  />
                         <Item title="Allergies:" subTitle={data?.data?.allergies[0] ? data?.data?.allergies[0] : "" } />

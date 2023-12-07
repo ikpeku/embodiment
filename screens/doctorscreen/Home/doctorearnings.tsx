@@ -1,4 +1,4 @@
-import { StyleSheet, View , FlatList} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import React from "react";
 import { ActivityIndicator, MD2Colors, Text } from "react-native-paper";
 import { useDoctor } from "../../../services";
@@ -7,7 +7,7 @@ import { UserState } from "../../../redux/features/useSlice";
 import dayjs from 'dayjs'
 
 // interface IData {
-    
+
 //     title: string;
 //     date: Date;
 //     amount: number;
@@ -38,28 +38,28 @@ interface IItem {
 
 const Doctorearnings = () => {
 
-    const { user} = useAppSelector(UserState)
+    const { user } = useAppSelector(UserState)
     const { data, isLoading } = useDoctor(user._id)
 
 
-    const Item = ({ data }:IItem) => {
-  
+    const Item = ({ data }: IItem) => {
+
         return (
             // Adminusers
-               <View style={{borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro"}}>
+            <View style={{ borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro" }}>
                 {/* <Card.Content> */}
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
-                        <Text variant='titleMedium' style={[styles.title, { color: "#000" }]}>{data?.patientFirstName} {data?.patientLastName}</Text>
-                        <View>
-                            <Text style={[styles.title,
-                            { color: "#0665CB" }]}>$1.00</Text>
-                        </View>
+                    <Text variant='titleMedium' style={[styles.title, { color: "#000" }]}>{data?.patientFirstName} {data?.patientLastName}</Text>
+                    <View>
+                        <Text style={[styles.title,
+                        { color: "#0665CB" }]}>1.00 pt</Text>
                     </View>
-    
-                    <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
-                        <Text style={[styles.title, { color: "#000", opacity: 0.5 }]}>{dayjs(data?.updatedAt).format('MMMM D, YYYY')}</Text>
-                    </View> 
-               </View>  
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
+                    <Text style={[styles.title, { color: "#000", opacity: 0.5 }]}>{dayjs(data?.updatedAt).format('MMMM D, YYYY')}</Text>
+                </View>
+            </View>
         )
     };
 
@@ -67,32 +67,32 @@ const Doctorearnings = () => {
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                 <Text>No Earning </Text>
-    
+
             </View>
         )
     }
 
 
-  return (
-    <View style={styles.container}>
-      
+    return (
+        <View style={styles.container}>
 
-      <FlatList
+
+            <FlatList
                 data={data?.data?.groupedSchedules?.completed}
                 renderItem={({ item }) => <Item data={item} />}
                 keyExtractor={item => item._id}
                 ListEmptyComponent={<Empty />}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ rowGap: 10}}
+                contentContainerStyle={{ rowGap: 10 }}
             />
 
-{isLoading && (
+            {isLoading && (
                 <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                     <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                 </View>
             )}
-    </View>
-  );
+        </View>
+    );
 };
 
 export default Doctorearnings;
