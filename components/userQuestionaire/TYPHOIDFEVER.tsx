@@ -25,7 +25,7 @@ import Purchases from "react-native-purchases";
 
 type IdiseaseId = { diseaseId: string };
 const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
-  const { currentOffering , isProMember} = useRevenueCat();
+  const { currentOffering, isProMember } = useRevenueCat();
 
   const { user } = useAppSelector(UserState);
 
@@ -51,58 +51,58 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
     question: string;
     answer: string | number;
   }[] = [
-    {
-      question:
-        "Have you recently traveled to or lived in an area with poor sanitation or limited access to clean water?",
-      answer: question1,
-    },
-    {
-      question:
-        "Are you experiencing a high fever that gradually increases over several days?",
-      answer: question2,
-    },
-    {
-      question: "Headache and body aches?",
-      answer: question3,
-    },
-    {
-      question: "Abdominal pain and discomfort?",
-      answer: question4,
-    },
-    {
-      question: "Loss of appetite and weight loss?",
-      answer: question5,
-    },
-    {
-      question: "Diarrhea or constipation?",
-      answer: question6,
-    },
-    {
-      question:
-        "Have you noticed a rash of rose-colored spots on your abdomen or chest?",
-      answer: question7,
-    },
-    {
-      question:
-        "Do you experience persistent fever and tenderness in the right lower quadrant of your abdomen?",
-      answer: question8,
-    },
-    {
-      question: "Have you been feeling weak and fatigued?",
-      answer: question9,
-    },
-    {
-      question:
-        "Have you noticed a change in the color of your stool or urine?",
-      answer: question10,
-    },
-  ];
+      {
+        question:
+          "Have you recently traveled to or lived in an area with poor sanitation or limited access to clean water?",
+        answer: question1,
+      },
+      {
+        question:
+          "Are you experiencing a high fever that gradually increases over several days?",
+        answer: question2,
+      },
+      {
+        question: "Headache and body aches?",
+        answer: question3,
+      },
+      {
+        question: "Abdominal pain and discomfort?",
+        answer: question4,
+      },
+      {
+        question: "Loss of appetite and weight loss?",
+        answer: question5,
+      },
+      {
+        question: "Diarrhea or constipation?",
+        answer: question6,
+      },
+      {
+        question:
+          "Have you noticed a rash of rose-colored spots on your abdomen or chest?",
+        answer: question7,
+      },
+      {
+        question:
+          "Do you experience persistent fever and tenderness in the right lower quadrant of your abdomen?",
+        answer: question8,
+      },
+      {
+        question: "Have you been feeling weak and fatigued?",
+        answer: question9,
+      },
+      {
+        question:
+          "Have you noticed a change in the color of your stool or urine?",
+        answer: question10,
+      },
+    ];
 
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
 
-      if(!isProMember) {
+      if (!isProMember) {
         const Typhoid = currentOffering?.availablePackages.find(
           (offer) => offer.identifier === "Typhoid"
         );
@@ -114,7 +114,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               userId: user._id,
               questionsAndAnswers: result,
             });
-  
+
             Alert.alert("Done", response?.data?.message, [
               {
                 text: "Cancel",
@@ -142,9 +142,9 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
           { text: "OK", onPress: () => navigation.popToTop() },
         ]);
       }
-     
+
     } catch (error) {
-     
+
     }
     setIsLoading(false);
   };
@@ -240,10 +240,18 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-           {question2 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question2 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
+
+
+
           </View>
         )}
 
@@ -285,10 +293,15 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-         { question3 &&  <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question3 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -326,10 +339,16 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question4 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-           {question4 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question4 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -367,10 +386,16 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question5 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            {question5 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question5 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -409,10 +434,15 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-          { question6 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question6 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -452,10 +482,15 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-          { question7 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question7 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -495,10 +530,15 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               />
             </Pressable>
 
-           { question8 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question8 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
 
           </View>
         )}
@@ -537,10 +577,16 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question9 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-           {question9 && <CustomButton
-              title={"Next"}
-              onPress={() => setProgress((current) => current + 0.1)}
-            />}
+
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question9 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -581,7 +627,17 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
                 status={question10 === "No" ? "checked" : "unchecked"}
               />
             </Pressable>
-            {question10 && <CustomButton title={"Treatment Plan"} onPress={handleSubmit} />}
+
+
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <View style={{ flex: 1 }}>
+                <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
+              </View>
+
+              {question10 && <View style={{ flex: 1 }}>
+                <CustomButton title={"Treatment Plan"} onPress={handleSubmit} />
+              </View>}
+            </View>
           </View>
         )}
 
@@ -631,10 +687,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// 7. Have you noticed a change in the color of your stool or urine?
-// Yes: proceed to treatment plan.
-// No: proceed to treatment plan.
-
-// Treatment Plan
-// Tabs Ciproloxacin 500mg bd for 1 week
-// Tabs Paracetamol 1gm tds for 3 days

@@ -35,11 +35,6 @@ export default function AdminUserprofile() {
         )
     }
 
-    // const handleRemoveUser = () => {
-    //     setShowmodal(false)
-    //     navigation.navigate("Confirmremoveuser")
-
-    // }
 
     const handleRemoveUser = useMutation({
         mutationFn: async () => {
@@ -48,7 +43,6 @@ export default function AdminUserprofile() {
         onSuccess: async() => {
             await queryClient.invalidateQueries({ queryKey: ['users'] })
             navigation.navigate("Confirmremoveuser")
-            // queryClient.invalidateQueries({ queryKey: ['reminders'] })
           },
          onError: () => {
             Alert.alert("Error",  "Can't delete user. try again")
@@ -59,9 +53,8 @@ export default function AdminUserprofile() {
       })
 
 
-
-
     let dob = new Date(data?.data?.dob)
+
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 50 }} showsVerticalScrollIndicator={false} >

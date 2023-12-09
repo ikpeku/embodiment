@@ -75,7 +75,7 @@ export default function Doctorviewuser() {
 
     }
 
-console.log(data)
+
 
   return (
     <View style={styles.container}>

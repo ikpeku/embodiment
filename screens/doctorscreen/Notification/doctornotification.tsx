@@ -23,7 +23,7 @@ interface IItem {
     data: {
         _id: string,
         sender: string
-        appointmentDate: string,
+        appointmentTime: string,
         message: string,
         status: "unread" | "read"
         appointmentId: string,
@@ -60,15 +60,13 @@ export default function DoctorNotification() {
 
 
     const Item = ({ data }: IItem) => {
-        // console.log("resp: ",data)
         
-
         return (
             <Card mode='contained' style={styles.item}  >
                 <Card.Content style={{ gap: 10 }}>
                     <Paper_Text style={[styles.title, { opacity: 0.8 }, data.status !== "unread" ? {opacity: 0.5} : {}]}>{data.message}</Paper_Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                        <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(data.appointmentDate).format('hh:mm a')}</Text>
+                        <Text style={{ color: "#0665CB", opacity: 0.8 }}>{data.appointmentTime}</Text>
                         <Text onPress={() => handleViewNotification({id: data.sender, notificationId: data._id, appointmentId: data.appointmentId, scheduleId: data.scheduleId })} style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text>
                     </View>
                 </Card.Content>

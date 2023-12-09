@@ -185,8 +185,21 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question2 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
+
                 </View>}
+
+
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -212,7 +225,17 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 4 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -227,7 +250,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </Text>
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box]}>
-                        <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
+                        <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
                             color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
@@ -241,7 +264,16 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                 
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
                 </View>}
 
 
@@ -268,7 +300,17 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                   
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question5 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -280,7 +322,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </View>
 
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box]}>
-                        <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
+                        <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
                             color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
@@ -294,7 +336,17 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
                 </View>}
 
 
@@ -308,7 +360,7 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </View>
 
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box]}>
-                        <Text style={{ flex: 1 }} variant="titleLarge">Yes: Malaria is likely.</Text>
+                        <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
                         <Checkbox
                             color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
@@ -322,7 +374,18 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
                     </Pressable>
-                    {question7 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question7 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
                 </View>}
 
 
@@ -367,7 +430,15 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    {question8 && <CustomButton title={"Treatment plan"} onPress={handleSubmit} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question8 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Treatment plan"} onPress={handleSubmit} />
+                        </View>}
+                    </View>
                 </View>}
 
                 {isLoading && (

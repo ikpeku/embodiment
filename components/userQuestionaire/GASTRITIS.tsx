@@ -11,7 +11,7 @@ import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
 
 type IdiseaseId = { diseaseId: string }
-const GASTRITIS = ({ diseaseId }: IdiseaseId) => {
+const   GASTRITIS = ({ diseaseId }: IdiseaseId) => {
 
     const { currentOffering , isProMember} = useRevenueCat()
     const { user } = useAppSelector(UserState)
@@ -56,9 +56,7 @@ const GASTRITIS = ({ diseaseId }: IdiseaseId) => {
                 answer: question3
             },
             {
-                question: `
-                Do you experience these symptoms after eating or while hungry
-        `,
+                question: "Do you experience these symptoms after eating or while hungry?",
                 answer: question4
             },
             {
@@ -245,7 +243,18 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question2 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -286,7 +295,18 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepThree} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepThree} />
+                        </View>}
+                    </View>
+
+
                 </View>}
 
 
@@ -296,12 +316,8 @@ Dark, tarry stools or bloody vomit
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                        Do you experience these symptoms after eating or while hungry?
-
+                       Do you experience these symptoms after eating or while hungry?
                         </Text>
-                        {/* <Text variant='titleMedium' style={{ textAlign: "center", }}>
-                            Burning or gnawing sensation
-                        </Text> */}
                     </View>
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
@@ -320,7 +336,17 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
+
                 </View>}
 
 
@@ -349,7 +375,18 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question5 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -392,7 +429,17 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 7 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -423,7 +470,17 @@ Dark, tarry stools or bloody vomit
                         />
                     </Pressable>
 
-                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleSubmit} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question7 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                        </View>}
+                    </View>
+
                 </View>}
 
 

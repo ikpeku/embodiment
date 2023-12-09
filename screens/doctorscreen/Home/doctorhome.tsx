@@ -14,39 +14,22 @@ import { Appointment } from '../../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { DoctorAppointmentsScreenProps } from '../../../types';
 import {
-    useDoctor,
-    //  useDoctorAppiontment, useGetCompletedIndividualAppointment 
+    useDoctor
 } from '../../../services';
 import dayjs from 'dayjs'
 import { useGetDoctorNotification } from '../../../services/doctorApi';
-// import { useEffect } from 'react';
 
 
 interface IItem {
     data: {
         appointmentDate: string,
         appointmentTime: string,
-        message: string
+        message: string,
+        scheduleId: string,
+        sender: string,
+
     }
 }
-
-const Item = ({ data }: IItem) => {
-
-    // console.log("doctor: ",data)
-    return (
-        <Card mode='contained' style={styles.item}  >
-            <Card.Content style={{ gap: 10 }}>
-                <Text style={[styles.title, { opacity: 0.7 }]}>{data.message}</Text>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>{data.appointmentTime}</Text>
-                    <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(data.appointmentDate).format('MMMM D, YYYY')}</Text>
-                    {/* <Text style={{ backgroundColor: "#0665CB14", borderRadius: 5, paddingHorizontal: 20, paddingVertical: 5, color: "#0665CB" }}>View</Text> */}
-                </View>
-            </Card.Content>
-        </Card>
-
-    )
-};
 
 
 
@@ -66,6 +49,24 @@ export default function DoctorHome() {
 
     const { data, isLoading } = useDoctor(user._id)
     const { data: doctorNotification, isLoading: loading } = useGetDoctorNotification(user._id)
+
+
+    const Item = ({ data }: IItem) => {
+
+          
+        return (
+            <Card mode='contained' style={styles.item} onPress={() =>  navigation.navigate("Doctorviewuser", { id: data.sender, scheduleId: data.scheduleId , status: "Booked"})} >
+                <Card.Content style={{ gap: 10 }}>
+                    <Text style={[styles.title, { opacity: 0.7 }]}>{data.message}</Text>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <Text style={{ color: "#0665CB", opacity: 0.8 }}>{data.appointmentTime}</Text>
+                        <Text style={{ color: "#0665CB", opacity: 0.8 }}>{dayjs(data.appointmentDate).format('MMMM D, YYYY')}</Text>
+                    </View>
+                </Card.Content>
+            </Card>
+    
+        )
+    };
 
     return (
         <SafeAreaView style={styles.container}>

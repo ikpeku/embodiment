@@ -10,12 +10,6 @@ const ApiKeys = {
     ios: "appl_PTzdPFQWGxYAfDcWxXYLzedkkpN"
 }
 
-// const memberShipType = {
-//     monthlyIndividual: "individual_monthly",
-//     monthlyFamily: "Monthly",
-//     annuallyIndividual: "Annual",
-//     annuallyFammily: "family_annual"
-// }
 
 const useRevenueCat = () => {
     const {user} = useAppSelector(UserState)
@@ -24,16 +18,11 @@ const useRevenueCat = () => {
     const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null)
 
     const isProMember = customerInfo?.entitlements?.active?.pro
-        // customerInfo?.activeSubscriptions.includes(memberShipType.annuallyFammily) ||
-        // customerInfo?.activeSubscriptions.includes(memberShipType.annuallyIndividual) ||
-        // customerInfo?.activeSubscriptions.includes(memberShipType.monthlyFamily) ||
-        // customerInfo?.activeSubscriptions.includes(memberShipType.monthlyIndividual)
-
+      
 
     useEffect(() => {
 
         const fetchData = async () => {
-            // Purchases.setLogLevel(Purchases.LOG_LEVEL.VERBOSE)
             if (Platform.OS === "ios") {
                 await Purchases.configure({ apiKey: ApiKeys.ios, appUserID: user.email })
             } else if (Platform.OS == "android") {
@@ -51,15 +40,10 @@ const useRevenueCat = () => {
         }
 
         fetchData().catch((error) => {
-             console.log(JSON.stringify(error));
-        }
-        //  console.error
-       
-         )
-
+            //  console.log(JSON.stringify(error));
+        } )
 
     }, [])
-
 
 
     useEffect(() => {

@@ -60,9 +60,7 @@ Wheezing
                 answer: question2
             },
             {
-                question: `
-            Have you been experiencing symptoms for less than 2 weeks?
-            `,
+                question: "Have you been experiencing symptoms for less than 2 weeks?",
                 answer: question3
             },
 
@@ -261,7 +259,18 @@ Wheezing
                         />
                     </Pressable>
 
-                    {question2 && <CustomButton title={"Next"} onPress={handleStepTwo} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question2 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepTwo} />
+                        </View>}
+                    </View>
+
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -289,7 +298,18 @@ Wheezing
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Submit"} onPress={handleSubmit} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Submit"} onPress={handleSubmit} />
+                        </View>}
+                    </View>
+
+                    
                 </View>}
 
 

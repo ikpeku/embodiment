@@ -26,12 +26,21 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
     const [question1, setQuestion1] = useState<"Yes I always ejaculate too soon" | "Yes , more than half the time" |
      "Yes less than half the time" | "No I never ejaculate too soon" | string>("")
-    const [question2, setQuestion2] = useState<"Ejaculation within one minute of sexual activity" |
-        "Persistent or recurrent ejaculation with minimal stimulation"
-        | "Inability to delay ejaculation during sexual activity"
-        | "Negative personal or interpersonal consequences due to premature ejaculation"
-        | "None of the above"
-        | string>("")
+     
+
+    const [question2a, setQuestion2a] = useState(false)
+
+    const [question2b, setQuestion2b] = useState(false)
+
+    const [question2c, setQuestion2c] = useState(false)
+
+    const [question2d, setQuestion2d] = useState(false)
+
+    const [question2e, setQuestion2e] = useState(false)
+
+
+
+
 
     const [question3, setQuestion3] = useState<"Within 1 min" | "1-3 min" | "5-10 min" | "More than 10 min" | string>("")
     const [question4, setQuestion4] = useState<"Yes" | "No" | string>("")
@@ -46,8 +55,13 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                 answer: question1
             },
             {
-                question: "Have you been experiencing any of the following symptoms?",
-                answer: question2
+                question: "Have you been experiencing any of the following symptoms? ",
+                answer: `${question2a ? "Ejaculation within one minute of sexual activity, " : ""} 
+                ${question2b ? "Persistent or recurrent ejaculation with minimal stimulation, " : "" }
+                ${question2c ? "Inability to delay ejaculation during sexual activity, " : "" }
+                ${question2d ? "Negative personal or interpersonal consequences due to premature ejaculation, " : "" }
+                ${question2e ? "None of the above." : "" }
+                `
             },
             {
                 question: "Select the option that best describes the average time you spend before ejaculation?",
@@ -119,7 +133,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
-                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 10</Text>
+                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 4</Text>
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -177,51 +191,58 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                         </Text>
                     </View>
 
-                    <Pressable onPress={() => setQuestion2("Ejaculation within one minute of sexual activity")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion2a(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Ejaculation within one minute of sexual activity</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "Ejaculation within one minute of sexual activity" ? "checked" : "unchecked"}
+                            status={question2a ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("Persistent or recurrent ejaculation with minimal stimulation")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion2b(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Persistent or recurrent ejaculation with minimal stimulation</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "Persistent or recurrent ejaculation with minimal stimulation" ? "checked" : "unchecked"}
+                            status={question2b ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("Inability to delay ejaculation during sexual activity")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion2c(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Inability to delay ejaculation during sexual activity</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "Inability to delay ejaculation during sexual activity" ? "checked" : "unchecked"}
+                            status={question2c ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("Negative personal or interpersonal consequences due to premature ejaculation")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion2d(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Negative personal or interpersonal consequences due to premature ejaculation</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "Negative personal or interpersonal consequences due to premature ejaculation" ? "checked" : "unchecked"}
+                            status={question2d  ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
 
-                    <Pressable onPress={() => setQuestion2("None of the above")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion2e(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None of the above</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "None of the above" ? "checked" : "unchecked"}
+                            status={question2e ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
+                
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
-
-                   { question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
-
+                        {(question2a || question2b || question2c || question2c || question2d || question2e) && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+                
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 3 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -266,8 +287,15 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
-                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                        {question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -297,7 +325,15 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                    {question4 && <CustomButton title={"Submit"} onPress={handleStepFour} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Treatment Plan"} onPress={handleStepFour} />
+                        </View>}
+                    </View>
 
                 </View>}
 

@@ -68,7 +68,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                 answer: question6
             },
             {
-                question: "Are there any other synptoms you will like to share?",
+                question: "Are there any other symptoms you will like to share?",
                 answer: question7 === "Yes" ? question7a : question7
             }
         ]
@@ -118,8 +118,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                 }
 
             } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+                
             }
 
 
@@ -215,7 +214,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
-                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 10</Text>
+                <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -282,7 +281,17 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                   
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question2 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -313,7 +322,16 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                  { question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                  <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -353,7 +371,16 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   {(question4a || question4b || question4c) && <CustomButton title={"Next"} onPress={handleStepFour} />}
+                   
+                  <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {(question4a || question4b || question4c) && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepFour} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -391,7 +418,16 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question5 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -428,7 +464,16 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -437,7 +482,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <View>
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
-                            Are there any other synptoms you will like to share?
+                            Are there any other symptoms you will like to share?
                         </Text>
                     </View>
 
@@ -449,6 +494,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
+                    {question7 === "Yes" && <Text variant="bodyLarge">please specify</Text>}
                     {question7 === "Yes" && <TextInput value={question7a} onChangeText={(e) => setQuestion7a(e)} multiline numberOfLines={6} mode="outlined" style={{ backgroundColor: "#fff", borderColor: "blue" }}>
 
                     </TextInput>}
@@ -461,7 +507,22 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question7 === "No" && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
+                        </View>}
+
+                        {question7 === "Yes" && question7a  && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
+                        </View>}
+
+
+                    </View>
 
                 </View>}
 

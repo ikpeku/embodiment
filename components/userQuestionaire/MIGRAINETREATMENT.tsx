@@ -153,45 +153,57 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
     const handleStepSeven = async () => {
         setIsLoading(true)
-        navigate.navigate("Consultation")
-        // if (question7) {
+        if(question7 === "Yes") {
+
+            try {
+
+                if(!isProMember) {
+
+                    const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+                    if (Migraine) {
+                        const purchaseInfo = await Purchases.purchasePackage(Migraine)
+    
+                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+    
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
+    
+    
+                    }
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+    
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+                }
 
 
 
-        //     try {
+            } catch (error) {
 
-        //         const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-        //         if (Migraine) {
-        //             const purchaseInfo = await Purchases.purchasePackage(Migraine)
-        //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-        //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-        //                 Alert.alert("Done", response?.data?.message, [
-        //                     {
-        //                         text: 'Cancel',
-        //                         onPress: () => navigation.goBack(),
-        //                         style: 'cancel',
-        //                     },
-        //                     { text: 'OK', onPress: () => navigation.popToTop() },
-        //                 ])
-
-        //             }
-
-        //         }
-
-        //     } catch (error) {
-
-        //         // Alert.alert("Error", "please retry sending")
-        //     }
+                // Alert.alert("Error", "please retry sending")
+            }
 
 
+        } else {
+            navigate.navigate("Consultation")
 
-
-        // } else {
-        //     navigate.navigate("Consultation")
-
-        // }
-
+        }
+       
         setIsLoading(false)
     }
 
@@ -296,8 +308,16 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {(question2sub1 || question2sub2 || question2sub3 || question2sub4 || question2sub5 || question2sub6) && <CustomButton title={question2sub6 ? "Submit" : "Next"} onPress={handleStepTwo} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
+                        {(question2sub1 || question2sub2 || question2sub3 || question2sub4 || question2sub5 || question2sub6) && <View style={{ flex: 1 }}>
+                        <CustomButton title={question2sub6 ? "Submit" : "Next"} onPress={handleStepTwo} />
+                        </View>}
+                    </View>
+               
                 </View>}
 
 
@@ -333,7 +353,16 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                 
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -369,7 +398,17 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -397,7 +436,16 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question5 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -425,7 +473,17 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -453,8 +511,19 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question7 && <CustomButton title={"Book Appointment"} onPress={handleStepSeven} />}
+                   
+                   
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
+                        {question7 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question7 === "No" ? "Book Appointment" : "Treatment Plan"} onPress={handleStepSeven} />
+                        </View>}
+                    </View>
+                
+                
                 </View>}
 
 

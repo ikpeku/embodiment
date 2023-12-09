@@ -23,7 +23,7 @@ interface IUTITREATMENT {
 
 
 const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
-    const { currentOffering , isProMember} = useRevenueCat()
+    const { currentOffering, isProMember } = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
 
@@ -40,11 +40,11 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
     const [question4, setQuestion4] = useState<1 | 2 | "0" | undefined>()
     const [question5, setQuestion5] = useState<"Ciprofloxacin" | "Augmentin" | "Levofloxacin" | "Trimethoprim-sulphamethazole" | "Nitrofurantion" | "I don’t know" | string>("")
     const [question6, setQuestion6] = useState<"Yes and my symptoms disappeared" | "Yes and my symptoms persisted" | "I don’t know" | "No" | string>("")
-    const [question7, setQuestion7] = useState<"Yes" | "No" | string >("")
-    const [question8, setQuestion8] = useState<"Yes" | "No" | string >("")
-    const [question9, setQuestion9] = useState<"Yes" | "No" | string >("")
-    const [question10, setQuestion10] = useState<"Yes" | "No" | string >("")
-    const [question11, setQuestion11] = useState<"Yes" | "No" | string >("")
+    const [question7, setQuestion7] = useState<"Yes" | "No" | string>("")
+    const [question8, setQuestion8] = useState<"Yes" | "No" | string>("")
+    const [question9, setQuestion9] = useState<"Yes" | "No" | string>("")
+    const [question10, setQuestion10] = useState<"Yes" | "No" | string>("")
+    const [question11, setQuestion11] = useState<"Yes" | "No" | string>("")
 
 
 
@@ -150,44 +150,44 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
         } else {
 
 
-          if(isProMember) {
-            try {
-                const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                if (urinary_tract_infection) {
-                    const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+            if (isProMember) {
+                try {
+                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+                    if (urinary_tract_infection) {
+                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
 
-                    if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
+
                     }
 
+
+                } catch (error) {
+                    // console.log(error)
+                    // Alert.alert("Error", "please retry sending")
                 }
+            } else {
+                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-
-            } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
+                Alert.alert("Done", response?.data?.message, [
+                    {
+                        text: 'Cancel',
+                        onPress: () => navigation.goBack(),
+                        style: 'cancel',
+                    },
+                    { text: 'OK', onPress: () => navigation.popToTop() },
+                ])
             }
-          } else {
-            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            Alert.alert("Done", response?.data?.message, [
-                {
-                    text: 'Cancel',
-                    onPress: () => navigation.goBack(),
-                    style: 'cancel',
-                },
-                { text: 'OK', onPress: () => navigation.popToTop() },
-            ])
-          }
 
 
         }
@@ -221,37 +221,37 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
             try {
 
-               if(!isProMember) {
-                const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                if (urinary_tract_infection) {
-                    const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+                if (!isProMember) {
+                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+                    if (urinary_tract_infection) {
+                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
 
-                    if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
+                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
+
                     }
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
 
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
                 }
-               } else{
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
-
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                        text: 'Cancel',
-                        onPress: () => navigation.goBack(),
-                        style: 'cancel',
-                    },
-                    { text: 'OK', onPress: () => navigation.popToTop() },
-                ])
-               }
 
 
             } catch (error) {
@@ -322,39 +322,39 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
             try {
 
 
-            if(!isProMember) {
-                const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                if (urinary_tract_infection) {
-                    const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+                if (!isProMember) {
+                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+                    if (urinary_tract_infection) {
+                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
 
-                    if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+                            Alert.alert("Done", response?.data?.message, [
+                                {
+                                    text: 'Cancel',
+                                    onPress: () => navigation.goBack(),
+                                    style: 'cancel',
+                                },
+                                { text: 'OK', onPress: () => navigation.popToTop() },
+                            ])
+                        }
+
                     }
-
-                } 
-            }  else {
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+                } else {
+                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
 
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                        text: 'Cancel',
-                        onPress: () => navigation.goBack(),
-                        style: 'cancel',
-                    },
-                    { text: 'OK', onPress: () => navigation.popToTop() },
-                ])
-            }
+                    Alert.alert("Done", response?.data?.message, [
+                        {
+                            text: 'Cancel',
+                            onPress: () => navigation.goBack(),
+                            style: 'cancel',
+                        },
+                        { text: 'OK', onPress: () => navigation.popToTop() },
+                    ])
+                }
 
 
 
@@ -376,9 +376,12 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
-            <KeyboardAvoidingView >
+            <KeyboardAvoidingView style={{ position: "relative" }}>
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 11</Text>
+
+
 
                 {+progress.toFixed(1) * 10 === 1 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -387,7 +390,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             What sex were you assigned to at birth
                         </Text>
-                        {/* <Text variant='bodyLarge' style={{ textAlign: "center", fontFamily: 'avenir' }}>{description}</Text> */}
+
                     </View>
 
                     <Pressable onPress={() => setSex("Male")} style={[styles.box, { marginTop: 30 }]}>
@@ -417,7 +420,6 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             Which of the following defines your condition?
                         </Text>
-                        {/* <Text variant='bodyLarge' style={{ textAlign: "center", fontFamily: 'avenir' }}>{description}</Text> */}
                     </View>
 
                     <Pressable onPress={() => setCondition("Pregnant")} style={[styles.box, { marginTop: 30 }]}>
@@ -444,7 +446,16 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                   {condition && <CustomButton title={condition === "None" ? "Next" : "Submit"} onPress={handleStepTwo} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {condition && <View style={{ flex: 1 }}>
+                           <CustomButton title={condition === "None" ? "Next" : "Treatment plan"} onPress={handleStepTwo} />
+                        </View>}
+                    </View>
+
 
                 </View>}
 
@@ -481,7 +492,16 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={"Next"} onPress={handleStepThree} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepThree} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -493,7 +513,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleLarge' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             How many times have you treated UTI In the past 6 months?
                         </Text>
-                      
+
                     </View>
 
                     <Pressable onPress={() => setQuestion4(1)} style={[styles.box, { marginTop: 30 }]}>
@@ -520,7 +540,17 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                    {question4 && <CustomButton title={"Next"} onPress={handleStepFour} />}
+                   
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepFour} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -531,7 +561,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             If you were prescribed an antibiotic for UTI which of these antibiotics did you use
                         </Text>
-                       
+
                     </View>
 
                     <Pressable onPress={() => setQuestion5("Ciprofloxacin")} style={[styles.box, { marginTop: 30 }]}>
@@ -584,8 +614,20 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     </TextInput>
 
-                   { question5 && <CustomButton type={question5 ? "primary" : "disable"} title={"Next"} onPress={() => setProgress((current) => question5 === "I don’t know" ? current + 0.2 : current + 0.1)} />}
+                    {question5 && <CustomButton type={question5 ? "primary" : "disable"} title={"Next"} onPress={() => setProgress((current) => question5 === "I don’t know" ? current + 0.2 : current + 0.1)} />}
 
+                
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question5 && <View style={{ flex: 1 }}>
+                      <CustomButton type={question5 ? "primary" : "disable"} title={"Next"} onPress={() => setProgress((current) => question5 === "I don’t know" ? current + 0.2 : current + 0.1)} />
+                        </View>}
+                    </View>
+                
+                
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 6 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -594,7 +636,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             For the UTI Treatment did you complete your antibiotics?
                         </Text>
-                        {/* <Text variant='bodyLarge' style={{ textAlign: "center", fontFamily: 'avenir' }}>{description}</Text> */}
+                       
                     </View>
 
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box, { marginTop: 30 }]}>
@@ -630,7 +672,15 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                     </Pressable>
 
 
-                    {question6 && <CustomButton title={question6 === "No" ? "Submit" : "Next"} onPress={handleStepSix} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question6 === "No" ? "Treatment plan" : "Next"} onPress={handleStepSix} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -640,7 +690,6 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         <Text variant='titleMedium' style={{ textAlign: "center", fontFamily: 'avenir', fontWeight: "bold" }}>
                             Have you been experiencing any pain or discomfort while urinating?
                         </Text>
-                        {/* <Text variant='bodyLarge' style={{ textAlign: "center", fontFamily: 'avenir' }}>{description}</Text> */}
                     </View>
 
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box, { marginTop: 30 }]}>
@@ -659,7 +708,18 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                   {question7 && <CustomButton title={question7 === "No" ? "Book appointment" : "Next"} onPress={handleStepSeven} />}
+                
+
+                    
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question7 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question7 === "No" ? "Book appointment" : "Next"} onPress={handleStepSeven} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -687,9 +747,20 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                    {question8 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question8 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
+
+
 
                 {+progress.toFixed(1) * 10 === 9 && <View style={{ marginVertical: 15, gap: 15 }}>
 
@@ -715,7 +786,17 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                   {question9 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+             
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question9 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -743,7 +824,17 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                    {question10 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                   
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question10 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -771,7 +862,16 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         />
                     </Pressable>
 
-                    {question11 && <CustomButton title={"Submit"} onPress={handleStepElleven} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        {question11 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Treatment plan"} onPress={handleStepElleven} />
+                        </View>}
+                    </View>
 
                 </View>}
 

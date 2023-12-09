@@ -4,7 +4,6 @@ import {
     View,
     FlatList,
     StyleSheet,
-    TouchableOpacity,
     Pressable,
     Alert,
 } from 'react-native';
@@ -28,13 +27,13 @@ import axios from 'axios';
 
 
 interface IData {
-
     firstName: string;
     lastName: string;
     email: string;
     _id: string
 
 }
+
 interface IItem {
     item: IData
 }
@@ -43,12 +42,12 @@ interface IItem {
 
 export default function Admindoctor() {
     const [searchQuery, setSearchQuery] = useState('');
+    const [showDeletemodal, setShowDeletemodal] = useState(false)
     const [showmodal, setShowmodal] = useState(false)
-    // const [addDoctor] = useAddDoctorMutation()
+    const [item, setItem] = useState<IItem["item"]>()
     const navigation = useNavigation<AdminusersScreenNavigationProp>()
 
     const queryClient = useQueryClient()
-
 
     const { data = [], isLoading } = useGetAllDoctors()
 
@@ -58,42 +57,43 @@ export default function Admindoctor() {
     const [email, setEmail] = useState("")
 
 
-    const handleRedirect = async(item:IItem["item"]) => {
-        if(!item?.firstName || !item?.lastName){
-        
+    const handleRemoveDoctor = async () => {
+        if (!item?.firstName || !item?.lastName) {
+            if (!item) return
             try {
-               await axios.delete(`${baseURL}/user/delete/${item._id}`)
-               queryClient.invalidateQueries({ queryKey: ['doctors'] })
-            queryClient.invalidateQueries({ queryKey: ['users'] })
-            navigation.navigate("Admindoctorsuccess", {type: "remove"})
-                
+                await axios.delete(`${baseURL}/user/delete/${item._id}`)
+                setShowDeletemodal(false)
+                queryClient.invalidateQueries({ queryKey: ['doctors'] })
+                queryClient.invalidateQueries({ queryKey: ['users'] })
+                navigation.navigate("Admindoctorsuccess", { type: "remove" })
+
             } catch (error) {
-                Alert.alert("Error",  "Can't delete doctor try again")
-                
+                Alert.alert("Error", "Can't delete doctor try again")
+
             }
 
         } else {
             navigation.navigate("AdminDoctorprofile", { id: item._id })
-           
+
         }
     }
 
 
-  
-
-
 
     const Item = ({ item }: IItem) => {
-       
+
         return (
-            <Pressable onPress={() => handleRedirect(item)} style={{ borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro" }}>
-               
+            <Pressable onPress={() => {
+                setItem(() => item)
+                !item?.firstName ? setShowDeletemodal(true) : handleRemoveDoctor()
+            }
+
+            } style={{ borderBottomWidth: StyleSheet.hairlineWidth, paddingBottom: 10, borderBottomColor: "gainsboro" }}>
+
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5 }}>
                     <Text variant='titleMedium' style={[styles.title, { color: item?.firstName && item?.lastName ? "#000" : "red" }]}>{item?.firstName && item?.lastName ? `${item?.firstName} ${item?.lastName}` : "unclaimed email"}</Text>
-                    {/* < TouchableOpacity onPress={() => navigation.navigate("AdminDoctorprofile", { id: item._id })}> */}
-                        <Text style={[styles.title,
-                        { color: "#0665CB" }]}>{item?.firstName && item?.lastName ? "View" : "Delete"}</Text>
-                    {/* </TouchableOpacity> */}
+                    <Text style={[styles.title,
+                    { color: "#0665CB" }]}>{item?.firstName && item?.lastName ? "View" : "Delete"}</Text>
                 </View>
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 5, gap: 25 }}>
@@ -114,53 +114,19 @@ export default function Admindoctor() {
 
 
 
-    interface IAddDoctor {
-        email: string,
-        adminUserId: string
-
-    }
-
-    // const handleAddDoctor = useMutation({
-    //     mutationFn: async (newPost: IAddDoctor) => {
-    //         return (await axios.post(`${baseURL}/doctor/signupdoctor`, newPost)).data
-    //     },
-    //     onSuccess: async () => {
-    //         setEmail("")
-    //         await queryClient.invalidateQueries({ queryKey: ['doctors'] })
-    //         navigation.navigate("Admindoctorsuccess", { type: "invite" })
-    //         // queryClient.invalidateQueries({ queryKey: ['reminders'] })
-    //     },
-    //     onError: (error) => {
-    //         console.log("error: ",error.response.data)
-    //         Alert.alert("Error", "adding doctor failed. try again")
-    //     },
-    //     onMutate: () => {
-    //         setShowmodal(false)
-
-    //     }
-    // })
-
-
     const addADoctor = async () => {
 
         const newPost = {
             email: email?.trim(), adminUserId: user?._id?.trim()
         }
 
-        try{
+        try {
             const res = await axios.post(`${baseURL}/doctor/signupdoctor`, newPost).then((data) => data.data)
 
-            // const response = await fetch(`${baseURL}/doctor/signupdoctor`, {
-            //     method: "POST",
-            //     body: JSON.stringify(newPost)
-            // })
-            // const data = await response.json()
-
-            if(res) {
+            if (res) {
+                setShowmodal(false)
                 await queryClient.invalidateQueries({ queryKey: ['doctors'] })
                 setEmail("")
-                setShowmodal(false)
-
             }
 
         } catch (e) {
@@ -171,22 +137,18 @@ export default function Admindoctor() {
 
 
     const filterItem = doctors?.slice().reverse()?.filter((item: IItem["item"]) => {
-        if(!searchQuery) {
+        if (!searchQuery) {
             return item
-        } 
+        }
         else {
             return item?.lastName.toLowerCase().includes(searchQuery.toLowerCase()) || item.firstName.toLowerCase().includes(searchQuery.toLowerCase())
         }
-    
-    })
-    
-    
 
+    })
 
 
     useEffect(() => {
         setDotors(data?.data)
-
     }, [data])
 
 
@@ -196,7 +158,7 @@ export default function Admindoctor() {
 
             <View style={{ width: "100%" }}>
                 <ProfileAvatar
-                onPress={() => {}}
+                    onPress={() => { }}
                     type='Start'
                     text={user.firstName}
                     photoUrl={user.avatar} />
@@ -224,7 +186,7 @@ export default function Admindoctor() {
                 </View>
             </View>
 
-            <View style={{ width: "100%" , flex: 2}}>
+            <View style={{ width: "100%", flex: 2 }}>
 
                 <FlatList
                     data={filterItem}
@@ -236,12 +198,11 @@ export default function Admindoctor() {
                 />
             </View>
 
-           
+
 
             <Portal>
                 <Modal visible={showmodal} onDismiss={() => setShowmodal(false)} contentContainerStyle={styles.modal}>
                     <Text variant="titleMedium" style={{ textAlign: "center", }}>Invite a new doctor</Text>
-                    {/* <Text variant="titleMedium" style={{ textAlign: "center", }}>Do you want to continue</Text> */}
                     <TextInput mode='outlined' style={{ backgroundColor: "#fff" }} value={email} onChangeText={(e) => setEmail(e)} placeholder='Enter doctors email address' />
                     <View style={{ flexDirection: "row", justifyContent: "center", gap: 10 }}>
 
@@ -250,9 +211,28 @@ export default function Admindoctor() {
                         </View>
 
                         <View style={{ flexGrow: 1 }}>
-                            {/* <CustomButton onPress={() => handleAddDoctor.mutate({ email: email, adminUserId: user._id })} title='Add' /> */}
                             <CustomButton onPress={addADoctor} title='Add' />
 
+                        </View>
+                    </View>
+                </Modal>
+            </Portal>
+
+
+            <Portal>
+                <Modal visible={showDeletemodal} onDismiss={() => setShowDeletemodal(false)} contentContainerStyle={styles.modal}>
+                    <Text variant="titleMedium" style={{ textAlign: "center", }}>You’re about to remove this email</Text>
+                    <Text variant="titleMedium" style={{ textAlign: "center", opacity: 0.5 }}>Do you want to continue</Text>
+
+                    <View style={{ flexDirection: "row", justifyContent: "center", gap: 10 }}>
+
+                        <View style={{ flexGrow: 1 }}>
+                            <CustomButton onPress={() => setShowDeletemodal(false)} title='Cancel' type="secondary" />
+                        </View>
+
+
+                        <View style={{ flexGrow: 1 }}>
+                            <CustomButton onPress={handleRemoveDoctor} title='Remove Doctor' />
                         </View>
                     </View>
                 </Modal>

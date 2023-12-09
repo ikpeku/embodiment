@@ -54,6 +54,8 @@ const handleRemoveDoctor = useMutation({
      }
   })
 
+
+
     return (
         <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 50 }} showsVerticalScrollIndicator={false} >
            
@@ -61,12 +63,14 @@ const handleRemoveDoctor = useMutation({
             {User({ title: "Name", subtitle: data?.data?.user?.firstName ? data?.data?.user?.firstName : "unregister doctor" })}
             {User({ title: "Email", subtitle: data?.data?.user?.email })}
             {User({ title: "Phone number", subtitle: data?.data?.user?.phoneNumber })}
-            {User({ title: "Qualifications", subtitle: data?.data?.doctorInfo?.qualification })}
-            {User({ title: "Specialisation", subtitle: data?.data?.doctorInfo?.specialty })}
-            {User({ title: "Years of experience", subtitle: data?.data?.doctorInfo?.yearOfExperience })}
-            {User({ title: "Rate", subtitle: data?.data?.doctorInfo?.rate })}
-            {User({ title: "Patients", subtitle: "0" })}
-            {User({ title: "Earnings", subtitle: "0" })}
+            {User({ title: "Qualifications", subtitle: data?.data?.qualification })}
+            {User({ title: "Specialisation", subtitle: data?.data?.specialty })}
+            {User({ title: "Years of experience", subtitle: data?.data?.yearOfExperience })}
+            {User({ title: "Bio", subtitle: data?.data?.bio })}
+            {User({ title: "Rate", subtitle: data?.data?.rate })}
+            {User({ title: "Patients", subtitle: data?.data?.patientCount })}
+            {User({ title: "Total Earning", subtitle: data?.data?.overallEarnings })}
+            {User({ title: "Month Earning", subtitle: data?.data?.monthlyEarnings[data?.data?.monthlyEarnings.length - 1]?.earnings })}
 
 
             <View style={{marginTop: 30}}>
@@ -87,7 +91,7 @@ const handleRemoveDoctor = useMutation({
           
           
           <View style={{flexGrow: 1}}>
-          <CustomButton onPress={() => handleRemoveDoctor.mutate()} title='Remove' />
+          <CustomButton onPress={() => handleRemoveDoctor.mutate()} title='Remove Doctor' />
           </View>
           </View>
         </Modal>

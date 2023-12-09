@@ -39,8 +39,18 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
     const [question11, setQuestion11] = useState<"Yes" | "No" | string>("")
     const [question12, setQuestion12] = useState<"Yes in the past" | "Yes currently" | "No" | string>("")
     const [question13, setQuestion13] = useState<"Less than 3 months" | "3 months to 6 months" | "More than 6 months" | string>("")
-    const [question14, setQuestion14] = useState<"Birth of a child" | "Loss of loved one" | "Relationship issues" | "financial issues" | "Other" | "None" | string>("")
+
+    const [question141, setQuestion141] = useState(false)
+    const [question142, setQuestion142] = useState(false)
+    const [question143, setQuestion143] = useState(false)
+    const [question144, setQuestion144] = useState(false)
+    const [question145, setQuestion145] = useState(false)
+    const [question146, setQuestion146] = useState(false)
+   
+   
     const [question14a, setQuestion14a] = useState("")
+    
+    
     const [question15, setQuestion15] = useState<"Diabetes" | "High blood pressure" | "Heart problem" | "Seizures" | "Auto-immune disease" | "Others" | "None" | string>("")
     const [question15a, setQuestion15a] = useState("")
     const [question16, setQuestion16] = useState<"Yes" | "No" | string>("")
@@ -108,7 +118,14 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
             },
             {
                 question: "Is there any even related to your anxiety of depression?",
-                answer: question14 === "Other" ? question14a : question14
+                answer: `${question141 ?  "Birth of a child, " : ""}  
+                ${question141 ?  "Loss of loved one, " : ""}
+                ${question142 ?  "Birth of a child, " : ""}
+                ${question143 ?  "Relationship issues, " : ""}
+                ${question144 ?  "financial issues, " : ""}
+                ${question145 ?  "Other, " : ""}
+                ${question146 ?  question14a : ""}
+                `
             },
             {
                 question: "Do you have any other medical diagnosis currently?",
@@ -344,7 +361,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question2 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question2 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
 
                 </View>}
 
@@ -373,7 +400,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question3 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question3 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -402,7 +438,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question4 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question4 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -431,7 +476,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question5 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question5 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -459,8 +514,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   { question6 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
-}
+
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question6 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
                 </View>}
 
                 {+progress.toFixed(1) * 10 === 7 && <View style={{ marginVertical: 15, gap: 15 }}>
@@ -487,7 +551,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question7 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question7 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
+
 
                 </View>}
 
@@ -515,7 +589,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question8 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question8 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -543,7 +626,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   {question9 && <CustomButton title={question9 === "Stop questions" ? "Book Appointment" : "Next"} onPress={handleStepNine} />}
+                   
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question9 && <View style={{ flex: 1 }}>
+                        <CustomButton title={question9 === "Stop questions" ? "Book Appointment" : "Next"} onPress={handleStepNine} />
+                        </View>}
+                    </View>
+
 
                 </View>}
 
@@ -572,7 +665,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question10 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question10 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -600,7 +702,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   { question11 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+               
+
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question11 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -638,8 +750,15 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
-                    {question12 && <CustomButton title={"Next"} onPress={handleStepTwelve} />}
+                        { question12 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepTwelve} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -675,7 +794,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   {question13 &&  <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question13 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -687,63 +815,71 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         </Text>
                     </View>
 
-                    <Pressable onPress={() => setQuestion14("Birth of a child")} style={[styles.box, { marginTop: 30 }]}>
+                    <Pressable onPress={() => setQuestion141(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Birth of a child</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "Birth of a child" ? "checked" : "unchecked"}
+                            status={question141 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion14("Loss of loved one")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion142(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Loss of loved one</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "Loss of loved one" ? "checked" : "unchecked"}
+                            status={question142 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion14("Relationship issues")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion143(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Relationship issues</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "Relationship issues" ? "checked" : "unchecked"}
+                            status={question143 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion14("financial issues")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion144(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">financial issues</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "financial issues" ? "checked" : "unchecked"}
+                            status={question144 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion14("Other")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion145(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Other</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "Other" ? "checked" : "unchecked"}
+                            status={question145 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-
-                    {question14 === "Other" && <TextInput placeholder="please specify" value={question14a} onChangeText={(e) => setQuestion14a(e)} multiline numberOfLines={6} mode="outlined" style={{ backgroundColor: "#fff", borderColor: "blue" }}>
+                    {question145  && <Text>please specify</Text>}
+                    {question145  && <TextInput placeholder="please specify" value={question14a} onChangeText={(e) => setQuestion14a(e)} multiline numberOfLines={6} mode="outlined" style={{ backgroundColor: "#fff", borderColor: "blue" }}>
                     </TextInput>}
 
 
 
 
-                    <Pressable onPress={() => setQuestion14("None")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion146(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question14 === "None" ? "checked" : "unchecked"}
-                        />
+                            status={question146 ? "checked" : "unchecked"}
+                        /> 
                     </Pressable>
 
 
-                    {question14 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { (question141 || question142 || question143 || question144 || question14a || question146) && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -809,8 +945,15 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
+                   <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
 
-                   { question15 && <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                        { question15 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -839,7 +982,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question16 && <CustomButton title={"Next"} onPress={handleStepSixteen} />}
+                
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question16 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={handleStepSixteen} />
+                        </View>}
+                    </View>
 
                 </View>}
 
@@ -850,7 +1003,17 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                     </TextInput>
 
                     <View style={{ marginTop: 20 }}>
-                       {question17 &&  <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />}
+                      
+
+                       <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question17 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                        </View>}
+                    </View>
 
                     </View>
                 </View>
@@ -882,7 +1045,16 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                    {question18 && <CustomButton title={"Book Appointment"} onPress={handleSubmit} />}
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                        </View>
+
+                        { question18 && <View style={{ flex: 1 }}>
+                        <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                        </View>}
+                    </View>
 
                 </View>}
 
