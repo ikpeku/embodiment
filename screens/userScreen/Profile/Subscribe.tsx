@@ -1,11 +1,11 @@
 import { FC, useEffect } from "react"
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { Text, Divider, Card, ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { Octicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { CustomButton } from "../../../components";
-import { SubscribeScreenProps } from "../../../types";
+import { SubscribeScreenProps, SubscriptiontRouteProp } from "../../../types";
 import useRevenueCat from "../../../hooks/useRevenueCat";
 import Purchases from "react-native-purchases";
 
@@ -17,19 +17,22 @@ const Render: FC<{ title: string }> = ({ title }) => (
     </View>
 )
 
-
+// isFromProfile
 const Subscribe = () => {
     const { currentOffering, customerInfo, isProMember } = useRevenueCat()
 
     const [annual, setAnnual] = useState("annual")
 
     const navigation = useNavigation<SubscribeScreenProps>()
+    const {params} = useRoute<SubscriptiontRouteProp>()
 
     const [monthlyIndividual, setMonthlyIndividual] = useState<string | undefined>("")
     const [yearlyIndividual, setYearlyIndividual] = useState<string | undefined>("")
 
     const [family_monthly, setFamily_monthly] = useState<string | undefined>("")
     const [family_annual, setFamily_annual] = useState<string | undefined>("")
+
+    const [isLoading, setIsLoading] = useState(false)
 
 
 
@@ -64,46 +67,90 @@ const Subscribe = () => {
 
    
     const handleMonthlyIndividualSubscription = async() => {
+        setIsLoading(v => !v)
         const monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "individual_monthly")
         if(monthly) {
             const purchaseInfo = await Purchases.purchasePackage(monthly)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription" , {type: "Monthly"})
+            } else {
+                Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment monthly plan.", [
+                    {
+                        onPress: () => navigation.goBack()
+                    }
+                   ])
+            }
             }
         }
+        setIsLoading(v => !v)
     }
 
     const handleYearlyIndividualSubscription = async() => {
+        setIsLoading(v => !v)
         const annual = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_annual")
         if(annual) {
             const purchaseInfo = await Purchases.purchasePackage(annual)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
-                navigation.navigate("ConfirmSubscription", {type: "Yearly"})
+                if(params.isFromProfile){
+
+                    navigation.navigate("ConfirmSubscription", {type: "Yearly"})
+                } else {
+                    Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment yearly plan.", [
+                        {
+                            onPress: () => navigation.goBack()
+                        }
+                       ])
+                }
             }
         }
+        setIsLoading(v => !v)
     }
+
+
     const handleMonthlyFamilySubscription = async() => {
+        setIsLoading(v => !v)
         const family_monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_monthly")
         if(family_monthly) {
             const purchaseInfo = await Purchases.purchasePackage(family_monthly)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription", {type: "Family Monthly"})
+            } else {
+                Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family monthly plan.", [
+                    {
+                        onPress: () => navigation.goBack()
+                    }
+                   ])
+            }
             }
         }
+        setIsLoading(v => !v)
     }
 
     const handleYearlyFamilySubscription = async() => {
+        setIsLoading(v => !v)
         const family_annual = currentOffering?.availablePackages.find(offer => offer.identifier === "family_annual")
         if(family_annual) {
             const purchaseInfo = await Purchases.purchasePackage(family_annual)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription", {type: "Family Yearly"})
+            } else {
+               Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family yearly plan.", [
+                {
+                    onPress: () => navigation.goBack()
+                }
+               ])
+            }
+
             }
         }
+        setIsLoading(v => !v)
     }
 
 
@@ -185,6 +232,12 @@ const Subscribe = () => {
                 </Card>
 
             </View>
+
+            {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
         </ScrollView>
     )
 }

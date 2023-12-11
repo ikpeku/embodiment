@@ -10,19 +10,29 @@ import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 const MALARIA = ({ diseaseId }: IdiseaseId) => {
 
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
 
-    const { currentOffering, isProMember } = useRevenueCat()
+    
 
-    const { user } = useAppSelector(UserState)
+
+    // const { currentOffering, isProMember } = useRevenueCat()
+
+    // const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
@@ -84,48 +94,66 @@ const MALARIA = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleSubmit = async () => {
-        setIsLoading(true)
-        try {
-            if (!isProMember) {
-                const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
-                if (Malaria) {
-                    const purchaseInfo = await Purchases.purchasePackage(Malaria)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        // setIsLoading(true)
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-                    }
-                }
-            } else {
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        setType("payment")
+        setquestionsAndAnswers(result)
+        setShowModal(true)
 
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                        text: 'Cancel',
-                        onPress: () => navigation.goBack(),
-                        style: 'cancel',
-                    },
-                    { text: 'OK', onPress: () => navigation.popToTop() },
-                ])
-            }
 
-        } catch (error) {
+        // try {
+        //     if (!isProMember) {
+        //         const Malaria = currentOffering?.availablePackages.find(offer => offer.identifier === "Malaria")
+        //         if (Malaria) {
+        //             const purchaseInfo = await Purchases.purchasePackage(Malaria)
+        //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+        //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-        }
-        setIsLoading(false)
+        //                 Alert.alert("Done", response?.data?.message, [
+        //                     {
+        //                         text: 'Cancel',
+        //                         onPress: () => navigation.goBack(),
+        //                         style: 'cancel',
+        //                     },
+        //                     { text: 'OK', onPress: () => navigation.popToTop() },
+        //                 ])
+        //             }
+        //         }
+        //     } else {
+        //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+        //         Alert.alert("Done", response?.data?.message, [
+        //             {
+        //                 text: 'Cancel',
+        //                 onPress: () => navigation.goBack(),
+        //                 style: 'cancel',
+        //             },
+        //             { text: 'OK', onPress: () => navigation.popToTop() },
+        //         ])
+        //     }
+
+        // } catch (error) {
+
+        // }
+        // setIsLoading(false)
 
     }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Malaria"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  />}
+
+                  
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 8</Text>
 

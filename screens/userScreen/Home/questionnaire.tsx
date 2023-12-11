@@ -32,6 +32,7 @@ const Questionnaire = () => {
             {id === "6504fa77d4c2c22773c99359" && <COMMONCOLD diseaseId={id} />}
             {id === "65666a47be61c51e8ffdf87b" && <MALARIA diseaseId={id} />}
             {id === "6504fac9d4c2c22773c9935d" && <TYPHOIDFEVER diseaseId={id} />}
+            
         </View>
 
     )

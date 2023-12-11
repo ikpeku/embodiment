@@ -9,17 +9,27 @@ import { UserState } from "../../redux/features/useSlice";
 import { SubmitQuetionnaire } from "../../services";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 const   GASTRITIS = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering , isProMember} = useRevenueCat()
-    const { user } = useAppSelector(UserState)
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
+
+    
+
+    // const { currentOffering , isProMember} = useRevenueCat()
+    // const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
@@ -88,46 +98,51 @@ Dark, tarry stools or bloody vomit
 
         if (question3 === "Yes") {
 
-            setIsLoading(true)
-            try {
+            // setIsLoading(true)
 
-                if(!isProMember) {
-                    const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-                    if (Gastritis) {
-                        const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 3))
+            setShowModal(true)
+
+            // try {
+
+            //     if(!isProMember) {
+            //         const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+            //         if (Gastritis) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
     
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
     
-                        }
-                    }
+            //             }
+            //         }
 
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
     
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
 
 
-            } catch (error) {
+            // } catch (error) {
               
-            }
-            setIsLoading(false)
+            // }
+            // setIsLoading(false)
         } else {
             setProgress((current) => current + 0.1)
 
@@ -136,50 +151,70 @@ Dark, tarry stools or bloody vomit
     }
 
     const handleSubmit = async () => {
-        setIsLoading(true)
-        try {
-            if(!isProMember) {
-                const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-                if (Gastritis) {
-                    const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        // setIsLoading(true)
+
+        setType("payment")
+        setquestionsAndAnswers(result)
+        setShowModal(true)
+
+        // try {
+        //     if(!isProMember) {
+        //         const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
+        //         if (Gastritis) {
+        //             const purchaseInfo = await Purchases.purchasePackage(Gastritis)
+        //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+        //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
     
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-                    }
-                }
+        //                 Alert.alert("Done", response?.data?.message, [
+        //                     {
+        //                         text: 'Cancel',
+        //                         onPress: () => navigation.goBack(),
+        //                         style: 'cancel',
+        //                     },
+        //                     { text: 'OK', onPress: () => navigation.popToTop() },
+        //                 ])
+        //             }
+        //         }
 
-            } else {
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        //     } else {
+        //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
     
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-            }
+        //                 Alert.alert("Done", response?.data?.message, [
+        //                     {
+        //                         text: 'Cancel',
+        //                         onPress: () => navigation.goBack(),
+        //                         style: 'cancel',
+        //                     },
+        //                     { text: 'OK', onPress: () => navigation.popToTop() },
+        //                 ])
+        //     }
 
 
-        } catch (error) {
+        // } catch (error) {
        
-        }
-        setIsLoading(false)
+        // }
+        // setIsLoading(false)
 
     }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+
+
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Gastritis"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+
+                  
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
@@ -484,11 +519,11 @@ Dark, tarry stools or bloody vomit
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

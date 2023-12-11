@@ -10,18 +10,28 @@ import { UserState } from "../../redux/features/useSlice";
 import { SubmitQuetionnaire } from "../../services";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 const COMMONCOLD = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering, isProMember } = useRevenueCat()
-    const { user } = useAppSelector(UserState)
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
+
+    
+
+    // const { currentOffering, isProMember } = useRevenueCat()
+    // const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
-    const navigate = useNavigation<UserConsultationScreenProp>()
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
 
@@ -70,43 +80,49 @@ Wheezing
     const handleStepTwo = async () => {
 
         if (question2 === "Yes") {
-            setIsLoading(true)
-            try {
-                if (!isProMember) {
-                    const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-                    if (Common_Cold) {
-                        const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            // setIsLoading(true)
 
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-                    }
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 2))
+            setShowModal(true)
 
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            // try {
+            //     if (!isProMember) {
+            //         const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+            //         if (Common_Cold) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-            } catch (error) {
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
+            //         }
 
-            }
-            setIsLoading(false)
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
+
+            // } catch (error) {
+
+            // }
+            // setIsLoading(false)
         } else {
             setProgress((current) => current + 0.1)
 
@@ -116,55 +132,77 @@ Wheezing
 
     const handleSubmit = async () => {
 
-        setIsLoading(true)
+        // setIsLoading(true)
         if (question3 === "No") {
-            try {
-                if (!isProMember) {
-                    const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-                    if (Common_Cold) {
-                        const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-                    }
+            setType("payment")
+            setquestionsAndAnswers(result)
+            setShowModal(true)
 
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            // try {
+            //     if (!isProMember) {
+            //         const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
+            //         if (Common_Cold) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-            } catch (error) {
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
+            //         }
 
-            }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
+
+            // } catch (error) {
+
+            // }
 
         } else {
-            navigate.navigate("Consultation")
+            // navigate.navigate("Consultation")
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 2))
+            setShowModal(true)
         }
 
-        setIsLoading(false)
+        // setIsLoading(false)
 
     }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Common Cold"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 3</Text>
 

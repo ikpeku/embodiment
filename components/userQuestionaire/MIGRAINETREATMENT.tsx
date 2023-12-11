@@ -2,23 +2,34 @@ import { Alert, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View } 
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text } from "react-native-paper";
 import CustomButton from "../Button";
-import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
-import { SubmitQuetionnaire } from "../../services";
-import { UserState } from "../../redux/features/useSlice";
-import { useAppSelector } from "../../redux/hooks";
-import useRevenueCat from "../../hooks/useRevenueCat";
-import Purchases from "react-native-purchases";
+// import { useNavigation } from "@react-navigation/native";
+// import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
+// import { SubmitQuetionnaire } from "../../services";
+// import { UserState } from "../../redux/features/useSlice";
+// import { useAppSelector } from "../../redux/hooks";
+// import useRevenueCat from "../../hooks/useRevenueCat";
+// import Purchases from "react-native-purchases";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 
 const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering , isProMember} = useRevenueCat()
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
 
-    const { user } = useAppSelector(UserState)
-    const navigation = useNavigation<QuestionnaireScreenProps>()
-    const navigate = useNavigation<UserConsultationScreenProp>()
+
+    // const { currentOffering , isProMember} = useRevenueCat()
+
+
+
+    // const { user } = useAppSelector(UserState)
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
@@ -95,116 +106,127 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleStepTwo = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if (question2sub6) {
 
 
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 2))
+            setShowModal(true)
 
-            try {
 
-                if(!isProMember) {
 
-                    const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-                    if (Migraine) {
-                        const purchaseInfo = await Purchases.purchasePackage(Migraine)
+            // try {
+
+            //     if(!isProMember) {
+
+            //         const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+            //         if (Migraine) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Migraine)
     
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
     
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
     
     
-                    }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            //         }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
     
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
 
 
 
-            } catch (error) {
+            // } catch (error) {
 
-                // Alert.alert("Error", "please retry sending")
-            }
+            //     // Alert.alert("Error", "please retry sending")
+            // }
 
 
         } else {
             setProgress((current) => current + 0.1)
 
         }
-        setIsLoading(false)
+        // setIsLoading(false)
     }
 
     const handleStepSeven = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if(question7 === "Yes") {
 
-            try {
+            setType("payment")
+            setquestionsAndAnswers(result)
+            setShowModal(true)
 
-                if(!isProMember) {
+            // try {
 
-                    const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
-                    if (Migraine) {
-                        const purchaseInfo = await Purchases.purchasePackage(Migraine)
+            //     if(!isProMember) {
+
+            //         const Migraine = currentOffering?.availablePackages.find(offer => offer.identifier === "Migraine")
+            //         if (Migraine) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Migraine)
     
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
     
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
     
     
-                    }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+            //         }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
     
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
 
 
 
-            } catch (error) {
+            // } catch (error) {
 
-                // Alert.alert("Error", "please retry sending")
-            }
+            //     // Alert.alert("Error", "please retry sending")
+            // }
 
 
         } else {
-            navigate.navigate("Consultation")
-
+            // navigate.navigate("Consultation")
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result)
+            setShowModal(true)
         }
        
-        setIsLoading(false)
+        // setIsLoading(false)
     }
 
 
@@ -213,6 +235,16 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Migraine"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  />}
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
@@ -314,7 +346,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         </View>
 
                         {(question2sub1 || question2sub2 || question2sub3 || question2sub4 || question2sub5 || question2sub6) && <View style={{ flex: 1 }}>
-                        <CustomButton title={question2sub6 ? "Submit" : "Next"} onPress={handleStepTwo} />
+                        <CustomButton title={question2sub6 ? "Treatment Plan" : "Next"} onPress={handleStepTwo} />
                         </View>}
                     </View>
                
@@ -528,11 +560,11 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
             </KeyboardAvoidingView>
         </ScrollView>
     );

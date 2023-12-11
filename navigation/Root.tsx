@@ -15,9 +15,6 @@ import DoctorScreenLayout from "./DoctotBottomTagNav";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
-
-
-
 const Root = () => {
     const insets = useSafeAreaInsets();
 

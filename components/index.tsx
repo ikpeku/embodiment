@@ -4,4 +4,6 @@ export { default as CardTag } from "./CardTag"
 export { default as ProfileItem } from "./ProfileItem"
 export { default as  CompletedAppointment} from "./CompletedAppointment"
 export { default as  UpcomingAppointment} from "./UpcomingAppointment"
+export { default as  Paywall} from "./paywall"
+
 

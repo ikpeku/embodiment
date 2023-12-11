@@ -115,6 +115,9 @@ export const createApointmentApi = ({ doctorId, date, startTime, endTime }: Icre
     )
 }
 
+
+
+
 interface IBookAppointmentApi {
     doctorId: string,
     appointmentId: string,
@@ -131,6 +134,20 @@ export const BookAppointment = ({ appointmentId, startTime, doctorId, userID }: 
         }
     )
 }
+
+// > /delete/:doctoId/:scheduleId"
+
+interface IDeleteAppointmentApi {
+    doctorId: string,
+    scheduleId: string
+}
+
+export const DeleteAppointment = ({ doctorId, scheduleId }: IDeleteAppointmentApi) => {
+    return axios.delete(`${baseURL}/delete/${doctorId}/${scheduleId}`)
+}
+
+
+
 
 
 interface IRateDoctor {

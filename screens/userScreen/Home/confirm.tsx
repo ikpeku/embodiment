@@ -33,7 +33,7 @@ export default function ConfirmAppointment() {
                         <Text style={styles.text}>Our medical expertise will review your questionnaire and send treatment for your condition</Text>
                     </View>
 
-                    <CustomButton title="Processed to make payment" onPress={() => navigation.popToTop()} />
+                    <CustomButton title="Done" onPress={() => navigation.popToTop()} />
                 </View>
 
             </View>

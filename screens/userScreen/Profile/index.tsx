@@ -114,7 +114,7 @@ const DoctorProfile = () => {
                 leftIcon={<Feather name="arrow-up-circle" size={24} color="#0665CB" />}
                 rightIcon={<Ionicons name="chevron-forward" size={20} color="#0665CB" />}
               
-                onPress={() => navigation.navigate("Subscribe")}
+                onPress={() => navigation.navigate("Subscribe", {isFromProfile: true})}
             />}
 
          

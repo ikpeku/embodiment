@@ -1,35 +1,41 @@
 import { View, StyleSheet, Pressable, ScrollView, KeyboardAvoidingView, Alert } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../Button";
-import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
+// import { useNavigation } from "@react-navigation/native";
+// import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
 import { ProgressBar, Text, Checkbox, TextInput, ActivityIndicator, MD2Colors } from 'react-native-paper';
-import { SubmitQuetionnaire } from "../../services";
-import { useAppSelector } from "../../redux/hooks";
-import { UserState } from "../../redux/features/useSlice";
-import useRevenueCat from "../../hooks/useRevenueCat";
-import Purchases from "react-native-purchases";
+// import { SubmitQuetionnaire } from "../../services";
+// import { useAppSelector } from "../../redux/hooks";
+// import { UserState } from "../../redux/features/useSlice";
+// import useRevenueCat from "../../hooks/useRevenueCat";
+// import Purchases from "react-native-purchases";
+import Paywall from "../paywall";
 
 
-// interface IQuestionnaire {
-//     question: string,
-//     description: string,
-//     status: boolean
-// }
 
 interface IUTITREATMENT {
     diseaseId: string
 }
 
 
+
+
+
 const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
-    const { currentOffering, isProMember } = useRevenueCat()
+    // const { currentOffering, isProMember } = useRevenueCat()
 
-    const { user } = useAppSelector(UserState)
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const { user } = useAppSelector(UserState)
 
-    const navigate = useNavigation<UserConsultationScreenProp>()
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
+
+    // const navigate = useNavigation<UserConsultationScreenProp>()
     const [isLoading, setIsLoading] = useState(false)
     const [progress, setProgress] = useState(0.1)
 
@@ -102,96 +108,52 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
 
     const handleStepOne = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if (sex === "Female") {
             setProgress((current) => current + 0.1)
         } else {
-            navigate.navigate("Consultation")
-
-            // try {
-
-            //     const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-            //     if (urinary_tract_infection) {
-            //         const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
-
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
-
-            //         }
-
-            //     }
-
-
-            //     // navigation.navigate("ConfirmAppointment")
-            // } catch (error) {
-            //     // console.log(error)
-            //     // Alert.alert("Error", "please retry sending")
-            // }
+            // navigate.navigate("Consultation")
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 1))
+            setShowModal(true)
         }
 
-
-        setIsLoading(false)
+        // setIsLoading(false)
 
     }
 
     const handleStepTwo = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if (condition === "None") {
             setProgress((current) => current + 0.1)
         } else {
+            
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 2))
+            setShowModal(true)
+            
+          
 
+            // if (!isProMember) {
+            //     // api call here
+            //     SendRequest(result.slice(0, 2))
+               
+            // } else {
+            //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-            if (isProMember) {
-                try {
-                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                    if (urinary_tract_infection) {
-                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-
-                    }
-
-
-                } catch (error) {
-                    // console.log(error)
-                    // Alert.alert("Error", "please retry sending")
-                }
-            } else {
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                        text: 'Cancel',
-                        onPress: () => navigation.goBack(),
-                        style: 'cancel',
-                    },
-                    { text: 'OK', onPress: () => navigation.popToTop() },
-                ])
-            }
+            //     Alert.alert("Done", response?.data?.message, [
+            //         {
+            //             text: 'Cancel',
+            //             onPress: () => navigation.goBack(),
+            //             style: 'cancel',
+            //         },
+            //         { text: 'OK', onPress: () => navigation.popToTop() },
+            //     ])
+            // }
 
 
         }
-        setIsLoading(false)
+        // setIsLoading(false)
 
     }
 
@@ -214,88 +176,121 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
     }
 
     const handleStepSix = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
         if (question6 === "No") {
 
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 6))
+            setShowModal(true)
+
+            // try {
+
+            //     if (!isProMember) {
+            //         const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            //         if (urinary_tract_infection) {
+            //             const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
+
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
+
+            //         }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
+
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
 
 
-            try {
-
-                if (!isProMember) {
-                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                    if (urinary_tract_infection) {
-                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
-
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-
-                    }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
-
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
-
-
-            } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
-            }
-
-
-
-
-
+            // } catch (error) {
+            //     // console.log(error)
+            //     // Alert.alert("Error", "please retry sending")
+            // }
 
         } else {
             setProgress((current) => current + 0.1)
         }
-        setIsLoading(false)
+        // setIsLoading(false)
     }
 
     const handleStepSeven = async () => {
         if (question7 === "No") {
-            navigate.navigate("Consultation")
+            // navigate.navigate("Consultation")
+
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 7))
+            setShowModal(true)
+
+            
+        } else {
+            setProgress((current) => current + 0.1)
+
+        }
+    }
+
+    const handleStepElleven = async () => {
+        // setIsLoading(true)
+        if (question11 === "No") {
+
+            
+            setType("payment")
+            setquestionsAndAnswers(result)
+            setShowModal(true)
+
+
+
 
             // try {
 
 
-            //     const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-            //     if (urinary_tract_infection) {
-            //         const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
+            //     if (!isProMember) {
+            //         const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
+            //         if (urinary_tract_infection) {
+            //             const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
 
-            //         if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 7) })
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
 
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
 
             //         }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
+
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
             //     }
 
 
@@ -307,76 +302,33 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
 
         } else {
-            setProgress((current) => current + 0.1)
+            // navigate.navigate("Consultation")
+
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result)
+            setShowModal(true)
 
         }
+        // setIsLoading(false)
     }
 
-    const handleStepElleven = async () => {
-        setIsLoading(true)
-        if (question11 === "No") {
 
-
-
-
-            try {
-
-
-                if (!isProMember) {
-                    const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-                    if (urinary_tract_infection) {
-                        const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-                        if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-
-                    }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
-
-
-
-
-                // navigation.navigate("ConfirmAppointment")
-            } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
-            }
-
-
-        } else {
-            navigate.navigate("Consultation")
-
-        }
-        setIsLoading(false)
-    }
 
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView style={{ position: "relative" }}>
+                {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="urinary_tract_infection"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                 
+                  />}
 
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 11</Text>
@@ -876,11 +828,11 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

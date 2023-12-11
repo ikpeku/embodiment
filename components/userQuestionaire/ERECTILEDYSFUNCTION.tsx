@@ -2,23 +2,32 @@ import React, { useEffect, useState } from "react";
 import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
 import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
-import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
-import { SubmitQuetionnaire } from "../../services";
-import { UserState } from "../../redux/features/useSlice";
-import { useAppSelector } from "../../redux/hooks";
-import Purchases from "react-native-purchases";
-import useRevenueCat from "../../hooks/useRevenueCat";
+// import { useNavigation } from "@react-navigation/native";
+// import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
+// import { SubmitQuetionnaire } from "../../services";
+// import { UserState } from "../../redux/features/useSlice";
+// import { useAppSelector } from "../../redux/hooks";
+// import Purchases from "react-native-purchases";
+// import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 
 
 const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
 
-    const { currentOffering , isProMember} = useRevenueCat()
+    
 
-    const { user } = useAppSelector(UserState)
-    const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const { currentOffering , isProMember} = useRevenueCat()
+
+    // const { user } = useAppSelector(UserState)
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
     // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
@@ -78,55 +87,59 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleStepOne = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
 
         if (question1 === "Yes") {
 
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 1))
+            setShowModal(true)
 
-            try {
 
-                if(!isProMember){
-                    const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
-                if (Erectile_Dyfunction) {
-                    const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+            // try {
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+            //     if(!isProMember){
+            //         const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === )
+            //     if (Erectile_Dyfunction) {
+            //         const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
+            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
 
-                    }
-                }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+            //         }
+            //     }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
 
-                }
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
 
-            } catch (error) {
+            //     }
+
+            // } catch (error) {
                 
-            }
+            // }
 
 
         } else {
             setProgress((current) => current + 0.1)
         }
 
-        setIsLoading(false)
+        // setIsLoading(false)
     }
 
     const handleStepFour = () => {
@@ -140,48 +153,53 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleStepSeven = async () => {
-        setIsLoading(true)
-        try {
+        // setIsLoading(true)
 
-           if(!isProMember){
-            const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
-            if (Erectile_Dyfunction) {
-                const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
-                if (purchaseInfo?.customerInfo?.entitlements?.active) {
+        setType("payment")
+        setquestionsAndAnswers(result)
+        setShowModal(true)
 
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        // try {
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
+        //    if(!isProMember){
+        //     const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
+        //     if (Erectile_Dyfunction) {
+        //         const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
+        //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
 
-                }
-            }
-           } else {
-            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+        //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-           }
+        //             Alert.alert("Done", response?.data?.message, [
+        //                 {
+        //                     text: 'Cancel',
+        //                     onPress: () => navigation.goBack(),
+        //                     style: 'cancel',
+        //                 },
+        //                 { text: 'OK', onPress: () => navigation.popToTop() },
+        //             ])
 
-            // navigation.navigate("ConfirmAppointment")
-        } catch (error) {
-            // console.log(error)
-            // Alert.alert("Error", "please retry sending")
-        }
+        //         }
+        //     }
+        //    } else {
+        //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+
+        //             Alert.alert("Done", response?.data?.message, [
+        //                 {
+        //                     text: 'Cancel',
+        //                     onPress: () => navigation.goBack(),
+        //                     style: 'cancel',
+        //                 },
+        //                 { text: 'OK', onPress: () => navigation.popToTop() },
+        //             ])
+        //    }
+
+        //     // navigation.navigate("ConfirmAppointment")
+        // } catch (error) {
+        //     // console.log(error)
+        //     // Alert.alert("Error", "please retry sending")
+        // }
         // navigation.navigate("ConfirmAppointment")
-        setIsLoading(false)
+        // setIsLoading(false)
     }
 
 
@@ -213,6 +231,18 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Erectile Dyfunction"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                 
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
 
@@ -527,11 +557,11 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

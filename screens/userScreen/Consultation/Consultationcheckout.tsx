@@ -13,20 +13,16 @@ import { UserState } from '../../../redux/features/useSlice';
 import { useQueryClient } from '@tanstack/react-query';
 import useRevenueCat from '../../../hooks/useRevenueCat';
 
-
-
 const Consultationcheckout = () => {
     const { user } = useAppSelector(UserState)
     const navigation = useNavigation<ConfirmappiontmentBookScreenProps>()
     const route = useRoute<ConsultationcheckoutRouteProp>()
     const queryClient = useQueryClient()
 
+
     const { data = [], isLoading } = useDoctor(route?.params.doctorId)
 
-    const {currentOffering, customerInfo, isProMember} = useRevenueCat()
-
-    // console.log(isProMember)
-  
+    const {isProMember} = useRevenueCat()
 
 
     const handleCheckout = async() => {
@@ -53,6 +49,10 @@ const Consultationcheckout = () => {
 
     return (
         <View style={styles.container}>
+
+
+
+
             <View>
                 <CardTag
                     title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
@@ -91,8 +91,18 @@ const Consultationcheckout = () => {
             </View>
 
             <View style={{ width: "100%", marginTop: 30, }}>
-                {isProMember && <CustomButton title="Book Appointment" onPress={handleCheckout} />}
-                {!isProMember && <CustomButton title="Subsquire" onPress={() => navigation.navigate("Subscribe")} />}
+                {isProMember && <CustomButton title="Book Appointment" onPress={() => Alert.alert("Book Appointment", `Proceed to book appointment with  Dr.${data?.data?.user?.firstName} ${data?.data?.user?.lastName}.`, [
+                    {
+                        style: "cancel",
+                        text: "cancel",
+                        onPress: () => {}
+                    },
+                    {
+                        text: "Confirm",
+                        onPress: handleCheckout
+                    }
+                ])} />}
+                {!isProMember && <CustomButton title="Subsquire" onPress={() => navigation.navigate("Subscribe", {isFromProfile: false})} />}
             </View>
 
 

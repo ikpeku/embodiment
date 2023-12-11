@@ -9,16 +9,27 @@ import { useAppSelector } from "../../redux/hooks";
 import { SubmitQuetionnaire } from "../../services";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 
 const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
-    const { currentOffering, isProMember } = useRevenueCat()
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
-    const navigate = useNavigation<UserConsultationScreenProp>()
-    const { user } = useAppSelector(UserState)
+
+    
+
+    // const { currentOffering, isProMember } = useRevenueCat()
+
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigate = useNavigation<UserConsultationScreenProp>()
+    // const { user } = useAppSelector(UserState)
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -150,45 +161,49 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
         if (question1 === "Schizophrenia" || question1 === "Personalitity disorder( obessive compulsive disorder)" || question1 === "Mood disorder" || question1 === "Substance Abuse") {
 
-            setIsLoading(true)
-            try {
-                if(!isProMember) {
-                    const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-                    if (Anxiety_treatment) {
-                        const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 1))
+            setShowModal(true)
+            
+            // setIsLoading(true)
+            // try {
+            //     if(!isProMember) {
+            //         const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+            //         if (Anxiety_treatment) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
     
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
-                        }
-                    }
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
+            //             }
+            //         }
 
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
     
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
           
-            } catch (error) {
-                // console.log(error)
-                // Alert.alert("Error", "please retry sending")
-            }
+            // } catch (error) {
+            //     // console.log(error)
+            //     // Alert.alert("Error", "please retry sending")
+            // }
          
-            setIsLoading(false)
+            // setIsLoading(false)
          
         } else {
             setProgress((current) => current + 0.1)
@@ -200,45 +215,50 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
     const handleStepNine = async () => {
 
         if (question9 === "Stop questions") {
-            setIsLoading(true)
-            try {
 
-              if(!isProMember) {
-                const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
-                if (Anxiety_treatment) {
-                    const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 9))
+            setShowModal(true)
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+            // setIsLoading(true)
+            // try {
 
-                    }
-                }
+            //   if(!isProMember) {
+            //     const Anxiety_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Anxiety treatment")
+            //     if (Anxiety_treatment) {
+            //         const purchaseInfo = await Purchases.purchasePackage(Anxiety_treatment)
+            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
 
-              } else {
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-              }
+            //         }
+            //     }
+
+            //   } else {
+            //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 9) })
+
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
+            //   }
           
-            } catch (error) {
+            // } catch (error) {
             
-            }
-            setIsLoading(false)
+            // }
+            // setIsLoading(false)
 
         } else {
             setProgress((current) => current + 0.1)
@@ -266,9 +286,13 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleSubmit = async () => {
-        setIsLoading(true)
-        navigate.navigate("Consultation")
-        setIsLoading(false)
+        // setIsLoading(true)
+        // navigate.navigate("Consultation")
+        // setIsLoading(false)
+
+        setType("bookAppointment")
+        // setquestionsAndAnswers(result.slice(0, 9))
+        setShowModal(true)
       
     }
 
@@ -278,6 +302,18 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Anxiety treatment"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 18</Text>
 
@@ -1059,11 +1095,11 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

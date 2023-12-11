@@ -3,7 +3,7 @@ import { StyleSheet, View, FlatList, Pressable, Alert } from 'react-native'
 import { Text, Modal, Portal, Provider, ActivityIndicator, MD2Colors} from 'react-native-paper';
 import { Feather, MaterialCommunityIcons, AntDesign, Entypo } from '@expo/vector-icons';
 import { CustomButton } from '../../../components';
-import {createApointmentApi, useDoctor} from '../../../services';
+import {DeleteAppointment, createApointmentApi, useDoctor} from '../../../services';
 import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
 import { DateTime } from '../../../components/DateTime';
@@ -21,6 +21,7 @@ interface IItem {
     data: {
         date: string,
         schedules: {
+            _id: string;
             startTime: string;
             endTime: string;
         }[]
@@ -33,7 +34,6 @@ const CreateDoctorSchedule = () => {
 
     const router = useRoute<CreateDoctorScheduleRouteProp>()
 
-    // console.log(router.params.index)
 
 
     const flatListRef = useRef<FlatList>(null);
@@ -130,6 +130,21 @@ const CreateDoctorSchedule = () => {
     }
 
 
+    const handeleDeleteAppointment = async(id:string) => {
+       
+        try {
+            setLoading(true)
+            await DeleteAppointment({ doctorId: user._id, scheduleId: id})
+            await queryClient.invalidateQueries({ queryKey: ["doctorbyid"] })
+        } catch (error:any) {
+            Alert.alert("Error", "delete failed try again")
+
+        } finally {
+            setLoading(false) 
+        }
+    }
+
+
 
     useEffect(() => {
             setIndex(router.params.index)
@@ -159,7 +174,7 @@ const CreateDoctorSchedule = () => {
                                 <AntDesign name="minus" size={24} color="black" />
                        
                                 <Text style={[styles.title, styles.date]}>{time.endTime}</Text>
-                                <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" style={{ marginLeft: "auto", opacity: 0.6 }} />
+                                <MaterialCommunityIcons onPress={() => handeleDeleteAppointment(time._id)} name="trash-can-outline" size={24} color="black" style={{ marginLeft: "auto", opacity: 0.6 }} />
                             </View>
                         ))
                     }

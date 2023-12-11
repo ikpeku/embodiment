@@ -9,17 +9,29 @@ import { useAppSelector } from "../../redux/hooks";
 import { UserState } from "../../redux/features/useSlice";
 import Purchases from "react-native-purchases";
 import useRevenueCat from "../../hooks/useRevenueCat";
+import Paywall from "../paywall";
 
 
 type IdiseaseId = { diseaseId: string }
 
 const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
-    const { currentOffering, isProMember } = useRevenueCat()
 
-    const { user } = useAppSelector(UserState)
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
-    const navigate = useNavigation<UserConsultationScreenProp>()
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
+
+    
+
+    // const { currentOffering, isProMember } = useRevenueCat()
+
+    // const { user } = useAppSelector(UserState)
+
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
@@ -79,50 +91,50 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
     const handleStepFour = async () => {
 
-        // if (question4 === "Yes") {
-        //     navigate.navigate("Consultation")
-        // } else {
+            // setIsLoading(true)
 
+            setType("payment")
+            setquestionsAndAnswers(result)
+            setShowModal(true)
 
-            setIsLoading(true)
-            try {
+            // try {
 
-                if(!isProMember) {
-                    const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
-                if (Premature_ejaculation) {
-                    const purchaseInfo = await Purchases.purchasePackage(Premature_ejaculation)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+            //     if(!isProMember) {
+            //         const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
+            //     if (Premature_ejaculation) {
+            //         const purchaseInfo = await Purchases.purchasePackage(Premature_ejaculation)
+            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
 
-                    }
-                }
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
+            //         }
+            //     }
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
 
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-                }
+            //             Alert.alert("Done", response?.data?.message, [
+            //                 {
+            //                     text: 'Cancel',
+            //                     onPress: () => navigation.goBack(),
+            //                     style: 'cancel',
+            //                 },
+            //                 { text: 'OK', onPress: () => navigation.popToTop() },
+            //             ])
+            //     }
 
-            } catch (error) {
+            // } catch (error) {
 
-                // Alert.alert("Error", "please retry sending")
-            }
-            setIsLoading(false)
+            //     // Alert.alert("Error", "please retry sending")
+            // }
+            // setIsLoading(false)
             // navigation.navigate("ConfirmAppointment")
 
         // }
@@ -132,6 +144,18 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Premature ejaculation"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 4</Text>
 
@@ -338,11 +362,11 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
 
             </KeyboardAvoidingView>

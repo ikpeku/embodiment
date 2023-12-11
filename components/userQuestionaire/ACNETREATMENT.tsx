@@ -14,6 +14,7 @@ import useRevenueCat from "../../hooks/useRevenueCat";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db } from "../../utils/firebase";
 import Image_Picker_Without_Blob from "../image_picker_without_blob";
+import Paywall from "../paywall";
 
 
 type IdiseaseId = { diseaseId: string }
@@ -21,14 +22,24 @@ type IdiseaseId = { diseaseId: string }
 const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
     db
+
+    const [showModal, setShowModal] = useState(false)
+    const [type, setType] = useState<"bookAppointment" | "payment">("payment")
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+        question: string,
+        answer: string | number
+    }[]>([{answer: "", question: ""}])
+
+
+    
     const { image, pickImage, pickerImage } = Image_Picker_Without_Blob()
 
-    const { currentOffering, isProMember } = useRevenueCat()
+    // const { currentOffering, isProMember } = useRevenueCat()
 
     const { user } = useAppSelector(UserState)
     // const { data } = useUser(user._id)
 
-    const navigation = useNavigation<QuestionnaireScreenProps>()
+    // const navigation = useNavigation<QuestionnaireScreenProps>()
     const [isLoading, setIsLoading] = useState(false)
 
     const [progress, setProgress] = useState(0.1)
@@ -175,50 +186,53 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
     const handleStepTwo = async () => {
 
         if (question2 === "I am pregnant") {
-            // navigation.navigate("ConfirmAppointment")
+           
+            setType("payment")
+            setquestionsAndAnswers(result.slice(0, 2))
+            setShowModal(true)
 
 
-            setIsLoading(true)
-            try {
+            // setIsLoading(true)
+            // try {
 
-                if (!isProMember) {
-                    const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
-                    if (Acne_treatment) {
-                        const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
-                        if (purchaseInfo?.customerInfo?.entitlements?.active) {
-                            const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            //     if (!isProMember) {
+            //         const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
+            //         if (Acne_treatment) {
+            //             const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
+            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
+            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-                            Alert.alert("Done", response?.data?.message, [
-                                {
-                                    text: 'Cancel',
-                                    onPress: () => navigation.goBack(),
-                                    style: 'cancel',
-                                },
-                                { text: 'OK', onPress: () => navigation.popToTop() },
-                            ])
+            //                 Alert.alert("Done", response?.data?.message, [
+            //                     {
+            //                         text: 'Cancel',
+            //                         onPress: () => navigation.goBack(),
+            //                         style: 'cancel',
+            //                     },
+            //                     { text: 'OK', onPress: () => navigation.popToTop() },
+            //                 ])
 
-                        }
-                    }
+            //             }
+            //         }
 
-                } else {
-                    const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
+            //     } else {
+            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
 
-                    Alert.alert("Done", response?.data?.message, [
-                        {
-                            text: 'Cancel',
-                            onPress: () => navigation.goBack(),
-                            style: 'cancel',
-                        },
-                        { text: 'OK', onPress: () => navigation.popToTop() },
-                    ])
-                }
+            //         Alert.alert("Done", response?.data?.message, [
+            //             {
+            //                 text: 'Cancel',
+            //                 onPress: () => navigation.goBack(),
+            //                 style: 'cancel',
+            //             },
+            //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //         ])
+            //     }
 
 
-            } catch (error) {
+            // } catch (error) {
 
-            }
+            // }
 
-            setIsLoading(false)
+            // setIsLoading(false)
 
         } else {
             setProgress((current) => current + 0.1)
@@ -228,83 +242,91 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleSubmit = async () => {
-        setIsLoading(true)
+        // setIsLoading(true)
 
         if (!image) return
 
         let avatarUrl = ""
 
-        try {
-
-            if (!isProMember) {
-                const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
-                if (Acne_treatment) {
-                    const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
-                    if (purchaseInfo?.customerInfo?.entitlements?.active) {
-
-                        if (image) {
-                            const avatar = `${user.firstName}${user.lastName}`
-                            const reference = ref(getStorage(), avatar)
-                            await uploadBytesResumable(reference, image)
-                            const downloadURL = await getDownloadURL(reference);
-                            avatarUrl = downloadURL
-                        }
-
-
-                        const questionsAndAnswers = [...result, {
-                            question: "Affected skin area",
-                            answer: avatarUrl,
-                            isText: false
-                        }]
-
-                        const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
-
-                        Alert.alert("Done", response?.data?.message, [
-                            {
-                                text: 'Cancel',
-                                onPress: () => navigation.goBack(),
-                                style: 'cancel',
-                            },
-                            { text: 'OK', onPress: () => navigation.popToTop() },
-                        ])
-                    }
-                }
-
-            } else {
-
-                if (image) {
-                    const avatar = `${user.firstName}${user.lastName}`
-                    const reference = ref(getStorage(), avatar)
-                    await uploadBytesResumable(reference, image)
-                    const downloadURL = await getDownloadURL(reference);
-                    avatarUrl = downloadURL
-                }
-
-
-                const questionsAndAnswers = [...result, {
-                    question: "Affected skin area",
-                    answer: avatarUrl,
-                    isText: false
-                }]
-
-
-                const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
-                Alert.alert("Done", response?.data?.message, [
-                    {
-                        text: 'Cancel',
-                        onPress: () => navigation.goBack(),
-                        style: 'cancel',
-                    },
-                    { text: 'OK', onPress: () => navigation.popToTop() },
-                ])
-            }
-
-
-        } catch (error) {
-
+        if (image) {
+            const avatar = `${user.firstName}${user.lastName}`
+            const reference = ref(getStorage(), avatar)
+            await uploadBytesResumable(reference, image)
+            const downloadURL = await getDownloadURL(reference);
+            avatarUrl = downloadURL
         }
 
-        setIsLoading(false)
+
+        const questionsAndAnswers = [...result, {
+            question: "Affected skin area",
+            answer: avatarUrl,
+            isText: false
+        }]
+
+        setType("payment")
+            setquestionsAndAnswers(questionsAndAnswers)
+            setShowModal(true)
+
+
+
+        // try {
+
+            // if (!isProMember) {
+            //     // const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
+            //     // if (Acne_treatment) {
+            //     //     const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
+            //     //     if (purchaseInfo?.customerInfo?.entitlements?.active) {
+
+                       
+
+            //     //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
+
+            //     //         Alert.alert("Done", response?.data?.message, [
+            //     //             {
+            //     //                 text: 'Cancel',
+            //     //                 onPress: () => navigation.goBack(),
+            //     //                 style: 'cancel',
+            //     //             },
+            //     //             { text: 'OK', onPress: () => navigation.popToTop() },
+            //     //         ])
+            //     //     }
+            //     // }
+
+            // } else {
+
+            //     if (image) {
+            //         const avatar = `${user.firstName}${user.lastName}`
+            //         const reference = ref(getStorage(), avatar)
+            //         await uploadBytesResumable(reference, image)
+            //         const downloadURL = await getDownloadURL(reference);
+            //         avatarUrl = downloadURL
+            //     }
+
+
+            //     const questionsAndAnswers = [...result, {
+            //         question: "Affected skin area",
+            //         answer: avatarUrl,
+            //         isText: false
+            //     }]
+
+
+            //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
+            //     Alert.alert("Done", response?.data?.message, [
+            //         {
+            //             text: 'Cancel',
+            //             onPress: () => navigation.goBack(),
+            //             style: 'cancel',
+            //         },
+            //         { text: 'OK', onPress: () => navigation.popToTop() },
+            //     ])
+            // }
+
+
+        // } catch (error) {
+
+        // }
+
+        // setIsLoading(false)
 
     }
 
@@ -313,6 +335,19 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
+            
+            {showModal && <Paywall
+                setShowModal={setShowModal}
+                showModal={showModal}
+                type={type}
+                 diseaseId={diseaseId}
+                  diseaseType="Acne treatment"
+                  questionsAndAnswers={questionsAndAnswers}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                 
+                  />}
+
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 14</Text>
 
@@ -999,11 +1034,11 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                 </View>}
 
 
-                {isLoading && (
+                {/* {isLoading && (
                     <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
                         <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
                     </View>
-                )}
+                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

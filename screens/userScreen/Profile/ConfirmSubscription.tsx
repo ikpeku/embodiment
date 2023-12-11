@@ -17,6 +17,7 @@ const ConfirmSubscription = () => {
             </View>
 
             <CustomButton onPress={() => navigation.navigate("Profile")} title={"Done"} />
+            
         </View>
     )
 }
