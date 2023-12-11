@@ -81,7 +81,7 @@ const Subscribe = () => {
                         onPress: () => navigation.goBack()
                     }
                    ])
-            }
+            } 
             }
         }
         setIsLoading(v => !v)
@@ -92,7 +92,7 @@ const Subscribe = () => {
         const annual = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_annual")
         if(annual) {
             const purchaseInfo = await Purchases.purchasePackage(annual)
-
+ 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
                 if(params.isFromProfile){
 
