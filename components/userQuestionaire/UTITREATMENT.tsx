@@ -1,14 +1,7 @@
-import { View, StyleSheet, Pressable, ScrollView, KeyboardAvoidingView, Alert } from "react-native";
+import { View, StyleSheet, Pressable, ScrollView, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 import CustomButton from "../Button";
-// import { useNavigation } from "@react-navigation/native";
-// import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
-import { ProgressBar, Text, Checkbox, TextInput, ActivityIndicator, MD2Colors } from 'react-native-paper';
-// import { SubmitQuetionnaire } from "../../services";
-// import { useAppSelector } from "../../redux/hooks";
-// import { UserState } from "../../redux/features/useSlice";
-// import useRevenueCat from "../../hooks/useRevenueCat";
-// import Purchases from "react-native-purchases";
+import { ProgressBar, Text, Checkbox, TextInput} from 'react-native-paper';
 import Paywall from "../paywall";
 
 
@@ -22,7 +15,6 @@ interface IUTITREATMENT {
 
 
 const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
-    // const { currentOffering, isProMember } = useRevenueCat()
 
     const [showModal, setShowModal] = useState(false)
     const [type, setType] = useState<"bookAppointment" | "payment">("payment")
@@ -31,11 +23,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
         answer: string | number
     }[]>([{answer: "", question: ""}])
 
-    // const { user } = useAppSelector(UserState)
-
-    // const navigation = useNavigation<QuestionnaireScreenProps>()
-
-    // const navigate = useNavigation<UserConsultationScreenProp>()
+  
     const [isLoading, setIsLoading] = useState(false)
     const [progress, setProgress] = useState(0.1)
 
@@ -128,32 +116,12 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
             setProgress((current) => current + 0.1)
         } else {
             
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 2))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 2))
             setShowModal(true)
             
-          
-
-            // if (!isProMember) {
-            //     // api call here
-            //     SendRequest(result.slice(0, 2))
-               
-            // } else {
-            //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            //     Alert.alert("Done", response?.data?.message, [
-            //         {
-            //             text: 'Cancel',
-            //             onPress: () => navigation.goBack(),
-            //             style: 'cancel',
-            //         },
-            //         { text: 'OK', onPress: () => navigation.popToTop() },
-            //     ])
-            // }
-
 
         }
-        // setIsLoading(false)
 
     }
 
@@ -179,54 +147,15 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
         // setIsLoading(true)
         if (question6 === "No") {
 
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 6))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 6))
             setShowModal(true)
 
-            // try {
-
-            //     if (!isProMember) {
-            //         const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-            //         if (urinary_tract_infection) {
-            //             const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
-
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-            //             }
-
-            //         }
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 6) })
-
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-
-            // } catch (error) {
-            //     // console.log(error)
-            //     // Alert.alert("Error", "please retry sending")
-            // }
 
         } else {
             setProgress((current) => current + 0.1)
         }
-        // setIsLoading(false)
+       
     }
 
     const handleStepSeven = async () => {
@@ -253,63 +182,13 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
             setquestionsAndAnswers(result)
             setShowModal(true)
 
-
-
-
-            // try {
-
-
-            //     if (!isProMember) {
-            //         const urinary_tract_infection = currentOffering?.availablePackages.find(offer => offer.identifier === "urinary_tract_infection")
-            //         if (urinary_tract_infection) {
-            //             const purchaseInfo = await Purchases.purchasePackage(urinary_tract_infection)
-
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-            //             }
-
-            //         }
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-
-            //     // navigation.navigate("ConfirmAppointment")
-            // } catch (error) {
-            //     // console.log(error)
-            //     // Alert.alert("Error", "please retry sending")
-            // }
-
-
         } else {
-            // navigate.navigate("Consultation")
-
             setType("bookAppointment")
             // setquestionsAndAnswers(result)
             setShowModal(true)
 
         }
-        // setIsLoading(false)
+        
     }
 
 
@@ -404,7 +283,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         </View>
 
                         {condition && <View style={{ flex: 1 }}>
-                           <CustomButton title={condition === "None" ? "Next" : "Treatment plan"} onPress={handleStepTwo} />
+                           <CustomButton title={condition === "None" ? "Next" : "Book Appointment"} onPress={handleStepTwo} />
                         </View>}
                     </View>
 
@@ -630,7 +509,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         </View>
 
                         {question6 && <View style={{ flex: 1 }}>
-                        <CustomButton title={question6 === "No" ? "Treatment plan" : "Next"} onPress={handleStepSix} />
+                        <CustomButton title={question6 === "No" ? "Book Appointment" : "Next"} onPress={handleStepSix} />
                         </View>}
                     </View>
 
@@ -821,18 +700,12 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
                         </View>
 
                         {question11 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Treatment plan"} onPress={handleStepElleven} />
+                        <CustomButton title={question11 === "No" ? "Treatment plan" : "Book appointment"} onPress={handleStepElleven} />
                         </View>}
                     </View>
 
                 </View>}
 
-
-                {/* {isLoading && (
-                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                    </View>
-                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

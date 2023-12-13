@@ -8,13 +8,9 @@ import { UserState } from '../../../redux/features/useSlice';
 import { useAppSelector } from '../../../redux/hooks';
 import { DateTime } from '../../../components/DateTime';
 import dayjs from 'dayjs'
-// import { useGetDoctorAppointment } from '../../../services/doctorApi';
 import {useRoute} from "@react-navigation/native";
 import {CreateDoctorScheduleRouteProp} from "../../../types";
-import { isAxiosError } from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
-
-
 
 
 interface IItem {
@@ -26,38 +22,26 @@ interface IItem {
             endTime: string;
         }[]
     }
-
 }
 
 const CreateDoctorSchedule = () => {
     const queryClient = useQueryClient()
-
     const router = useRoute<CreateDoctorScheduleRouteProp>()
-
-
 
     const flatListRef = useRef<FlatList>(null);
     const [index, setIndex] = useState(0)
 
-
-
-
     const [visible, setVisible] = useState(false);
     const [visible2, setVisible2] = useState(false);
-    // const [star, setStar] = useState(0);
-    // const [data, setData] = useState({})
 
     const [showDate, setShowDate] = useState(false);
     const [showStartTime, setShowStartTime] = useState(false);
 
     const [showEndTime, setShowEndTime] = useState(false);
 
-
     const [date, setDate] = useState(new Date());
     const [endTime, setEndTime] = useState(new Date());
     const [startTime, setStartTime] = useState(new Date());
-
- 
 
     const { user } = useAppSelector(UserState)
     const showModal = () => setVisible(true);
@@ -70,8 +54,6 @@ const CreateDoctorSchedule = () => {
     const [loading, setLoading] = useState(false)
     const [existingDate, setExistingDate] = useState("")
 
-
-    // const { mutate, isLoading: loading, error} = useCreateAppointment()
 
 
     const handleCreateAppointment = async() => {
@@ -86,19 +68,15 @@ const CreateDoctorSchedule = () => {
             await queryClient.invalidateQueries({ queryKey: ["doctorbyid"] })
         } catch (error:any) {
             if(error.response){
-                // console.error("errs: ",error.response.data.error)
-                // console.log("errs: ",error.response.data.error)
                 Alert.alert("Error", error.response.data.error)
             }
            
-        if(isAxiosError(error)){
-            // console.log("err: ",error)
-        }
-        // console.log("error: ",error)
         } finally {
             setLoading(false)
         }
     }
+
+
 
     const handleCreateAppointmentWithExistingDate = async() => {
         
@@ -113,29 +91,22 @@ const CreateDoctorSchedule = () => {
             await queryClient.invalidateQueries({ queryKey: ["doctorbyid"] })
         } catch (error:any) {
             if(error.response){
-                // console.error("errs: ",error.response.data.error)
-                // console.log("errs: ",error.response.data.error)
                 Alert.alert("Error", error.response.data.error)
             }
            
-        if(isAxiosError(error)){
-            // console.log("err: ",error)
-        }
-
-        // console.log("error: ",error)
         } finally {
             setLoading(false)
         }
-
     }
 
 
     const handeleDeleteAppointment = async(id:string) => {
-       
+      
         try {
             setLoading(true)
             await DeleteAppointment({ doctorId: user._id, scheduleId: id})
             await queryClient.invalidateQueries({ queryKey: ["doctorbyid"] })
+            Alert.alert("success", "Deleted successful.")
         } catch (error:any) {
             Alert.alert("Error", "delete failed try again")
 
@@ -199,12 +170,6 @@ const CreateDoctorSchedule = () => {
         )
     }
 
-
-
-
-  
-
-     
 
 
     return (

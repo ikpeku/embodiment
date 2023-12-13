@@ -143,7 +143,7 @@ interface IDeleteAppointmentApi {
 }
 
 export const DeleteAppointment = ({ doctorId, scheduleId }: IDeleteAppointmentApi) => {
-    return axios.delete(`${baseURL}/delete/${doctorId}/${scheduleId}`)
+    return axios.delete(`${baseURL}/appointment/delete/${doctorId}/${scheduleId}`)
 }
 
 

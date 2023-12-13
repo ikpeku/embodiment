@@ -1,15 +1,8 @@
 
-import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text } from "react-native-paper";
+import { Checkbox, ProgressBar, Text } from "react-native-paper";
 import CustomButton from "../Button";
-import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
-import { useAppSelector } from "../../redux/hooks";
-import { UserState } from "../../redux/features/useSlice";
-import { SubmitQuetionnaire } from "../../services";
-import Purchases from "react-native-purchases";
-import useRevenueCat from "../../hooks/useRevenueCat";
 import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
@@ -17,22 +10,13 @@ const COMMONCOLD = ({ diseaseId }: IdiseaseId) => {
 
     const [showModal, setShowModal] = useState(false)
     const [type, setType] = useState<"bookAppointment" | "payment">("payment")
-    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState<{
         question: string,
         answer: string | number
-    }[]>([{answer: "", question: ""}])
-
-    
-
-    // const { currentOffering, isProMember } = useRevenueCat()
-    // const { user } = useAppSelector(UserState)
+    }[]>([{ answer: "", question: "" }])
 
 
     const [isLoading, setIsLoading] = useState(false)
-
-    // const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
-
     const [progress, setProgress] = useState(0.1)
 
     const [question1, setQuestion1] = useState<"Yes" | "No" | string>("")
@@ -80,49 +64,11 @@ Wheezing
     const handleStepTwo = async () => {
 
         if (question2 === "Yes") {
-            // setIsLoading(true)
 
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 2))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 2))
             setShowModal(true)
 
-
-            // try {
-            //     if (!isProMember) {
-            //         const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-            //         if (Common_Cold) {
-            //             const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-            //             }
-            //         }
-
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-            // } catch (error) {
-
-            // }
-            // setIsLoading(false)
         } else {
             setProgress((current) => current + 0.1)
 
@@ -133,57 +79,18 @@ Wheezing
     const handleSubmit = async () => {
 
         // setIsLoading(true)
-        if (question3 === "No") {
+        if (question3 === "Yes") {
 
             setType("payment")
             setquestionsAndAnswers(result)
             setShowModal(true)
 
-
-            // try {
-            //     if (!isProMember) {
-            //         const Common_Cold = currentOffering?.availablePackages.find(offer => offer.identifier === "Common Cold")
-            //         if (Common_Cold) {
-            //             const purchaseInfo = await Purchases.purchasePackage(Common_Cold)
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-            //             }
-            //         }
-
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-            // } catch (error) {
-
-            // }
-
         } else {
-            // navigate.navigate("Consultation")
             setType("bookAppointment")
             // setquestionsAndAnswers(result.slice(0, 2))
             setShowModal(true)
         }
 
-        // setIsLoading(false)
 
     }
 
@@ -191,17 +98,17 @@ Wheezing
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
 
-            {showModal && <Paywall
-                setShowModal={setShowModal}
-                showModal={showModal}
-                type={type}
-                 diseaseId={diseaseId}
-                  diseaseType="Common Cold"
-                  questionsAndAnswers={questionsAndAnswers}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                  
-                  />}
+                {showModal && <Paywall
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    type={type}
+                    diseaseId={diseaseId}
+                    diseaseType="Common Cold"
+                    questionsAndAnswers={questionsAndAnswers}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+
+                />}
 
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 3</Text>
@@ -300,11 +207,11 @@ Wheezing
 
                     <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
-                        { question2 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={handleStepTwo} />
+                        {question2 && <View style={{ flex: 1 }}>
+                            <CustomButton title={"Next"} onPress={handleStepTwo} />
                         </View>}
                     </View>
 
@@ -339,23 +246,17 @@ Wheezing
 
                     <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
-                        { question3 && <View style={{ flex: 1 }}>
-                        <CustomButton title={question3 === "Yes" ? "Book Appointment" : "Submit"} onPress={handleSubmit} />
-                        </View>}
-                    </View>
+                        {question3 &&
+                            <View style={{ flex: 1 }}>
+                                <CustomButton title={question3 === "Yes" ? "Treatment plan" : "Book appointment"} onPress={handleSubmit} />
+                            </View>
+                        }
 
-                    
+                    </View>
                 </View>}
-
-
-                {isLoading && (
-                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                    </View>
-                )}
 
             </KeyboardAvoidingView>
         </ScrollView>
@@ -371,7 +272,6 @@ const styles = StyleSheet.create({
         padding: 10
     },
     box: {
-        // flex: 1,
         flexDirection: "row",
         width: "100%",
         alignItems: "center",

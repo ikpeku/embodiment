@@ -98,51 +98,10 @@ Dark, tarry stools or bloody vomit
 
         if (question3 === "Yes") {
 
-            // setIsLoading(true)
-
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 3))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 3))
             setShowModal(true)
 
-            // try {
-
-            //     if(!isProMember) {
-            //         const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-            //         if (Gastritis) {
-            //             const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
-    
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-    
-            //             }
-            //         }
-
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 3) })
-    
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-
-            // } catch (error) {
-              
-            // }
-            // setIsLoading(false)
         } else {
             setProgress((current) => current + 0.1)
 
@@ -151,50 +110,9 @@ Dark, tarry stools or bloody vomit
     }
 
     const handleSubmit = async () => {
-        // setIsLoading(true)
-
         setType("payment")
         setquestionsAndAnswers(result)
         setShowModal(true)
-
-        // try {
-        //     if(!isProMember) {
-        //         const Gastritis = currentOffering?.availablePackages.find(offer => offer.identifier === "Gastritis")
-        //         if (Gastritis) {
-        //             const purchaseInfo = await Purchases.purchasePackage(Gastritis)
-        //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-        //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-    
-        //                 Alert.alert("Done", response?.data?.message, [
-        //                     {
-        //                         text: 'Cancel',
-        //                         onPress: () => navigation.goBack(),
-        //                         style: 'cancel',
-        //                     },
-        //                     { text: 'OK', onPress: () => navigation.popToTop() },
-        //                 ])
-        //             }
-        //         }
-
-        //     } else {
-        //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-    
-        //                 Alert.alert("Done", response?.data?.message, [
-        //                     {
-        //                         text: 'Cancel',
-        //                         onPress: () => navigation.goBack(),
-        //                         style: 'cancel',
-        //                     },
-        //                     { text: 'OK', onPress: () => navigation.popToTop() },
-        //                 ])
-        //     }
-
-
-        // } catch (error) {
-       
-        // }
-        // setIsLoading(false)
-
     }
 
     return (
@@ -512,18 +430,12 @@ Dark, tarry stools or bloody vomit
                         </View>
 
                         { question7 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                        <CustomButton title={"Treatment plan"} onPress={handleSubmit} />
                         </View>}
                     </View>
 
                 </View>}
 
-
-                {/* {isLoading && (
-                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                    </View>
-                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>

@@ -110,8 +110,8 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
         if (question2sub6) {
 
 
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 2))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 2))
             setShowModal(true)
 
 
@@ -346,7 +346,7 @@ const MIGRAINETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         </View>
 
                         {(question2sub1 || question2sub2 || question2sub3 || question2sub4 || question2sub5 || question2sub6) && <View style={{ flex: 1 }}>
-                        <CustomButton title={question2sub6 ? "Treatment Plan" : "Next"} onPress={handleStepTwo} />
+                        <CustomButton title={question2sub6 ? "Book appointment" : "Next"} onPress={handleStepTwo} />
                         </View>}
                     </View>
                

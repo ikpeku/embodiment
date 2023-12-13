@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet, Alert } from "react-native";
-import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
+import { View, ScrollView, KeyboardAvoidingView, Pressable, StyleSheet } from "react-native";
+import { Checkbox, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
-// import { useNavigation } from "@react-navigation/native";
-// import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
-// import { SubmitQuetionnaire } from "../../services";
-// import { UserState } from "../../redux/features/useSlice";
-// import { useAppSelector } from "../../redux/hooks";
-// import Purchases from "react-native-purchases";
-// import useRevenueCat from "../../hooks/useRevenueCat";
 import Paywall from "../paywall";
 
 type IdiseaseId = { diseaseId: string }
 
-
 const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
     const [showModal, setShowModal] = useState(false)
     const [type, setType] = useState<"bookAppointment" | "payment">("payment")
-    const [questionsAndAnswers, setquestionsAndAnswers] = useState< {
+    const [questionsAndAnswers, setquestionsAndAnswers] = useState<{
         question: string,
         answer: string | number
-    }[]>([{answer: "", question: ""}])
+    }[]>([{ answer: "", question: "" }])
 
-    
-
-    // const { currentOffering , isProMember} = useRevenueCat()
-
-    // const { user } = useAppSelector(UserState)
-    // const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
@@ -83,63 +68,19 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
         ]
 
 
-
-
-
     const handleStepOne = async () => {
-        // setIsLoading(true)
 
         if (question1 === "Yes") {
 
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 1))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 1))
             setShowModal(true)
-
-
-            // try {
-
-            //     if(!isProMember){
-            //         const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === )
-            //     if (Erectile_Dyfunction) {
-            //         const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
-            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
-
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
-
-            //         }
-            //     }
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 1) })
-
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
-
-            //     }
-
-            // } catch (error) {
-                
-            // }
 
 
         } else {
             setProgress((current) => current + 0.1)
         }
 
-        // setIsLoading(false)
     }
 
     const handleStepFour = () => {
@@ -153,53 +94,11 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleStepSeven = async () => {
-        // setIsLoading(true)
 
         setType("payment")
         setquestionsAndAnswers(result)
         setShowModal(true)
 
-        // try {
-
-        //    if(!isProMember){
-        //     const Erectile_Dyfunction = currentOffering?.availablePackages.find(offer => offer.identifier === "Erectile Dyfunction")
-        //     if (Erectile_Dyfunction) {
-        //         const purchaseInfo = await Purchases.purchasePackage(Erectile_Dyfunction)
-        //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
-
-        //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-        //             Alert.alert("Done", response?.data?.message, [
-        //                 {
-        //                     text: 'Cancel',
-        //                     onPress: () => navigation.goBack(),
-        //                     style: 'cancel',
-        //                 },
-        //                 { text: 'OK', onPress: () => navigation.popToTop() },
-        //             ])
-
-        //         }
-        //     }
-        //    } else {
-        //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-        //             Alert.alert("Done", response?.data?.message, [
-        //                 {
-        //                     text: 'Cancel',
-        //                     onPress: () => navigation.goBack(),
-        //                     style: 'cancel',
-        //                 },
-        //                 { text: 'OK', onPress: () => navigation.popToTop() },
-        //             ])
-        //    }
-
-        //     // navigation.navigate("ConfirmAppointment")
-        // } catch (error) {
-        //     // console.log(error)
-        //     // Alert.alert("Error", "please retry sending")
-        // }
-        // navigation.navigate("ConfirmAppointment")
-        // setIsLoading(false)
     }
 
 
@@ -211,12 +110,9 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
             return
         }
 
-
-
     }, [question4c])
 
     useEffect(() => {
-
 
         if (question4a || question4b) {
             setQuestion4c(false)
@@ -231,17 +127,17 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView >
-            {showModal && <Paywall
-                setShowModal={setShowModal}
-                showModal={showModal}
-                type={type}
-                 diseaseId={diseaseId}
-                  diseaseType="Erectile Dyfunction"
-                  questionsAndAnswers={questionsAndAnswers}
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
-                 
-                  />}
+                {showModal && <Paywall
+                    setShowModal={setShowModal}
+                    showModal={showModal}
+                    type={type}
+                    diseaseId={diseaseId}
+                    diseaseType="Erectile Dyfunction"
+                    questionsAndAnswers={questionsAndAnswers}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+
+                />}
 
                 <ProgressBar progress={progress} color={"#0665CB"} style={{ marginVertical: 10 }} />
                 <Text variant='bodyLarge' style={{ textAlign: "center" }}>{+progress.toFixed(1) * 10} / 7</Text>
@@ -311,15 +207,15 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   
+
 
                     <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {question2 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                            <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
                         </View>}
                     </View>
 
@@ -353,13 +249,13 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                  <View style={{ flexDirection: "row", gap: 10 }}>
+                    <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {question3 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                            <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
                         </View>}
                     </View>
 
@@ -401,14 +297,14 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                         />
                     </Pressable>
 
-                   
-                  <View style={{ flexDirection: "row", gap: 10 }}>
+
+                    <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {(question4a || question4b || question4c) && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={handleStepFour} />
+                            <CustomButton title={"Next"} onPress={handleStepFour} />
                         </View>}
                     </View>
 
@@ -449,13 +345,13 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
                     </Pressable>
 
 
-                   <View style={{ flexDirection: "row", gap: 10 }}>
+                    <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {question5 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                            <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
                         </View>}
                     </View>
 
@@ -497,11 +393,11 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {question6 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
+                            <CustomButton title={"Next"} onPress={() => setProgress((current) => current + 0.1)} />
                         </View>}
                     </View>
 
@@ -540,15 +436,15 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <View style={{ flexDirection: "row", gap: 10 }}>
                         <View style={{ flex: 1 }}>
-                            <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
+                            <CustomButton title={"Prev"} onPress={() => setProgress((current) => current - 0.1)} />
                         </View>
 
                         {question7 === "No" && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
+                            <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
                         </View>}
 
-                        {question7 === "Yes" && question7a  && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
+                        {question7 === "Yes" && question7a && <View style={{ flex: 1 }}>
+                            <CustomButton title={"Treatment plan"} onPress={handleStepSeven} />
                         </View>}
 
 
@@ -556,12 +452,6 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                 </View>}
 
-
-                {/* {isLoading && (
-                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                    </View>
-                )} */}
 
             </KeyboardAvoidingView>
         </ScrollView>
@@ -578,7 +468,6 @@ const styles = StyleSheet.create({
         padding: 10
     },
     box: {
-        // flex: 1,
         flexDirection: "row",
         width: "100%",
         alignItems: "center",

@@ -1,14 +1,10 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable, Alert, Image } from "react-native";
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable, Image } from "react-native";
 import React, { useState } from "react";
-import { ActivityIndicator, Checkbox, MD2Colors, ProgressBar, Text, TextInput } from "react-native-paper";
+import { Checkbox, ProgressBar, Text, TextInput } from "react-native-paper";
 import CustomButton from "../Button";
-import { QuestionnaireScreenProps } from "../../types";
-import { useNavigation } from "@react-navigation/native";
-import { SubmitQuetionnaire, useUser } from "../../services";
 import { UserState } from "../../redux/features/useSlice";
 import { useAppSelector } from "../../redux/hooks";
-import Purchases from "react-native-purchases";
-import useRevenueCat from "../../hooks/useRevenueCat";
+
 
 // handle image
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -34,23 +30,20 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
     
     const { image, pickImage, pickerImage } = Image_Picker_Without_Blob()
 
-    // const { currentOffering, isProMember } = useRevenueCat()
-
     const { user } = useAppSelector(UserState)
-    // const { data } = useUser(user._id)
-
-    // const navigation = useNavigation<QuestionnaireScreenProps>()
+   
     const [isLoading, setIsLoading] = useState(false)
 
     const [progress, setProgress] = useState(0.1)
 
     const [question1, setQuestion1] = useState<"Male" | "Female" | string>("")
-    const [question2, setQuestion2] = useState<
-        "I am pregnant"
-        | "I am breastfeeding"
-        | "I had a child in the last 6 weeks"
-        | "I am planning on getting a child in the next year"
-        | "None" | string>("")
+    const [question21, setQuestion21] = useState(false)
+    const [question22, setQuestion22] = useState(false)
+    const [question23, setQuestion23] = useState(false)
+    const [question24, setQuestion24] = useState(false)
+    const [question25, setQuestion25] = useState(false)
+
+
 
 
     const [question3, setQuestion3] = useState<"Oily" | "Dry" | "Combination(oil and dry)" | string>("")
@@ -113,7 +106,11 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
             },
             {
                 question: "Do any of the following apply to you Select all that apply?",
-                answer: question2
+                answer: `${question21 ? "I am pregnant, " : ""} 
+                ${question22 ? "I am breastfeeding, " : ""}
+                ${question23 ? "I had a child in the last 6 weeks, " : ""}
+                ${question24 ? "I am planning on getting a child in the next year, " : ""}
+                ${question25 ? "None, " : ""}`
             },
             {
                 question: "What best describes your skin type?",
@@ -145,7 +142,6 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
             },
             {
                 question: "What do you use to care for your skin?",
-                // answer: question10 === "Others" ? question10a : question10
                 answer: `${question101 ? "Cleanser ," : ""} 
                 ${question102 ? "Sunscreen ," : ""} 
                 ${question103 ? "Moistuirizer/lotion ," : ""} 
@@ -170,9 +166,6 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
         ]
 
 
-
-
-
     const handleStepOne = () => {
 
         if (question1 === "Male") {
@@ -185,54 +178,12 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
     const handleStepTwo = async () => {
 
-        if (question2 === "I am pregnant") {
+        if (question21) {
            
-            setType("payment")
-            setquestionsAndAnswers(result.slice(0, 2))
+            setType("bookAppointment")
+            // setquestionsAndAnswers(result.slice(0, 2))
             setShowModal(true)
 
-
-            // setIsLoading(true)
-            // try {
-
-            //     if (!isProMember) {
-            //         const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
-            //         if (Acne_treatment) {
-            //             const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
-            //             if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //                 const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            //                 Alert.alert("Done", response?.data?.message, [
-            //                     {
-            //                         text: 'Cancel',
-            //                         onPress: () => navigation.goBack(),
-            //                         style: 'cancel',
-            //                     },
-            //                     { text: 'OK', onPress: () => navigation.popToTop() },
-            //                 ])
-
-            //             }
-            //         }
-
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result.slice(0, 2) })
-
-            //         Alert.alert("Done", response?.data?.message, [
-            //             {
-            //                 text: 'Cancel',
-            //                 onPress: () => navigation.goBack(),
-            //                 style: 'cancel',
-            //             },
-            //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //         ])
-            //     }
-
-
-            // } catch (error) {
-
-            // }
-
-            // setIsLoading(false)
 
         } else {
             setProgress((current) => current + 0.1)
@@ -242,7 +193,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
 
     const handleSubmit = async () => {
-        // setIsLoading(true)
+       
 
         if (!image) return
 
@@ -267,66 +218,6 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
             setquestionsAndAnswers(questionsAndAnswers)
             setShowModal(true)
 
-
-
-        // try {
-
-            // if (!isProMember) {
-            //     // const Acne_treatment = currentOffering?.availablePackages.find(offer => offer.identifier === "Acne treatment")
-            //     // if (Acne_treatment) {
-            //     //     const purchaseInfo = await Purchases.purchasePackage(Acne_treatment)
-            //     //     if (purchaseInfo?.customerInfo?.entitlements?.active) {
-
-                       
-
-            //     //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
-
-            //     //         Alert.alert("Done", response?.data?.message, [
-            //     //             {
-            //     //                 text: 'Cancel',
-            //     //                 onPress: () => navigation.goBack(),
-            //     //                 style: 'cancel',
-            //     //             },
-            //     //             { text: 'OK', onPress: () => navigation.popToTop() },
-            //     //         ])
-            //     //     }
-            //     // }
-
-            // } else {
-
-            //     if (image) {
-            //         const avatar = `${user.firstName}${user.lastName}`
-            //         const reference = ref(getStorage(), avatar)
-            //         await uploadBytesResumable(reference, image)
-            //         const downloadURL = await getDownloadURL(reference);
-            //         avatarUrl = downloadURL
-            //     }
-
-
-            //     const questionsAndAnswers = [...result, {
-            //         question: "Affected skin area",
-            //         answer: avatarUrl,
-            //         isText: false
-            //     }]
-
-
-            //     const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
-            //     Alert.alert("Done", response?.data?.message, [
-            //         {
-            //             text: 'Cancel',
-            //             onPress: () => navigation.goBack(),
-            //             style: 'cancel',
-            //         },
-            //         { text: 'OK', onPress: () => navigation.popToTop() },
-            //     ])
-            // }
-
-
-        // } catch (error) {
-
-        // }
-
-        // setIsLoading(false)
 
     }
 
@@ -389,43 +280,43 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                         </Text>
                     </View>
 
-                    <Pressable onPress={() => setQuestion2("I am pregnant")} style={[styles.box, { marginTop: 30 }]}>
+                    <Pressable onPress={() => setQuestion21(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am pregnant</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "I am pregnant" ? "checked" : "unchecked"}
+                            status={question21  ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("I am breastfeeding")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion22(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am breastfeeding</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "I am breastfeeding" ? "checked" : "unchecked"}
+                            status={question22 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("I am planning on getting a child in the next year")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion23(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am planning on getting a child in the next year</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "I am planning on getting a child in the next year" ? "checked" : "unchecked"}
+                            status={question23  ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("I had a child in the last 6 weeks")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion24(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I had a child in the last 6 weeks</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "I had a child in the last 6 weeks" ? "checked" : "unchecked"}
+                            status={question24 ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion2("None")} style={[styles.box, { marginBottom: 40 }]}>
+                    <Pressable onPress={() => setQuestion25(v => !v)} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
                         <Checkbox
                             color="#0665CB"
-                            status={question2 === "None" ? "checked" : "unchecked"}
+                            status={question25  ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
@@ -435,8 +326,8 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
                             <CustomButton title={"Prev"} onPress={() =>  setProgress((current) => current - 0.1)} />
                         </View>
 
-                        {question2 && <View style={{ flex: 1 }}>
-                        <CustomButton title={question2 === "I am pregnant" ? "Book Appointment" : "Next"} onPress={handleStepTwo} />
+                        {(question21 || question22 || question23 || question24 || question25) && <View style={{ flex: 1 }}>
+                        <CustomButton title={question21  ? "Book Appointment" : "Next"} onPress={handleStepTwo} />
                         </View>}
                     </View>
 

@@ -1,14 +1,9 @@
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable, Alert } from "react-native";
+import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Pressable } from "react-native";
 import React, { useState } from "react";
-import { Text, ProgressBar, Checkbox, ActivityIndicator, MD2Colors } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../../types";
+import { Text, ProgressBar, Checkbox } from "react-native-paper";
+
 import CustomButton from "../Button";
-import { SubmitQuetionnaire } from "../../services";
-import { useAppSelector } from "../../redux/hooks";
-import { UserState } from "../../redux/features/useSlice";
-import Purchases from "react-native-purchases";
-import useRevenueCat from "../../hooks/useRevenueCat";
+
 import Paywall from "../paywall";
 
 
@@ -24,14 +19,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
         answer: string | number
     }[]>([{answer: "", question: ""}])
 
-    
 
-    // const { currentOffering, isProMember } = useRevenueCat()
-
-    // const { user } = useAppSelector(UserState)
-
-    // const navigation = useNavigation<QuestionnaireScreenProps>()
-    // const navigate = useNavigation<UserConsultationScreenProp>()
 
     const [progress, setProgress] = useState(0.1)
     const [isLoading, setIsLoading] = useState(false)
@@ -91,53 +79,18 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
     const handleStepFour = async () => {
 
-            // setIsLoading(true)
+            if(question4 === "Yes") {
+                setType("bookAppointment")
+                // setquestionsAndAnswers(result)
+                setShowModal(true)
 
-            setType("payment")
-            setquestionsAndAnswers(result)
-            setShowModal(true)
+            } else {
 
-            // try {
+                setType("payment")
+                setquestionsAndAnswers(result)
+                setShowModal(true)
+            }
 
-            //     if(!isProMember) {
-            //         const Premature_ejaculation = currentOffering?.availablePackages.find(offer => offer.identifier === "Premature ejaculation")
-            //     if (Premature_ejaculation) {
-            //         const purchaseInfo = await Purchases.purchasePackage(Premature_ejaculation)
-            //         if (purchaseInfo?.customerInfo?.entitlements?.active) {
-            //             const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
-
-            //         }
-            //     }
-            //     } else {
-            //         const response = await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers: result })
-
-            //             Alert.alert("Done", response?.data?.message, [
-            //                 {
-            //                     text: 'Cancel',
-            //                     onPress: () => navigation.goBack(),
-            //                     style: 'cancel',
-            //                 },
-            //                 { text: 'OK', onPress: () => navigation.popToTop() },
-            //             ])
-            //     }
-
-            // } catch (error) {
-
-            //     // Alert.alert("Error", "please retry sending")
-            // }
-            // setIsLoading(false)
-            // navigation.navigate("ConfirmAppointment")
-
-        // }
     }
 
 
@@ -355,18 +308,11 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
                         </View>
 
                         {question4 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Treatment Plan"} onPress={handleStepFour} />
+                        <CustomButton title={question4 === "No" ? "Treatment Plan" : "Book Appointment"} onPress={handleStepFour} />
                         </View>}
                     </View>
 
                 </View>}
-
-
-                {/* {isLoading && (
-                    <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
-                        <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
-                    </View>
-                )} */}
 
 
             </KeyboardAvoidingView>
