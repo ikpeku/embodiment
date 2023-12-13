@@ -135,7 +135,6 @@ export const BookAppointment = ({ appointmentId, startTime, doctorId, userID }: 
     )
 }
 
-// > /delete/:doctoId/:scheduleId"
 
 interface IDeleteAppointmentApi {
     doctorId: string,

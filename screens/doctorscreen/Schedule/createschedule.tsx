@@ -151,10 +151,6 @@ const CreateDoctorSchedule = () => {
                     }
                 </View>
 
-
-                {/* <Portal>
-                    
-                </Portal> */}
             </View>
 
         )
@@ -269,7 +265,6 @@ const CreateDoctorSchedule = () => {
 
                 <View style={styles.btnContainer}>
                     <CustomButton title={"+  Add new date"} type='secondary' onPress={() => showModal()} />
-                    {/*<CustomButton title={"Save"} onPress={() => { }} />*/}
                 </View>
 
                 {isLoading && (
@@ -303,15 +298,11 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 20,
         borderBottomWidth: StyleSheet.hairlineWidth
-
-
     },
     title: {
         fontFamily: 'avenir',
-
     },
     titleContainer: {
-        // flex: 1,
         flexDirection: "row",
         flexShrink: 1,
         flexGrow: 1,
@@ -323,7 +314,12 @@ const styles = StyleSheet.create({
         padding: 20,
         rowGap: 20
     },
-    date: { color: "#000", backgroundColor: "#fff", padding: 5, borderRadius: 8, borderColor: "rgba(0,0,0,0.3)", borderWidth: 1, opacity: 0.7 }
-
-
+    date: { color: "#000", 
+    backgroundColor: "#fff", 
+    padding: 5, 
+    borderRadius: 8, 
+    borderColor: "rgba(0,0,0,0.3)", 
+    borderWidth: 1, 
+    opacity: 0.7 
+}
 })
