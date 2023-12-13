@@ -77,14 +77,13 @@ export default function DoctorNotification() {
 
 
 
-    const handleViewNotification = async({id, notificationId, appointmentId, scheduleId}:IhandleViewNotification ) => {
+    const handleViewNotification = async({id, notificationId, scheduleId}:IhandleViewNotification ) => {
 
         try {
             await axios.put(`${baseURL}/notification/${user._id}/${notificationId}`)
            
         } catch (error: any) {
-            // console.log(error.response.data.message)
-            // Alert.alert()   
+            
         } finally {
             queryClient.invalidateQueries({ queryKey: ['doctorNotification'] })
             navigation.navigate("Doctorviewuser", { id,scheduleId, status: "Booked"})
@@ -92,7 +91,6 @@ export default function DoctorNotification() {
     }
 
 
-// console.log(doctorNotification.notifications)
     return (
         <SafeAreaView style={styles.container}>
 

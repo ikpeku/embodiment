@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CreateDoctorScheduleScreenProps } from '../../../types';
 import { useAppSelector } from '../../../redux/hooks';
 import { UserState } from '../../../redux/features/useSlice';
-import { useDoctor, useDoctorAppiontment } from '../../../services';
+import { useDoctor } from '../../../services';
 import dayjs from 'dayjs'
 
 interface IItem {

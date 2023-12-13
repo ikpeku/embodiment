@@ -6,19 +6,6 @@ import { useAppSelector } from "../../../redux/hooks";
 import { UserState } from "../../../redux/features/useSlice";
 import dayjs from 'dayjs'
 
-// interface IData {
-
-//     title: string;
-//     date: Date;
-//     amount: number;
-//     _id: string
-
-// }
-
-
-// interface IItem {
-// item: IData
-// }
 
 interface IItem {
     data: {

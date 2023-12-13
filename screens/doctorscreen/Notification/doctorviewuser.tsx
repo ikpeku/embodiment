@@ -52,11 +52,9 @@ export default function Doctorviewuser() {
                 }
             ])
 
-            // navigation.navigate("ConfirmAppointment")
         } catch (error:any) {
             
             setShowmodal(false)
-            // console.log("err: ",error.response.data.message)
             if(error?.response?.data?.message) {
                 Alert.alert("Error", error?.response?.data?.message, [
                     {style: "default",
