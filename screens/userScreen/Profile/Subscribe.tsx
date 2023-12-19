@@ -8,6 +8,9 @@ import { CustomButton } from "../../../components";
 import { SubscribeScreenProps, SubscriptiontRouteProp } from "../../../types";
 import useRevenueCat from "../../../hooks/useRevenueCat";
 import Purchases from "react-native-purchases";
+import { createSubsquiption } from "../../../services";
+import { useAppSelector } from "../../../redux/hooks";
+import { UserState } from "../../../redux/features/useSlice";
 
 
 const Render: FC<{ title: string }> = ({ title }) => (
@@ -20,6 +23,7 @@ const Render: FC<{ title: string }> = ({ title }) => (
 // isFromProfile
 const Subscribe = () => {
     const { currentOffering, customerInfo, isProMember } = useRevenueCat()
+    const { user } = useAppSelector(UserState)
 
     const [annual, setAnnual] = useState("annual")
 
@@ -52,11 +56,6 @@ const Subscribe = () => {
 
 
 
-
-
-
-
-
     if (!currentOffering) {
         return (
             <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "#fff" }]}>
@@ -73,6 +72,21 @@ const Subscribe = () => {
             const purchaseInfo = await Purchases.purchasePackage(monthly)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+
+                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                if(!expirationDate) return 
+
+              await  createSubsquiption({
+                userId: user._id,
+                duration: "monthly", 
+                expiryDate: expirationDate,
+                questionnairesCount: 3, 
+                consultationsCount: 1, 
+                remainingMonths: 0, 
+               subscriptionDate: latestPurchaseDate, 
+               type: "Individual"
+            })
+
                 if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription" , {type: "Monthly"})
             } else {
@@ -94,6 +108,22 @@ const Subscribe = () => {
             const purchaseInfo = await Purchases.purchasePackage(annual)
  
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+
+                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                if(!expirationDate) return 
+
+                await  createSubsquiption({
+                    userId: user._id,
+                    duration: "yearly", 
+                    expiryDate: expirationDate,
+                    questionnairesCount: 3, 
+                    consultationsCount: 1, 
+                    remainingMonths: 11, 
+                   subscriptionDate: latestPurchaseDate, 
+                   type: "Individual"
+                })
+
+
                 if(params.isFromProfile){
 
                     navigation.navigate("ConfirmSubscription", {type: "Yearly"})
@@ -117,6 +147,21 @@ const Subscribe = () => {
             const purchaseInfo = await Purchases.purchasePackage(family_monthly)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+
+                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                if(!expirationDate) return 
+
+                await  createSubsquiption({
+                    userId: user._id,
+                    duration: "monthly", 
+                    expiryDate: expirationDate,
+                    questionnairesCount: 5, 
+                    consultationsCount: 3, 
+                    remainingMonths: 0, 
+                   subscriptionDate: latestPurchaseDate, 
+                   type: "family"
+                })
+
                 if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription", {type: "Family Monthly"})
             } else {
@@ -138,6 +183,20 @@ const Subscribe = () => {
             const purchaseInfo = await Purchases.purchasePackage(family_annual)
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                if(!expirationDate) return 
+
+                await  createSubsquiption({
+                    userId: user._id,
+                    duration: "yearly", 
+                    expiryDate: expirationDate,
+                    questionnairesCount: 5, 
+                    consultationsCount: 3, 
+                    remainingMonths: 11, 
+                   subscriptionDate: latestPurchaseDate, 
+                   type: "family"
+                })
+
                 if(params.isFromProfile){
                 navigation.navigate("ConfirmSubscription", {type: "Family Yearly"})
             } else {

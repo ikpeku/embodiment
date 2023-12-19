@@ -202,6 +202,29 @@ export const MarkQuestionnaireAsComplete = ({ diseaseId, userId, prescription }:
     return axios.patch(`${baseURL}/questionnaire/completed/${userId}/${diseaseId}`, { prescription })
 }
 
+// 
+
+interface IcreateSubquiption {
+
+    userId: string,
+    type: string,
+    duration: string,
+    consultationsCount: number,
+    questionnairesCount: number,
+    subscriptionDate: string,
+    expiryDate: string,
+    remainingMonths: number,
+
+}
+
+export const createSubsquiption = (data: IcreateSubquiption) => {
+    return axios.post(`${baseURL}/user/subscribe`, data)
+}
+
+
+export const getSubscription = (userId: string) => {
+    return axios.get(`${baseURL}/user/subscribe/${userId}`,)
+}
 
 
 

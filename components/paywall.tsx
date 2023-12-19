@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { StyleSheet, View, Alert } from "react-native";
-import { Modal, Portal, Text, Button, PaperProvider } from 'react-native-paper';
+import { Modal, Portal, Text, Button, PaperProvider, ActivityIndicator, MD2Colors } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
 import { QuestionnaireScreenProps, UserConsultationScreenProp } from "../types";
 import useRevenueCat from "../hooks/useRevenueCat";
 import Purchases from "react-native-purchases";
-import { SubmitQuetionnaire } from "../services";
+import { SubmitQuetionnaire, getSubscription } from "../services";
 import { UserState } from "../redux/features/useSlice";
 import { useAppSelector } from "../redux/hooks";
 import { Fontisto } from '@expo/vector-icons';
@@ -36,22 +36,32 @@ const Paywall = ({ diseaseId, questionsAndAnswers, diseaseType, type, setShowMod
 
 
   const [paymentAmount, setPrice] = useState<string | undefined>("")
+  const [questionnairesCount, setQuestionnairesCount] = useState(0)
+
+
 
 
 
 
   const SendRequest = async () => {
     setIsLoading(true)
+  
+    
     try {
-      if (!isProMember) {
+      if (!isProMember || (isProMember && questionnairesCount == 0)) {
         const disease = currentOffering?.availablePackages.find(offer => offer.identifier === diseaseType)
         if (disease) {
           const purchaseInfo = await Purchases.purchasePackage(disease)
 
-          if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+          // console.log(purchaseInfo?.customerInfo?.entitlements)
+
+          // if (purchaseInfo?.customerInfo?.entitlements?.active?.pro) {
+
+
+            setShowModal(false)
             await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
             navigation.navigate("ConfirmAppointment")
-          }
+          // }
         }
 
       } else {
@@ -75,6 +85,15 @@ const Paywall = ({ diseaseId, questionsAndAnswers, diseaseType, type, setShowMod
   }, [currentOffering])
 
 
+  useEffect(() => {
+    (async() => {
+      const response = await getSubscription(user._id)
+    setQuestionnairesCount(response.data.subscription.questionnairesCount)
+    })()
+
+  }, [])
+
+
 
   const handleConsultation = () => {
     setShowModal(false)
@@ -86,6 +105,23 @@ const Paywall = ({ diseaseId, questionsAndAnswers, diseaseType, type, setShowMod
     navigation.navigate("Subscribe", { isFromProfile: false })
   }
 
+  const handleSubmitQuestionnnaire = async() => {
+ 
+    await SubmitQuetionnaire({ diseaseId, userId: user._id, questionsAndAnswers })
+    navigation.navigate("ConfirmAppointment")
+    setShowModal(false)
+  }
+
+
+
+  if (!currentOffering) {
+    return (
+        <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "#fff" }]}>
+            <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+        </View>
+    )
+}
+
 
   return (
     <Portal>
@@ -94,7 +130,7 @@ const Paywall = ({ diseaseId, questionsAndAnswers, diseaseType, type, setShowMod
         <Fontisto name="close" size={24} color="black" onPress={() => setShowModal(false)} />
         <Text variant="titleMedium" style={{ textAlign: "center" }}>Thank you for completing the AI questionnaire.</Text>
 
-        {!isProMember ? <>
+        {!isProMember || (isProMember && questionnairesCount == 0) ? <>
 
           {type === "payment" && <View style={{ alignItems: "center", marginTop: 20, backgroundColor: "#0665CB", padding: 10, width: "85%", alignSelf: "center" }}>
 
@@ -117,7 +153,7 @@ const Paywall = ({ diseaseId, questionsAndAnswers, diseaseType, type, setShowMod
 
             {type === "payment" && <View style={{ alignItems: "center", marginTop: 20, backgroundColor: "#0665CB", padding: 10, width: "85%", alignSelf: "center" }}>
 
-              <Button disabled={isLoading} loading={isLoading} onPress={handleSubscribe} style={{ backgroundColor: "#fff", borderRadius: 0, marginTop: 5 }}><Text style={{ fontWeight: "bold" }}>Submit Questionnaire</Text></Button>
+              <Button disabled={isLoading} loading={isLoading} onPress={handleSubmitQuestionnnaire} style={{ backgroundColor: "#fff", borderRadius: 0, marginTop: 5 }}><Text style={{ fontWeight: "bold" }}>Submit Questionnaire</Text></Button>
             </View>}
           </>
         }

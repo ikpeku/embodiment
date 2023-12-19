@@ -1,12 +1,12 @@
 import { Alert, StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardTag, CustomButton } from '../../../components'
 import { ActivityIndicator, Card, MD2Colors, Text } from 'react-native-paper'
 
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ConfirmappiontmentBookScreenProps, ConsultationcheckoutRouteProp } from '../../../types';
-import { BookAppointment, useDoctor } from '../../../services';
+import { BookAppointment, getSubscription, useDoctor } from '../../../services';
 import dayjs from 'dayjs';
 import { useAppSelector } from '../../../redux/hooks';
 import { UserState } from '../../../redux/features/useSlice';
@@ -22,7 +22,8 @@ const Consultationcheckout = () => {
 
     const { data = [], isLoading } = useDoctor(route?.params.doctorId)
 
-    const {isProMember} = useRevenueCat()
+    const {isProMember, currentOffering} = useRevenueCat()
+    const [consultationsCount, setConsultationsCount] = useState(0)
 
 
     const handleCheckout = async() => {
@@ -47,11 +48,27 @@ const Consultationcheckout = () => {
     }
 
 
+    useEffect(() => {
+        (async() => {
+          const response = await getSubscription(user._id)
+          setConsultationsCount(response.data.subscription.consultationsCount)
+        })()
+    
+      }, [])
+
+
+      if (!currentOffering) {
+        return (
+            <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "#fff" }]}>
+                <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+            </View>
+        )
+    }
+    
+
+
     return (
         <View style={styles.container}>
-
-
-
 
             <View>
                 <CardTag
@@ -91,7 +108,7 @@ const Consultationcheckout = () => {
             </View>
 
             <View style={{ width: "100%", marginTop: 30, }}>
-                {isProMember && <CustomButton title="Book Appointment" onPress={() => Alert.alert("Book Appointment", `Proceed to book appointment with  Dr.${data?.data?.user?.firstName} ${data?.data?.user?.lastName}.`, [
+                {(isProMember && consultationsCount > 0 ) && <CustomButton title="Book Appointment" onPress={() => Alert.alert("Book Appointment", `Proceed to book appointment with  Dr.${data?.data?.user?.firstName} ${data?.data?.user?.lastName}.`, [
                     {
                         style: "cancel",
                         text: "cancel",
@@ -101,8 +118,14 @@ const Consultationcheckout = () => {
                         text: "Confirm",
                         onPress: handleCheckout
                     }
-                ])} />}
+                ])} />
+            }
+
+            {(isProMember && consultationsCount == 0 ) && <CustomButton title="Subsquire" onPress={() => navigation.navigate("Subscribe", {isFromProfile: false})} />}
+                
                 {!isProMember && <CustomButton title="Subsquire" onPress={() => navigation.navigate("Subscribe", {isFromProfile: false})} />}
+            
+            
             </View>
 
 
