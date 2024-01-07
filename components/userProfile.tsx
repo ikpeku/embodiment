@@ -42,7 +42,7 @@ export default function UserProfile() {
   db
   const queryClient = new QueryClient()
     const {image, pickImage} = Image_Picker()
-    // const [avatar, setAvatar] = useState("")
+    
 
     const [edit, setEdit] = useState(false)
 
@@ -78,7 +78,6 @@ export default function UserProfile() {
 
     const onSavePress = async (data: IForm) => {
 
-        // const form = new FormData();
 
         const formdata = {
             firstName: data.FirstName,
@@ -89,7 +88,7 @@ export default function UserProfile() {
             address: data.Address,
             gender: sex,
             allergies: [data.Alergies],
-            // avatar: image
+           
 
         }
 
@@ -199,11 +198,7 @@ export default function UserProfile() {
          data?.data?.gender,
         //  data?.data?.avatar
         ])
-
-
-
-// console.log("photo: ",data?.data)
-// console.log("photo: ",avatar)
+ 
 
 const handleChangeAvatar = () => {
     setEdit(true)

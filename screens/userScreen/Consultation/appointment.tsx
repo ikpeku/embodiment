@@ -12,6 +12,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
+import useRevenueCat from '../../../hooks/useRevenueCat';
 dayjs.extend(isSameOrAfter)
 
 const Consultationappointment = () => {
@@ -28,6 +29,7 @@ const { user } = useAppSelector(UserState)
     const { data = [], isLoading } = useDoctor(route.params.id)
 
 
+    const { currentOffering, isProMember } = useRevenueCat() //check revenuecat info
 
 
     const showModal = () => setVisible(true);
@@ -111,6 +113,15 @@ const { user } = useAppSelector(UserState)
     }, [])
 
 
+    if (!currentOffering) {
+        return (
+            <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "#fff" }]}>
+                <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+            </View>
+        )
+    }
+
+
 
     return (
         <View style={[styles.root, { padding: 9 }]}>
@@ -140,7 +151,7 @@ const { user } = useAppSelector(UserState)
                         title={`${data?.data?.user?.firstName} ${data?.data?.user?.lastName}`}
                         subTitle={data?.data?.specialty}
                         url={data?.data?.user?.avatar}
-                        isStar={true}
+                        isStar={ isProMember ? true : false}
                         starRating={star}
                         onPress={showModal}
                     />
