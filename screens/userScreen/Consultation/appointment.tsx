@@ -72,8 +72,6 @@ const { user } = useAppSelector(UserState)
     useEffect(() => {
         
         if(data?.data?.availableTimeSlots) {
-            // const AllDate = data?.data?.availableTimeSlots.filter((v: any) => dayjs(v.date).isBefore(today) === true)
-            // setScheduleDate(AllDate.sort((a: any, b:any) =>  new Date(a.date).setHours(0, 0, 0, 0) - new Date(b.date).setHours(0, 0, 0, 0)))
             setScheduleDate(data?.data?.availableTimeSlots.sort((a: any, b:any) =>  new Date(a.date).setHours(0, 0, 0, 0) - new Date(b.date).setHours(0, 0, 0, 0)).filter((v: any) => dayjs(v.date).isSameOrAfter(today,  "D") === true))
         }
 

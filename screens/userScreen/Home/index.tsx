@@ -52,7 +52,7 @@ const UserHome = () => {
         <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", { id: item._id })}>
             <Card.Content style={{ gap: 10, width: "100%" }} >
 
-                <View style={{ backgroundColor: "#E5F6FD", padding: 5, borderRadius: 5, width: "auto" }}>
+                <View style={{ backgroundColor: "#E5F6FD", padding: 5, borderRadius: 5, alignSelf: 'flex-start' }}>
 
                     <Text variant='bodyMedium'>{item.category}</Text>
                 </View>
@@ -116,8 +116,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexGrow: 1,
         margin: 10,
-        backgroundColor: '#fff',
-        maxWidth: "48%"
+        backgroundColor: '#fff'
     },
     title: {
         fontSize: 32,
