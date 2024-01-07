@@ -50,7 +50,7 @@ const UserHome = () => {
     const renderItem = ({ item }: IrenderItem) => (
 
         <Card style={styles.item} onPress={() => navigation.navigate("UserHealthDetail", { id: item._id })}>
-            <Card.Content style={{ gap: 10 }} >
+            <Card.Content style={{ gap: 10, width: "100%" }} >
 
                 <View style={{ backgroundColor: "#E5F6FD", padding: 5, borderRadius: 5, width: "auto" }}>
 

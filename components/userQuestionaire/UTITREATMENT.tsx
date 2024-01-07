@@ -226,7 +226,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setSex("Male")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Male</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={sex === "Male" ? "checked" : "unchecked"}
                         />
@@ -234,7 +234,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setSex("Female")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Female</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={sex === "Female" ? "checked" : "unchecked"}
                         />
@@ -255,7 +255,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setCondition("Pregnant")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Pregnant</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={condition === "Pregnant" ? "checked" : "unchecked"}
                         />
@@ -263,7 +263,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setCondition("Nursing mother")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Nursing mother (breast feeding your baby)</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={condition === "Nursing mother" ? "checked" : "unchecked"}
                         />
@@ -271,7 +271,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setCondition("None")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">None of the above </Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={condition === "None" ? "checked" : "unchecked"}
                         />
@@ -301,7 +301,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion3("yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "yes" ? "checked" : "unchecked"}
                         />
@@ -309,7 +309,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion3("no")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "no" ? "checked" : "unchecked"}
                         />
@@ -317,7 +317,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion3("I don’t know")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">I don’t know</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "I don’t know" ? "checked" : "unchecked"}
                         />
@@ -349,7 +349,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion4(1)} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">1</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === 1 ? "checked" : "unchecked"}
                         />
@@ -357,7 +357,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion4(2)} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>2</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === 2 ? "checked" : "unchecked"}
                         />
@@ -365,7 +365,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion4("0")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">0</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "0" ? "checked" : "unchecked"}
                         />
@@ -397,7 +397,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion5("Ciprofloxacin")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Ciprofloxacin</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Ciprofloxacin" ? "checked" : "unchecked"}
                         />
@@ -405,7 +405,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion5("Augmentin")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Augmentin(Amoxicillin-Clavunate)</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Augmentin" ? "checked" : "unchecked"}
                         />
@@ -413,7 +413,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion5("Levofloxacin")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Levofloxacin</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Levofloxacin" ? "checked" : "unchecked"}
                         />
@@ -421,21 +421,21 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion5("Trimethoprim-sulphamethazole")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Trimethoprim-sulphamethazole</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Trimethoprim-sulphamethazole" ? "checked" : "unchecked"}
                         />
                     </Pressable>
                     <Pressable onPress={() => setQuestion5("Nitrofurantion")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Nitrofurantion</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Nitrofurantion" ? "checked" : "unchecked"}
                         />
                     </Pressable>
                     <Pressable onPress={() => setQuestion5("I don’t know")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">I don’t know</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "I don’t know" ? "checked" : "unchecked"}
                         />
@@ -472,7 +472,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
@@ -480,7 +480,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion6("Yes and my symptoms disappeared")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes and my symptoms disappeared</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Yes and my symptoms disappeared" ? "checked" : "unchecked"}
                         />
@@ -488,7 +488,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion6("Yes and my symptoms persisted")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes and my symptoms persisted</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Yes and my symptoms persisted" ? "checked" : "unchecked"}
                         />
@@ -496,7 +496,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion6("I don’t know")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>I don’t know</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "I don’t know" ? "checked" : "unchecked"}
                         />
@@ -525,7 +525,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
@@ -533,7 +533,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -564,7 +564,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion8("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "No" ? "checked" : "unchecked"}
                         />
@@ -572,7 +572,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion8("Yes")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -603,7 +603,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion9("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "No" ? "checked" : "unchecked"}
                         />
@@ -611,7 +611,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion9("Yes")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -641,7 +641,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion10("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>No, my urine looks normal</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question10 === "No" ? "checked" : "unchecked"}
                         />
@@ -649,7 +649,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion10("Yes")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes, my urine is cloudy, dark, bloody, or has a strong odor.</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question10 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -679,7 +679,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion11("No")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11 === "No" ? "checked" : "unchecked"}
                         />
@@ -687,7 +687,7 @@ const UTITREATMENT = ({ diseaseId }: IUTITREATMENT) => {
 
                     <Pressable onPress={() => setQuestion11("Yes")} style={[styles.box]}>
                         <Text variant="titleLarge" style={{ flex: 1 }}>Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11 === "Yes" ? "checked" : "unchecked"}
                         />

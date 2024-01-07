@@ -210,7 +210,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question1 === "Yes" ? "checked" : "unchecked"}
               />
@@ -220,7 +220,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question1 === "No" ? "checked" : "unchecked"}
               />
@@ -253,7 +253,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question2 === "Yes" ? "checked" : "unchecked"}
               />
@@ -263,7 +263,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question2 === "No" ? "checked" : "unchecked"}
               />
@@ -306,7 +306,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question3 === "Yes" ? "checked" : "unchecked"}
               />
@@ -316,7 +316,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question3 === "No" ? "checked" : "unchecked"}
               />
@@ -353,7 +353,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question4 === "Yes" ? "checked" : "unchecked"}
               />
@@ -363,7 +363,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question4 === "No" ? "checked" : "unchecked"}
               />
@@ -400,7 +400,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question5 === "Yes" ? "checked" : "unchecked"}
               />
@@ -410,7 +410,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question5 === "No" ? "checked" : "unchecked"}
               />
@@ -447,7 +447,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question6 === "Yes" ? "checked" : "unchecked"}
               />
@@ -457,7 +457,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question6 === "No" ? "checked" : "unchecked"}
               />
@@ -495,7 +495,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question7 === "Yes" ? "checked" : "unchecked"}
               />
@@ -505,7 +505,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question7 === "No" ? "checked" : "unchecked"}
               />
@@ -543,7 +543,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question8 === "Yes" ? "checked" : "unchecked"}
               />
@@ -553,7 +553,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question8 === "No" ? "checked" : "unchecked"}
               />
@@ -591,7 +591,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question9 === "Yes" ? "checked" : "unchecked"}
               />
@@ -601,7 +601,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question9 === "No" ? "checked" : "unchecked"}
               />
@@ -641,7 +641,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 Yes
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question10 === "Yes" ? "checked" : "unchecked"}
               />
@@ -651,7 +651,7 @@ const TYPHOIDFEVER = ({ diseaseId }: IdiseaseId) => {
               <Text style={{ flex: 1 }} variant="titleLarge">
                 No
               </Text>
-              <Checkbox
+              <Checkbox.Android
                 color="#0665CB"
                 status={question10 === "No" ? "checked" : "unchecked"}
               />

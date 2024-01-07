@@ -154,7 +154,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -162,7 +162,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">NO</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
@@ -185,7 +185,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2("Yes, everytime")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes, everytime</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes, everytime" ? "checked" : "unchecked"}
                         />
@@ -193,7 +193,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2("Yes more than half the time")} style={[styles.box]}>
                         <Text variant="titleLarge">Yes more than half the time</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes more than half the time" ? "checked" : "unchecked"}
                         />
@@ -201,7 +201,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2("Yes occasionally")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Yes occasionally</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes occasionally" ? "checked" : "unchecked"}
                         />
@@ -234,7 +234,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -242,7 +242,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">NO</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
@@ -275,7 +275,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4a(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">When Masturbating</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4a ? "checked" : "unchecked"}
                         />
@@ -283,7 +283,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4b(v => !v)} style={[styles.box]}>
                         <Text variant="titleLarge">When you wake</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4b ? "checked" : "unchecked"}
                         />
@@ -291,7 +291,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4c(v => !v)} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Neither</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4c ? "checked" : "unchecked"}
                         />
@@ -322,7 +322,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("No, it starts hard but never remains hard")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">No, it starts hard but never remains hard</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "No, it starts hard but never remains hard" ? "checked" : "unchecked"}
                         />
@@ -330,7 +330,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("Yes but only rarely")} style={[styles.box]}>
                         <Text variant="titleLarge">Yes but only rarely</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Yes but only rarely" ? "checked" : "unchecked"}
                         />
@@ -338,7 +338,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("Yes always")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Yes always</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Yes always" ? "checked" : "unchecked"}
                         />
@@ -368,7 +368,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Rarely")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Rarely</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Rarely" ? "checked" : "unchecked"}
                         />
@@ -376,7 +376,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Sometimes")} style={[styles.box]}>
                         <Text variant="titleLarge">Sometimes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Sometimes" ? "checked" : "unchecked"}
                         />
@@ -384,7 +384,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Everytime")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">Everytime</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Everytime" ? "checked" : "unchecked"}
                         />
@@ -414,7 +414,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -427,7 +427,7 @@ const ERECTILEDYSFUNCTION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text variant="titleLarge">NO</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />

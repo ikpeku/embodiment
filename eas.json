@@ -22,21 +22,20 @@
     },
     "production": {}
   },
-
-  // "build": {
-  //   "development": {
-  //     "developmentClient": true,
-  //     "distribution": "internal"
-  //   },
-  //   "preview": {
-  //     "distribution": "internal"
-  //   },
-  //   "production": {}
-  // },
-
-
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "Ppi10@hotmail.com",
+        "ascAppId": "6470756118",
+        "appleTeamId": "SDJYT88KFK"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./embodiment-healthcare-405015-b22090afe929.json",
+        "track": "beta"
+      }
+  
+      
+    }
   }
 }
 

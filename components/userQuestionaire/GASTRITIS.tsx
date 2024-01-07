@@ -150,7 +150,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -158,7 +158,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
@@ -182,7 +182,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -190,7 +190,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
@@ -234,7 +234,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -242,7 +242,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
@@ -275,7 +275,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -283,7 +283,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
@@ -314,7 +314,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -322,7 +322,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
@@ -368,7 +368,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -376,7 +376,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
@@ -409,7 +409,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -417,7 +417,7 @@ Dark, tarry stools or bloody vomit
 
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />

@@ -146,7 +146,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion1("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -154,7 +154,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
@@ -190,7 +190,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -198,7 +198,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
@@ -211,7 +211,7 @@ Wheezing
                         </View>
 
                         {question2 && <View style={{ flex: 1 }}>
-                            <CustomButton title={"Next"} onPress={handleStepTwo} />
+                            <CustomButton title={question2 === "Yes" ? "Book Appointment" : "Next"} onPress={handleStepTwo} />
                         </View>}
                     </View>
 
@@ -229,7 +229,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -237,7 +237,7 @@ Wheezing
 
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />

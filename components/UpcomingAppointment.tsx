@@ -40,10 +40,6 @@ const UpcomingAppointment = () => {
 
     const { data, isLoading } = useDoctor(user._id)
 
-    // console.log(data?.data.groupedSchedules.completed)
-    // console.log(data?.data.groupedSchedules.booked)
-    // 
-
 
     const Item = ({ data }: IItem) => {
     

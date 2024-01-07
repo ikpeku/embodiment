@@ -18,6 +18,8 @@ const useRevenueCat = () => {
     const [customerInfo, setCustomerInfo] = useState<CustomerInfo | null>(null)
 
     const isProMember = customerInfo?.entitlements?.active?.pro
+
+   
       
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const useRevenueCat = () => {
 
         }
 
-        fetchData().catch((error) => {
+        fetchData().catch((error:any) => {
             //  console.log(JSON.stringify(error));
         } )
 
@@ -55,7 +57,7 @@ const useRevenueCat = () => {
     }, [])
 
 
-    return { currentOffering, customerInfo, isProMember }
+    return { currentOffering, customerInfo, isProMember}
 };
 
 export default useRevenueCat;

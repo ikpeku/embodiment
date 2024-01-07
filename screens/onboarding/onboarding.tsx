@@ -1,13 +1,15 @@
 
 import { Text, View, Image, FlatList, StyleSheet, useWindowDimensions, Platform, ScrollView, ViewToken} from "react-native";
 import { useRef, useState } from "react";
-import { Checkbox } from "react-native-paper";
+import { ActivityIndicator, Checkbox, MD2Colors } from "react-native-paper";
 import { CustomButton } from "../../components";
 // import { useNavigation } from "@react-navigation/native";
 // import { OnboardingScreenProps } from "../../types";
 import { useAppDispatch } from "../../redux/hooks";
 import { returningUser } from "../../redux/features/useSlice";
 
+import * as WebBrowser from 'expo-web-browser';
+import * as Linking from 'expo-linking';
 export default function OnboardingScreen() {
   const [terms, setTerms] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -55,6 +57,20 @@ const dispatch = useAppDispatch()
     }
   })
 
+  const [isLoading, setIsLoading] = useState(false)
+
+
+  const handleLink = async() => {
+    setIsLoading(true)
+    
+  if(Platform.OS === "android") {
+    await  Linking.openURL('https://docs.google.com/document/d/1q7-EPIl6sT6UMVobs4cXIUH02XcWwJXFFrwxuPDzW7s/edit')
+  } else {
+  await WebBrowser.openBrowserAsync('https://docs.google.com/document/d/1q7-EPIl6sT6UMVobs4cXIUH02XcWwJXFFrwxuPDzW7s/edit')
+  }
+  setIsLoading(false)
+
+  }
 
 
   return (
@@ -100,14 +116,21 @@ const dispatch = useAppDispatch()
         <CustomButton title="Get Started" onPress={handleSubmit} type={!terms ? "secondary" : "primary"} />
 
         <View style={{ flexDirection: "row", width: "85%", gap: 10 }}>
-          <Checkbox status={terms ? "checked" : "unchecked"} onPress={() => setTerms(v => !v)} uncheckedColor="#0665CB" color="#0665CB" />
+
+         <Checkbox.Android  status={terms ? "checked" : "unchecked"} onPress={() => setTerms(v => !v)} uncheckedColor="#0665CB" color="#0665CB" />
+         
           <Text style={[rootstyles.text]}>
-            By continuing, you agree to our <Text style={{ textDecorationLine: "underline" }}>terms and conditions</Text>
+            By continuing, you agree to our <Text onPress={handleLink} style={{ textDecorationLine: "underline" }}>terms and conditions</Text>
           </Text>
         </View>
 
       </View>
     </ScrollView>
+    {isLoading && (
+                <View style={[{ flex: 1, alignItems: "center", justifyContent: "center", ...StyleSheet.absoluteFillObject, backgroundColor: "transparent" }]}>
+                    <ActivityIndicator animating={true} size={"large"} color={MD2Colors.blue500} />
+                </View>
+            )}
     </View>
    
   );

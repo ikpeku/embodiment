@@ -252,7 +252,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Male")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Male</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Male" ? "checked" : "unchecked"}
                         />
@@ -260,7 +260,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Female")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Female</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Female" ? "checked" : "unchecked"}
                         />
@@ -282,7 +282,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion21(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am pregnant</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question21  ? "checked" : "unchecked"}
                         />
@@ -290,7 +290,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion22(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am breastfeeding</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question22 ? "checked" : "unchecked"}
                         />
@@ -298,7 +298,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion23(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am planning on getting a child in the next year</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question23  ? "checked" : "unchecked"}
                         />
@@ -306,7 +306,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion24(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I had a child in the last 6 weeks</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question24 ? "checked" : "unchecked"}
                         />
@@ -314,7 +314,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion25(v => !v)} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question25  ? "checked" : "unchecked"}
                         />
@@ -345,7 +345,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Oily")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Oily</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Oily" ? "checked" : "unchecked"}
                         />
@@ -353,7 +353,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Dry")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Dry</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Dry" ? "checked" : "unchecked"}
                         />
@@ -361,7 +361,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Combination(oil and dry)")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Combination(oil and dry)</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Combination(oil and dry)" ? "checked" : "unchecked"}
                         />
@@ -394,7 +394,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -402,7 +402,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
@@ -430,7 +430,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -438,7 +438,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
@@ -466,7 +466,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Over a month but less than a year")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Over a month but less than a year</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Over a month but less than a year" ? "checked" : "unchecked"}
                         />
@@ -474,7 +474,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Less than a month")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Less than a month</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Less than a month" ? "checked" : "unchecked"}
                         />
@@ -482,7 +482,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("More than a year")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than a year</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "More than a year" ? "checked" : "unchecked"}
                         />
@@ -510,7 +510,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("On the face")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">On the face</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "On the face" ? "checked" : "unchecked"}
                         />
@@ -518,7 +518,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("Back or shoulders")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Back or shoulders</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Back or shoulders" ? "checked" : "unchecked"}
                         />
@@ -526,7 +526,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("Chest")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Chest</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Chest" ? "checked" : "unchecked"}
                         />
@@ -555,7 +555,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion8("A few times a month")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">A few times a month</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "A few times a month" ? "checked" : "unchecked"}
                         />
@@ -563,7 +563,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion8("About once or twice a week")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">About once or twice a week</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "About once or twice a week" ? "checked" : "unchecked"}
                         />
@@ -571,7 +571,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion8("Mostly around the start of my period")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Mostly around the start of my period</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "Mostly around the start of my period" ? "checked" : "unchecked"}
                         />
@@ -600,7 +600,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion9("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -611,7 +611,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion9("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "No" ? "checked" : "unchecked"}
                         />
@@ -639,7 +639,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion101(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Cleanser</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question101 ? "checked" : "unchecked"}
                         />
@@ -647,7 +647,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion102(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Sunscreen</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question102 ? "checked" : "unchecked"}
                         />
@@ -655,7 +655,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion103(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Moistuirizer/lotion</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question103  ? "checked" : "unchecked"}
                         />
@@ -663,7 +663,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion104(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Toner</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question104 ? "checked" : "unchecked"}
                         />
@@ -671,7 +671,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion105(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Tea tree oil</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question105 ? "checked" : "unchecked"}
                         />
@@ -679,7 +679,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion106(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Scrubs</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question106 ? "checked" : "unchecked"}
                         />
@@ -687,7 +687,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion107(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Others</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question107 ? "checked" : "unchecked"}
                         />
@@ -723,7 +723,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11a(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Polycystic ovarian symptoms  PCOSS</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11a  ? "checked" : "unchecked"}
                         />
@@ -731,7 +731,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11b(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Other endocrine diseases like cushings diseas, Addison disease</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11b ? "checked" : "unchecked"}
                         />
@@ -739,7 +739,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11c(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Liver disease</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11c ? "checked" : "unchecked"}
                         />
@@ -747,7 +747,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11d(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Kidney disease</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11d ? "checked" : "unchecked"}
                         />
@@ -755,7 +755,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11e(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Auto-immune disease</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11e ? "checked" : "unchecked"}
                         />
@@ -763,7 +763,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11f(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Severe ezcema or psoriasis</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11f ? "checked" : "unchecked"}
                         />
@@ -771,7 +771,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11g(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Asthma or hay fever</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11g ? "checked" : "unchecked"}
                         />
@@ -779,7 +779,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11h(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">diabetes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11h ? "checked" : "unchecked"}
                         />
@@ -787,7 +787,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11i(v => !v)} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11i ? "checked" : "unchecked"}
                         />
@@ -817,7 +817,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion12("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question12 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -828,7 +828,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion12("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question12 === "No" ? "checked" : "unchecked"}
                         />
@@ -863,7 +863,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion13("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question13 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -874,7 +874,7 @@ const ACNETREATMENT = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion13("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question13 === "No" ? "checked" : "unchecked"}
                         />

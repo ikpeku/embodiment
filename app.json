@@ -2,9 +2,9 @@
   "expo": {
     "name": "embodiment healthcare",
     "slug": "embodiment",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appstore.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,18 +16,20 @@
        "userInterfaceStyle": "light",
       "supportsTablet": true,
       "bundleIdentifier": "com.ppi10.embodiment"
+      
     },
     "android": {
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/playstore.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.RECORD_AUDIO"],
-      "package": "com.ppi10.embodiment"
+      "package": "com.ppi10.embodiment",
+      "versionCode": 4
     },
     "web": {
-      "favicon": "./assets/favicon1.png"
+      "favicon": "./assets/playstore.png" 
     },
     "extra": {
       "eas": {

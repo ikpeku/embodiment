@@ -69,7 +69,10 @@ const Subscribe = () => {
         setIsLoading(v => !v)
         const monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "individual_monthly")
         if(monthly) {
+
+           try {
             const purchaseInfo = await Purchases.purchasePackage(monthly)
+            
 
             if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
 
@@ -97,122 +100,152 @@ const Subscribe = () => {
                    ])
             } 
             }
+            
+           } catch (error) {
+            setIsLoading(v => !v)
+            
+           }
+
+            
         }
-        setIsLoading(v => !v)
+        setIsLoading(false)
     }
 
     const handleYearlyIndividualSubscription = async() => {
         setIsLoading(v => !v)
         const annual = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_annual")
         if(annual) {
-            const purchaseInfo = await Purchases.purchasePackage(annual)
- 
-            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
 
-                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
-                if(!expirationDate) return 
-
-                await  createSubsquiption({
-                    userId: user._id,
-                    duration: "yearly", 
-                    expiryDate: expirationDate,
-                    questionnairesCount: 3, 
-                    consultationsCount: 1, 
-                    remainingMonths: 11, 
-                   subscriptionDate: latestPurchaseDate, 
-                   type: "Individual"
-                })
-
-
-                if(params.isFromProfile){
-
-                    navigation.navigate("ConfirmSubscription", {type: "Yearly"})
-                } else {
-                    Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment yearly plan.", [
-                        {
-                            onPress: () => navigation.goBack()
-                        }
-                       ])
-                }
+            try {
+                const purchaseInfo = await Purchases.purchasePackage(annual)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+    
+                    const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                    if(!expirationDate) return 
+    
+                    await  createSubsquiption({
+                        userId: user._id,
+                        duration: "yearly", 
+                        expiryDate: expirationDate,
+                        questionnairesCount: 3, 
+                        consultationsCount: 1, 
+                        remainingMonths: 11, 
+                       subscriptionDate: latestPurchaseDate, 
+                       type: "Individual"
+                    })
+    
+    
+                    if(params.isFromProfile){
+    
+                        navigation.navigate("ConfirmSubscription", {type: "Yearly"})
+                    } else {
+                        Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment yearly plan.", [
+                            {
+                                onPress: () => navigation.goBack()
+                            }
+                           ])
+                    }
+                } 
+                
+            } catch (error) {
+                setIsLoading(v => !v)
             }
+
+
+           
         }
-        setIsLoading(v => !v)
+        setIsLoading(false)
     }
 
+  
+    
 
     const handleMonthlyFamilySubscription = async() => {
         setIsLoading(v => !v)
         const family_monthly = currentOffering?.availablePackages.find(offer => offer.identifier === "$rc_monthly")
         if(family_monthly) {
-            const purchaseInfo = await Purchases.purchasePackage(family_monthly)
-
-            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
-
-                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
-                if(!expirationDate) return 
-
-                await  createSubsquiption({
-                    userId: user._id,
-                    duration: "monthly", 
-                    expiryDate: expirationDate,
-                    questionnairesCount: 5, 
-                    consultationsCount: 3, 
-                    remainingMonths: 0, 
-                   subscriptionDate: latestPurchaseDate, 
-                   type: "family"
-                })
-
-                if(params.isFromProfile){
-                navigation.navigate("ConfirmSubscription", {type: "Family Monthly"})
-            } else {
-                Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family monthly plan.", [
-                    {
-                        onPress: () => navigation.goBack()
-                    }
-                   ])
+            
+            try {
+                const purchaseInfo = await Purchases.purchasePackage(family_monthly)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+    
+                    const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                    if(!expirationDate) return 
+    
+                    await  createSubsquiption({
+                        userId: user._id,
+                        duration: "monthly", 
+                        expiryDate: expirationDate,
+                        questionnairesCount: 5, 
+                        consultationsCount: 3, 
+                        remainingMonths: 0, 
+                       subscriptionDate: latestPurchaseDate, 
+                       type: "family"
+                    })
+    
+                    if(params.isFromProfile){
+                    navigation.navigate("ConfirmSubscription", {type: "Family Monthly"})
+                } else {
+                    Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family monthly plan.", [
+                        {
+                            onPress: () => navigation.goBack()
+                        }
+                       ])
+                }
+                } 
+                
+            } catch (error) {
+                setIsLoading(v => !v)
             }
-            }
+           
         }
-        setIsLoading(v => !v)
+        setIsLoading(false)
     }
 
     const handleYearlyFamilySubscription = async() => {
         setIsLoading(v => !v)
         const family_annual = currentOffering?.availablePackages.find(offer => offer.identifier === "family_annual")
         if(family_annual) {
-            const purchaseInfo = await Purchases.purchasePackage(family_annual)
-
-            if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
-                const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
-                if(!expirationDate) return 
-
-                await  createSubsquiption({
-                    userId: user._id,
-                    duration: "yearly", 
-                    expiryDate: expirationDate,
-                    questionnairesCount: 5, 
-                    consultationsCount: 3, 
-                    remainingMonths: 11, 
-                   subscriptionDate: latestPurchaseDate, 
-                   type: "family"
-                })
-
-                if(params.isFromProfile){
-                navigation.navigate("ConfirmSubscription", {type: "Family Yearly"})
-            } else {
-               Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family yearly plan.", [
-                {
-                    onPress: () => navigation.goBack()
+            
+            try {
+                const purchaseInfo = await Purchases.purchasePackage(family_annual)
+    
+                if(purchaseInfo?.customerInfo?.entitlements?.active?.pro){
+                    const {expirationDate, latestPurchaseDate} = purchaseInfo?.customerInfo?.entitlements?.active?.pro
+                    if(!expirationDate) return 
+    
+                    await  createSubsquiption({
+                        userId: user._id,
+                        duration: "yearly", 
+                        expiryDate: expirationDate,
+                        questionnairesCount: 5, 
+                        consultationsCount: 3, 
+                        remainingMonths: 11, 
+                       subscriptionDate: latestPurchaseDate, 
+                       type: "family"
+                    })
+    
+                    if(params.isFromProfile){
+                    navigation.navigate("ConfirmSubscription", {type: "Family Yearly"})
+                } else {
+                   Alert.alert("sucessfull", "Congratulation, you have sucessfully subsquire to embodiment family yearly plan.", [
+                    {
+                        onPress: () => navigation.goBack()
+                    }
+                   ])
+                } 
+    
                 }
-               ])
+                
+            } catch (error) {
+                setIsLoading(v => !v)
             }
-
-            }
+             
         }
-        setIsLoading(v => !v)
+        setIsLoading(false)
     }
-
-
 
 
     return (
@@ -248,8 +281,9 @@ const Subscribe = () => {
                     <Divider style={{}} />
 
                     <View style={{ gap: 10, padding: 20 }}>
-                        <Render title="1 appointment everyday" />
-                        <Render title="Drug refill every week" />
+                        <Render title="1  doctor appointment per month" />
+                        <Render title="Drug refill per month" />
+                        <Render title="3 Ai questionnaire per month" />
                         <Render title="Free delivery" />
                     </View>
 
@@ -276,8 +310,9 @@ const Subscribe = () => {
                     <Divider style={{}} />
 
                     <View style={{ gap: 10, padding: 20 }}>
-                        <Render title="Up to 3 appointments everyday " />
-                        <Render title="Drug refill every week" />
+                        <Render title="3 doctor appointment per month" />
+                        <Render title="Drug refill per month" />
+                        <Render title="5 Ai questionnaire per month" />
                         <Render title="Free delivery" />
                     </View>
 

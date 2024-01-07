@@ -229,7 +229,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Schizophrenia")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Schizophrenia</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Schizophrenia" ? "checked" : "unchecked"}
                         />
@@ -237,7 +237,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Personalitity disorder( obessive compulsive disorder)")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Personalitity disorder( obessive compulsive disorder)</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Personalitity disorder( obessive compulsive disorder)" ? "checked" : "unchecked"}
                         />
@@ -245,15 +245,15 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Mood disorder")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Mood disorder</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Mood disorder" ? "checked" : "unchecked"}
                         />
                     </Pressable>
 
-                    <Pressable onPress={() => setQuestion1("Mood disorder")} style={[styles.box]}>
+                    <Pressable onPress={() => setQuestion1("Substance Abuse")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Substance Abuse</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Substance Abuse" ? "checked" : "unchecked"}
                         />
@@ -262,7 +262,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "No" ? "checked" : "unchecked"}
                         />
@@ -285,7 +285,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -293,7 +293,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2 === "No" ? "checked" : "unchecked"}
                         />
@@ -324,7 +324,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -332,7 +332,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "No" ? "checked" : "unchecked"}
                         />
@@ -362,7 +362,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -370,7 +370,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
@@ -400,7 +400,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -408,7 +408,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion5("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question5 === "No" ? "checked" : "unchecked"}
                         />
@@ -438,7 +438,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -446,7 +446,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion6("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question6 === "No" ? "checked" : "unchecked"}
                         />
@@ -475,7 +475,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -483,7 +483,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion7("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question7 === "No" ? "checked" : "unchecked"}
                         />
@@ -513,7 +513,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion8("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -521,7 +521,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion8("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question8 === "No" ? "checked" : "unchecked"}
                         />
@@ -550,7 +550,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion9("I am safe let’s continue")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">I am safe let’s continue</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "I am safe let’s continue" ? "checked" : "unchecked"}
                         />
@@ -558,7 +558,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion9("Stop questions")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Stop questions</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question9 === "Stop questions" ? "checked" : "unchecked"}
                         />
@@ -589,7 +589,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion10("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question10 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -597,7 +597,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion10("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question10 === "No" ? "checked" : "unchecked"}
                         />
@@ -626,7 +626,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -634,7 +634,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion11("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question11 === "No" ? "checked" : "unchecked"}
                         />
@@ -665,7 +665,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion12("Yes in the past")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes in the past</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question12 === "Yes in the past" ? "checked" : "unchecked"}
                         />
@@ -673,7 +673,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion12("Yes currently")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes currently</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question12 === "Yes currently" ? "checked" : "unchecked"}
                         />
@@ -682,7 +682,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion12("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question12 === "No" ? "checked" : "unchecked"}
                         />
@@ -710,7 +710,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion13("3 months to 6 months")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">3 months to 6 months</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question13 === "3 months to 6 months" ? "checked" : "unchecked"}
                         />
@@ -718,7 +718,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion13("Less than 3 months")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Less than 3 months</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question13 === "Less than 3 months" ? "checked" : "unchecked"}
                         />
@@ -726,7 +726,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion13("More than 6 months")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than 6 months</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question13 === "More than 6 months" ? "checked" : "unchecked"}
                         />
@@ -755,7 +755,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion141(v => !v)} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Birth of a child</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question141 ? "checked" : "unchecked"}
                         />
@@ -763,7 +763,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion142(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Loss of loved one</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question142 ? "checked" : "unchecked"}
                         />
@@ -771,7 +771,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion143(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Relationship issues</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question143 ? "checked" : "unchecked"}
                         />
@@ -779,7 +779,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion144(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">financial issues</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question144 ? "checked" : "unchecked"}
                         />
@@ -787,7 +787,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion145(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Other</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question145 ? "checked" : "unchecked"}
                         />
@@ -802,7 +802,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion146(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question146 ? "checked" : "unchecked"}
                         /> 
@@ -832,7 +832,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("Auto-immune disease")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Auto-immune disease</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "Auto-immune disease" ? "checked" : "unchecked"}
                         />
@@ -840,7 +840,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("Diabetes")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Diabetes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "Diabetes" ? "checked" : "unchecked"}
                         />
@@ -848,7 +848,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("Heart problem")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Heart problem</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "Heart problem" ? "checked" : "unchecked"}
                         />
@@ -856,7 +856,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("High blood pressure")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">High blood pressure</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "High blood pressure" ? "checked" : "unchecked"}
                         />
@@ -864,7 +864,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("Others")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Others</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "Others" ? "checked" : "unchecked"}
                         />
@@ -877,7 +877,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion15("None")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question15 === "None" ? "checked" : "unchecked"}
                         />
@@ -906,7 +906,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion16("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question16 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -914,7 +914,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion16("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question16 === "No" ? "checked" : "unchecked"}
                         />
@@ -969,7 +969,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion18("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question18 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -977,7 +977,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion18("No")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question18 === "No" ? "checked" : "unchecked"}
                         />
@@ -990,7 +990,7 @@ const ANXIETYANDDEPRESSION = ({ diseaseId }: IdiseaseId) => {
                         </View>
 
                         { question18 && <View style={{ flex: 1 }}>
-                        <CustomButton title={"Book Appointment"} onPress={handleSubmit} />
+                        <CustomButton title={"Treatment plan"} onPress={handleSubmit} />
                         </View>}
                     </View>
 

@@ -6,7 +6,6 @@ import Request from './Request';
 import axios from 'axios';
 
 
-// export const baseURL = "https://embodie.vercel.app/api";
 export const baseURL = "https://embodi-be.vercel.app/api";
 
 
@@ -118,10 +117,3 @@ export const useGetDoctorAppointments = (slug: string) => {
         },
     });
 };
-//
-
-
-// http://localhost:3000/api/appointment/completed-upcoming/64efdd43878f77fd479f93f8
-
-
-

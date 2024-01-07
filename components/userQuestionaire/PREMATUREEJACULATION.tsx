@@ -123,7 +123,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Yes I always ejaculate too soon")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes I always ejaculate too soon</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes I always ejaculate too soon" ? "checked" : "unchecked"}
                         />
@@ -131,7 +131,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Yes , more than half the time")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes , more than half the time</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes , more than half the time" ? "checked" : "unchecked"}
                         />
@@ -139,7 +139,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("Yes less than half the time")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes less than half the time</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "Yes less than half the time" ? "checked" : "unchecked"}
                         />
@@ -147,7 +147,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion1("No I never ejaculate too soon")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No I never ejaculate too soon</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question1 === "No I never ejaculate too soon" ? "checked" : "unchecked"}
                         />
@@ -170,7 +170,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2a(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Ejaculation within one minute of sexual activity</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2a ? "checked" : "unchecked"}
                         />
@@ -178,7 +178,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2b(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Persistent or recurrent ejaculation with minimal stimulation</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2b ? "checked" : "unchecked"}
                         />
@@ -186,7 +186,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2c(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Inability to delay ejaculation during sexual activity</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2c ? "checked" : "unchecked"}
                         />
@@ -194,7 +194,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2d(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Negative personal or interpersonal consequences due to premature ejaculation</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2d  ? "checked" : "unchecked"}
                         />
@@ -203,7 +203,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion2e(v => !v)} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">None of the above</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question2e ? "checked" : "unchecked"}
                         />
@@ -233,7 +233,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("Within 1 min")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Within 1 min</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "Within 1 min" ? "checked" : "unchecked"}
                         />
@@ -241,7 +241,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("1-3 min")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">1-3 min</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "1-3 min" ? "checked" : "unchecked"}
                         />
@@ -249,7 +249,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("5-10 min")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">5-10 min</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "5-10 min" ? "checked" : "unchecked"}
                         />
@@ -257,7 +257,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion3("More than 10 min")} style={[styles.box]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">More than 10 min</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question3 === "More than 10 min" ? "checked" : "unchecked"}
                         />
@@ -287,7 +287,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("Yes")} style={[styles.box, { marginTop: 30 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">Yes</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "Yes" ? "checked" : "unchecked"}
                         />
@@ -295,7 +295,7 @@ const PREMATUREEJACULATION = ({ diseaseId }: IdiseaseId) => {
 
                     <Pressable onPress={() => setQuestion4("No")} style={[styles.box, { marginBottom: 40 }]}>
                         <Text style={{ flex: 1 }} variant="titleLarge">No</Text>
-                        <Checkbox
+                        <Checkbox.Android
                             color="#0665CB"
                             status={question4 === "No" ? "checked" : "unchecked"}
                         />
